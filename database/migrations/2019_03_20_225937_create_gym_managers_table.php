@@ -15,7 +15,7 @@ class CreateGymManagersTable extends Migration
     {
         Schema::create('gym_managers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
+     
         });
     }
 
