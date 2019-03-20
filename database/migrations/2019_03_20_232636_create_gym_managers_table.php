@@ -15,7 +15,11 @@ class CreateGymManagersTable extends Migration
     {
         Schema::create('gym_managers', function (Blueprint $table) {
             $table->bigIncrements('id');
-     
+            $table->integer('SID');
+            $table->unsignedBigInteger('gym_manager_id');
+            $table->foreign('gym_manager_id')->references('id')->on('users');
+            $table->unsignedBigInteger('gym_id');
+            $table->foreign('gym_id')->references('id')->on('gyms');
         });
     }
 
