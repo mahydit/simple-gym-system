@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f7ffc0e197fa0fccffd35dabbab7da53",
+    "content-hash": "2610071d8f267ec16d92c932e9cfd01d",
     "packages": [
         {
             "name": "cybercog/laravel-ban",
@@ -2943,7 +2943,7 @@
         },
         {
             "name": "tymon/jwt-auth",
-            "version": "1.0.0-rc.4.1",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/tymondesigns/jwt-auth.git",
@@ -4958,6 +4958,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "tymon/jwt-auth": 20,
         "webpatser/laravel-countries": 20
     },
     "prefer-stable": true,
