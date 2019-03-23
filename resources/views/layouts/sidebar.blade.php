@@ -10,9 +10,9 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p>Dashboard</p>
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
             </div>
         </div>
 
@@ -33,19 +33,105 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-            <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+            <!-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+            <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
             <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+                <a href="#"><i class="fa fa-link"></i> <span>City</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Link in level 2</a></li>
-                    <li><a href="#">Link in level 2</a></li>
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
                 </ul>
             </li>
+            
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>City Manager</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Gym</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Gym Manager</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Training Packages</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Coaches</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Sessions</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">Create</a></li>
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Revenue</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="#">View All</a></li>
+                </ul>
+            </li>
+
+            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
+
         </ul>
         <!-- /.sidebar-menu -->
     </section>
