@@ -12,12 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('sessions.create');
+    return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
+Route::get('/sessions', 'Web\SessionController@index')->name('session.index');
+Route::get('/sessions/create', 'Web\SessionController@create')->name('session.create');
 
 Auth::routes();
 
