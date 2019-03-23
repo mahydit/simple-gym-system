@@ -9,4 +9,6 @@ class Package extends Model
     protected $fillable = [
 
     ];
+    protected $table = 'packages';
+    public $timestamps = false;
 }
