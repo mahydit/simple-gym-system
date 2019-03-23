@@ -64,4 +64,10 @@ class User extends Authenticatable implements JWTSubject
     {
         return [];
     }
+
+    public function sessionAttendance(){
+
+        return $this->belongsTo('App\User');
+
+    }
 }
