@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Attendee extends Model
 {
     protected $fillable = [
-        'user_id', 'birth_date', 'gender','remaing_sessions',	
+        'user_id', 
+        'birth_date', 
+        'gender',
+        'remain_sessions',	
     ];
 
     protected $table = 'attendees_users';

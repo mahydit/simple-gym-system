@@ -7,10 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Gym extends Model
 {
     protected $fillable = [
-
+        'name',
+        'image',
+        'created_at',
+        'updated_at',
+        'city_id',
+        'created_by'
     ];
     protected $table = 'gyms';
-    public $timestamps = false;
+    protected $dateFormat = 'U';
+
 
     public function gymManagers(){
 

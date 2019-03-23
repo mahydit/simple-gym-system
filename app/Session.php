@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Session extends Model
 {
     protected $fillable = [
-        'name',	'starts_at', 'ends_at', 'gym_id', 'session_date'
+        'name',	
+        'starts_at', 
+        'ends_at', 
+        'gym_id', 
+        'session_date'
     ];
 
     public $timestamps = false;

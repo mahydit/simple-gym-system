@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Purchase extends Model
 {
     protected $fillable = [
-        'client_id', 'gym_id', 'name', 'price',
+        'client_id', 
+        'gym_id', 
+        'name', 
+        'price',
+        'purchase_date'
     ];
     
     protected $table = 'purchase_history';

@@ -8,6 +8,7 @@ class Coach extends Model
 {
     protected $fillable = [
         'name',
+        'at_gym_id'
     ];
     protected $table = 'coaches';
     public $timestamps = false;
