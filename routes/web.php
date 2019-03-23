@@ -15,8 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('layouts.dashboard');
+});
+
 Route::get('/sessions', 'Web\SessionController@index')->name('session.index');
 Route::get('/sessions/create', 'Web\SessionController@create')->name('session.create');
+
 
 Auth::routes();
 
