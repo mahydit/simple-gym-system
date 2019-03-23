@@ -30,6 +30,17 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'role_id' => 0,
+        'role_type' => '',
+        'profile_img' => '',
+    ];
+
+    /**
      * The attributes that should be cast to native types.
      *
      * @var array
