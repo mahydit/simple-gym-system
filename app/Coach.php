@@ -9,9 +9,17 @@ class Coach extends Model
     protected $fillable = [
         'name',
     ];
+    protected $table = 'coaches';
+    public $timestamps = false;
 
-    public function session()
-    {
+    public function session(){
+        
         return $this->belongsToMany('App\Session');
+    }
+
+    public function gym(){
+
+        return $this->belongsTo('App\Gym');
+
     }
 }
