@@ -9,4 +9,12 @@ class CityManager extends Model
     protected $fillable = [
 
     ];
+    protected $table = 'city_managers';
+    public $timestamps = false;
+
+    public function city(){
+
+        return $this->belongsTo('App\City');
+
+    }
 }
