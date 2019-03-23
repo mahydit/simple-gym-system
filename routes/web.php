@@ -12,8 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('admin-test');
-    // return view('welcome');
+    return view('sessions.create');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
 });
 
 Auth::routes();
