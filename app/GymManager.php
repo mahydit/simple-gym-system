@@ -18,4 +18,9 @@ class GymManager extends Model
         return $this->belongsTo('App\Gym');
 
     }
+
+    public function user()
+    {
+        return $this->morphOne('App\User', 'role');
+    }
 }

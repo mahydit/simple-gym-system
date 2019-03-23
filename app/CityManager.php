@@ -17,4 +17,9 @@ class CityManager extends Model
         return $this->belongsTo('App\City');
 
     }
+
+    public function user()
+    {
+        return $this->morphOne('App\User', 'role');
+    }
 }
