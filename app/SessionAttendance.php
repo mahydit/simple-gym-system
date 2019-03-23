@@ -9,4 +9,6 @@ class SessionAttendance extends Model
     protected $fillable = [
 
     ];
+    protected $table = 'coaches';
+    public $timestamps = false;
 }
