@@ -22,6 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
     <link rel="stylesheet" href="{{ asset('dist/css/skins/skin-blue.min.css')}}">
+    @yield('style')
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -48,22 +49,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content-wrapper" style="min-height: 803px;">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
+                <!-- <h1>
                     Page Header
                     <small>Optional description</small>
-                </h1>
-                <ol class="breadcrumb">
+                </h1> -->
+                <!-- <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
                     <li class="active">Here</li>
-                </ol>
+                </ol> -->
             </section>
 
             <!-- Main content -->
             <section class="content container-fluid">
-
-                <!--------------------------
-        | Your Page Content Here |
-        -------------------------->
                 @yield('content')
             </section>
             <!-- /.content -->
@@ -74,7 +71,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- ./wrapper -->
 
-        <!-- REQUIRED JS SCRIPTS -->
 
         <!-- REQUIRED JS SCRIPTS -->
 
@@ -84,7 +80,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
+        
+        @yield('plugins')
 
+        @yield('script')
         <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
