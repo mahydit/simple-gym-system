@@ -15,7 +15,7 @@ class Coach extends Model
 
     public function session(){
         
-        return $this->belongsToMany('App\Session');
+        return $this->belongsToMany('App\Session','sessions_coaches', 'session_id','coach_id');
     }
 
     public function gym(){
