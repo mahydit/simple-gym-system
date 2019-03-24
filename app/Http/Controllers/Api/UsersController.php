@@ -102,10 +102,12 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request){        
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
-        User::create($request->only('name' , 'email' ,'profile_img') + [
+        $user = User::create($request->only('name' , 'email' ,'profile_img') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $attendee->id,
             "role_type" => "App\Attendee",
             ]);
+
+        $user->sendEmailVerificationNotification();
     }
 }

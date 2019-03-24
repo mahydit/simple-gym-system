@@ -23,6 +23,6 @@ Route::get('/sessions', 'Web\SessionController@index')->name('session.index');
 Route::get('/sessions/create', 'Web\SessionController@create')->name('session.create');
 
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
