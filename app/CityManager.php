@@ -18,7 +18,7 @@ class CityManager extends Model
 
     }
 
-    public function user()
+    public function users()
     {
         return $this->morphOne('App\User', 'role');
     }

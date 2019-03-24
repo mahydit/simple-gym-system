@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use App\Attendee;
 
 
 
@@ -99,8 +100,12 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreUserRequest $request){
+    public function store(StoreUserRequest $request){        
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
-        User::create($request->only('name' , 'email' ,'profile_img') + ["password" => Hash::make($request->only('password')['password'])]);
+        User::create($request->only('name' , 'email' ,'profile_img') + [
+            "password" => Hash::make($request->only('password')['password']),
+            "role_id" => $attendee->id,
+            "role_type" => "App\Attendee",
+            ]);
     }
 }
