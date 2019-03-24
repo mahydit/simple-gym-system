@@ -26,3 +26,7 @@ Route::get('/sessions/create', 'Web\SessionController@create')->name('session.cr
 Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('admin', function () {
+    return view('admin');
+});
