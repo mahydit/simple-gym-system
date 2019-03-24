@@ -21,7 +21,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store']]);
+        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store' , 'notify']]);
     }
 
     /**
@@ -111,5 +111,11 @@ class UsersController extends Controller
         $user->sendEmailVerificationNotification();
 
         $user->notify(new UserVerified);
+
+        return response()->json([
+
+            'message' => 'User Created Successfully'
+        ] , 201);
     }
+    
 }
