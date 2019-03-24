@@ -27,8 +27,6 @@ class UpdateSessionRequest extends FormRequest
             'name' => 'required|min:3',
             'starts_at' => 'required|timezone',
             'ends_at' => 'required|timezone',
-            'gym_id' => 'exists:gyms,id',
-            'session_date' => 'required|date'
         ];
     }
 }
