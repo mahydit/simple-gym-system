@@ -14,7 +14,6 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        dd($request);
         return [
             "id" => $this->id,
             "name" => $this->name,
@@ -22,6 +21,9 @@ class UserResource extends JsonResource
             "password" => $this->password,
             "profile_img" => $this->profile_img,
             "role_type" => $this->role_type,
+            "gender" => $this->role->gender,
+            "birth_date" => $this->role->birth_date,
+            "access_token" => $request->header('Authorization'),
         ];
     }
 }

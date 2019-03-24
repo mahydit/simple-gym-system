@@ -38,9 +38,7 @@ class UsersController extends Controller
 
         if ($token = $this->guard()->attempt($credentials)) {
             // return $this->respondWithToken($token);
-            $id = User::where('email' , $request->email)->with('role')->get();
-            dd($id);
-            return new UserResource(User::findOrFail($request));
+            return UserResource::collection(User::where('email' , $request->email)->with('role')->get());
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
