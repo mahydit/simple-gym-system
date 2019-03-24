@@ -26,10 +26,10 @@ class StoreUserRequest extends FormRequest
         return [
             "name" => "required|string|max:255",
             "email" => "required|string|email|max:255|unique:users,email",
-            // "gender" => "required",
+            "gender" => "required|in:male,female",
             "password" => "required|string|min:8|max:255|confirmed",
             "password_confirmation" => "required|string|min:8|max:255",
-            // "date_of_birth" => "required",
+            "birth_date" => "required|date_format:d/m/Y|before:1/01/2018|string",
             "profile_img" => "required|string",
         ];
     }
