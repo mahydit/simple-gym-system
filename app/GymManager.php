@@ -19,7 +19,7 @@ class GymManager extends Model
 
     }
 
-    public function users()
+    public function user()
     {
         return $this->morphOne('App\User', 'role');
     }
