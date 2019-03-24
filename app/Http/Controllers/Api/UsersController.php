@@ -10,6 +10,7 @@ use App\User;
 use App\Attendee;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\UserVerified;
+use App\Http\Resources\UserResource;
 
 
 class UsersController extends Controller
@@ -36,7 +37,10 @@ class UsersController extends Controller
         $credentials = $request->only('email', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            // return $this->respondWithToken($token);
+            $id = User::where('email' , $request->email)->with('role')->get();
+            dd($id);
+            return new UserResource(User::findOrFail($request));
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
