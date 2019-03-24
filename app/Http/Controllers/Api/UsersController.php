@@ -23,7 +23,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store' , 'notify']]);
+        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store']]);
     }
 
     /**
@@ -37,7 +37,7 @@ class UsersController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
-            return UserResource::collection(User::where('email' , $request->email)->with('role')->get());
+            return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
