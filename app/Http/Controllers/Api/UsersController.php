@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Attendee\StoreAttendeeRequest;
+use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 use App\User;
 use App\Attendee;
 use Illuminate\Support\Facades\Hash;
@@ -101,7 +102,7 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreUserRequest $request){        
+    public function store(StoreAttendeeRequest $request){        
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
         $user = User::create($request->only('name' , 'email' ,'profile_img') + [
             "password" => Hash::make($request->only('password')['password']),
@@ -119,7 +120,7 @@ class UsersController extends Controller
         ] , 201);
     }
 
-    public function update(User $user , UpdateUserRequest $request){
+    public function update(User $user , UpdateAttendeeRequest $request){
 
 
     }
