@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\User\StoreUserRequest;
 
 class AuthController extends Controller
 {
@@ -16,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('auth:api', ['except' => ['login' , 'store']]);
     }
 
     /**
@@ -95,7 +96,7 @@ class AuthController extends Controller
         return Auth::guard('api');
     }
 
-    public function register(StoreUserRequest $request){
+    public function store(StoreUserRequest $request){
 
         dd($request);
     }
