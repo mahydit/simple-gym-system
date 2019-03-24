@@ -22,7 +22,6 @@ Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth',
-    'verify' => true,
 
 ], function ($router) {
 
