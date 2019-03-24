@@ -5,6 +5,8 @@
 <link rel="stylesheet" href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+<!-- Select2 -->
+<link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
 @endsection
 
 @section('content')
@@ -15,8 +17,8 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <form role="form">
-
+        <form action="{{route('sessions.store')}}" method="POST">
+        @csrf
             <!-- text input -->
             <div class="form-group">
                 <label>Name</label>
@@ -26,16 +28,12 @@
             <!-- select -->
             <div class="form-group">
                 <label>Select Gym</label>
-                <select class="form-control" disabled>
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
+                <select class="form-control" name="gym_id" readonly>
+                    <option value="{{$gym->id}}">{{$gym->name}}</option>
                 </select>
             </div>
 
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label>Select City</label>
                 <select class="form-control" disabled>
                     <option>option 1</option>
@@ -44,7 +42,7 @@
                     <option>option 4</option>
                     <option>option 5</option>
                 </select>
-            </div>
+            </div> -->
 
             <!-- Date -->
             <div class="form-group">
@@ -90,6 +88,20 @@
                 </div>
                 <!-- /.form group -->
             </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Multiple</label>
+                <select class="form-control select2" multiple="multiple" data-placeholder="Select a State"
+                        style="width: 100%;">
+                  <option>Alabama</option>
+                  <option>Alaska</option>
+                  <option>California</option>
+                  <option>Delaware</option>
+                  <option>Tennessee</option>
+                  <option>Texas</option>
+                  <option>Washington</option>
+                </select>
+              </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
@@ -113,11 +125,14 @@
     $(function () {
         //Date picker
         $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",
             autoclose: true
         })
         //Timepicker
         $('.timepicker').timepicker({
-            showInputs: false
+            use24hours: true,
+            timeFormat: "h:m:s",  
+            showInputs: false,
         })
     })
 
