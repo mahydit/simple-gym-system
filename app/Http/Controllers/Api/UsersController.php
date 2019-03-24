@@ -36,7 +36,6 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if ($token = $this->guard()->attempt($credentials)) {
             return UserResource::collection(User::where('email' , $request->email)->with('role')->get());
         }
@@ -121,8 +120,8 @@ class UsersController extends Controller
     }
 
     public function update(User $user , UpdateAttendeeRequest $request){
-
-
+        $user->update($request->only('name' , 'profile_img'));
+        Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
     }
     
 }

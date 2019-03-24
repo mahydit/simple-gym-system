@@ -27,6 +27,7 @@ class UpdateAttendeeRequest extends FormRequest
             'name' => 'string|max:255',
             'gender' => 'in:male,female',
             'birth_date' => 'date_format:Y-m-d|before:2018-01-1|string',
+            'profile_img' => 'string',
         ];
     }
 }

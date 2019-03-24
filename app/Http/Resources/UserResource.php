@@ -23,6 +23,7 @@ class UserResource extends JsonResource
             "role_type" => $this->role_type,
             "gender" => $this->role->gender,
             "birth_date" => $this->role->birth_date,
+            "remain_sessions" => $this->role->remain_sessions,
             "access_token" => $request->header('Authorization'),
         ];
     }
