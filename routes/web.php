@@ -19,9 +19,22 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
-Route::get('/sessions', 'Web\SessionController@index')->name('session.index');
-Route::get('/sessions/create', 'Web\SessionController@create')->name('session.create');
-
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/sessions', 'Web\SessionController@index')
+    ->name('sessions.index');
+    Route::get('/sessions/create', 'Web\SessionController@create')
+    ->name('sessions.create');
+    Route::post('/sessions', 'Web\SessionController@store')
+    ->name('sessions.store');
+    Route::get('/sessions/{session}', 'Web\SessionController@show')
+    ->name('sessions.show');
+    Route::get('/sessions/{session}/edit', 'Web\SessionController@edit')
+    ->name('sessions.edit');
+    Route::put('/sessions/{session}', 'Web\SessionController@update')
+    ->name('sessions.update');
+    Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
+    ->name('sessions.destroy');
+});
 
 Auth::routes(['verify' => true]);
 
