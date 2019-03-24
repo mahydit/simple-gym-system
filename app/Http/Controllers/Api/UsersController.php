@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\User;
-use Illuminate\Support\Facades\Hash;
 use App\Attendee;
-
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\UserVerified;
 
 
 class UsersController extends Controller
@@ -109,5 +109,7 @@ class UsersController extends Controller
             ]);
 
         $user->sendEmailVerificationNotification();
+
+        $user->notify(new UserVerified);
     }
 }
