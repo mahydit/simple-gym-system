@@ -100,9 +100,6 @@ class UsersController extends Controller
     }
 
     public function store(StoreUserRequest $request){
-
-        // dd($request->only('name' , 'email' , 'password' , 'profile_img'));
-        // dd($request->only('password')['password']);
         User::create($request->only('name' , 'email' ,'profile_img') + ["password" => Hash::make($request->only('password')['password'])]);
     }
 }
