@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
+use App\User;
+use Illuminate\Support\Facades\Hash;
+
 
 
 class UsersController extends Controller
@@ -98,6 +101,8 @@ class UsersController extends Controller
 
     public function store(StoreUserRequest $request){
 
-        dd($request);
+        // dd($request->only('name' , 'email' , 'password' , 'profile_img'));
+        // dd($request->only('password')['password']);
+        User::create($request->only('name' , 'email' ,'profile_img') + ["password" => Hash::make($request->only('password')['password'])]);
     }
 }
