@@ -100,6 +100,7 @@ class UsersController extends Controller
     }
 
     public function store(StoreUserRequest $request){
+        $attendee = Attendee::create($request->only('birth_date' , 'gender'));
         User::create($request->only('name' , 'email' ,'profile_img') + ["password" => Hash::make($request->only('password')['password'])]);
     }
 }
