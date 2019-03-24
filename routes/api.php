@@ -30,7 +30,7 @@ Route::group([
     Route::post('refresh', 'Api\UsersController@refresh');
     Route::post('me', 'Api\UsersController@me');
     Route::post('/users', 'Api\UsersController@store');
-    
+    Route::put('/users/{user}' , 'Api\UsersController@update');
     
     
 });

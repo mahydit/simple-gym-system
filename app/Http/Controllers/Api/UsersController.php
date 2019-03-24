@@ -37,7 +37,6 @@ class UsersController extends Controller
         $credentials = $request->only('email', 'password');
 
         if ($token = $this->guard()->attempt($credentials)) {
-            // return $this->respondWithToken($token);
             return UserResource::collection(User::where('email' , $request->email)->with('role')->get());
         }
 
@@ -118,6 +117,11 @@ class UsersController extends Controller
 
             'message' => 'User Created Successfully'
         ] , 201);
+    }
+
+    public function update(User $user , UpdateUserRequest $request){
+
+
     }
     
 }
