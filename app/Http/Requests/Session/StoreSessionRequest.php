@@ -25,10 +25,13 @@ class StoreSessionRequest extends FormRequest
     {
         return [
             'name' => 'required|min:3',
-            'starts_at' => 'required|timezone',
-            'ends_at' => 'required|timezone',
-            'gym_id' => 'exists:gyms,id',
-            'session_date' => 'required|date'
+            'starts_at' => 'required|', //TODO: validate time format
+            'ends_at' => 'required|different:starts_at',
+            'gym_id' => 'required|exists:gyms,id',
+            'session_date' => 'required|date_format:Y-m-d',
+            'coach_id'=>'required|exists:coaches,id',
         ];
     }
+
+    // TODO: add customizer error msgs
 }
