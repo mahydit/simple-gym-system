@@ -30,8 +30,8 @@ class SessionController extends Controller
      */
     public function create()
     {
-        $gym = Gym::find(Auth::User()->role->gym_id);
         $gym_id = Auth::User()->role->gym_id;
+        $gym = Gym::find($gym_id);
         $coaches = Coach::all();
         $filteredCoaches = $coaches->filter(function ($coach) use ($gym_id) {
             return $coach->at_gym_id == $gym_id;
@@ -107,11 +107,7 @@ class SessionController extends Controller
         $request['starts_at'] = date("H:m:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:m:s", strtotime($request->ends_at));
 
-        Session::find($session)->update([
-            'starts_at'=>$request->starts_at,
-            'ends_at'=>$request->ends_at,
-            'session_date'=>$request->session_date,
-        ]);
+        Session::find($session)->update($request->all());
 
         return redirect()->route('sessions.index');
     }
