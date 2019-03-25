@@ -18,10 +18,11 @@
             <td>ID</td>
             <td>Name</td>
             <td>At Gym</td>
+            <td>action</td>
         </tr>
     </thead>
     <tbody>
-    
+
     </tbody>
 </table>
 
@@ -37,7 +38,7 @@
 @endsection
 
 @section('script')
-<script>
+<script>    
     $(function () {
         //Date picker
         $('#datepicker').datepicker({
@@ -63,7 +64,8 @@
             columns: [
                 {data: 'id'},
                 {data: 'name'},
-                {data: 'at_gym_id'}
+                {data: 'at_gym_id'},          
+                {data: 'action', orderable = false, searchable = false}
             ]
         });
     })

@@ -14,38 +14,14 @@ class CoachController extends Controller
             'coaches' => Coach::all(),
         ]);
     }
+
     public function get_data_table()
     {
-        return datatables()->eloquent(Coach::query())->toJson();
-    }
-    public function show(Coach $coach)
-    {
-        return view('coaches.show', [
-            'coach' =>$coach,
-        ]);
-    }
-
-    public function edit(Coach $coach)
-    {
-        return view('posts.edit', $coach);
-    }
-
-    public function update(Post $post, EditPostRequest $request)
-    {
-        Post::find($post['id'])->update(['title' => $request->all()['title'],
-            'description' => $request->all()['description'],
-            'user_id' => $request->all()['user_id'], ]);
-        return redirect()->route('posts.index');
-    }
-
-    public function destroy(Coach $coach)
-    {
-        $coach->delete();
-        return redirect()->route('coaches.index');
-    }
-
-    public function create()
-    {
-        return view('coaches.create');
+        $coaches = Coach::select('id', 'name', 'at_gym_id');
+        return Datatables::of($coaches)
+        ->addColumn('action', function ($coach) {
+            return 'Edit';
+        })
+        ->make(true);
     }
 }
