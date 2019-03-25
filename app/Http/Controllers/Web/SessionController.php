@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Web;
 
-
 use App\Gym;
 use App\Coach;
 use App\Session;
@@ -69,7 +68,7 @@ class SessionController extends Controller
      */
     public function show(Session $session)
     {
-        return view('sessions.show',[
+        return view('sessions.show', [
             'session'=> $session,
             'coaches'=>$session->coaches,
             'gym'=>$session->gym,
@@ -84,13 +83,12 @@ class SessionController extends Controller
      */
     public function edit(Session $session)
     {
-        if (!SessionAttendance::where('session_id','=',$session->id)->exists()) {
+        if (!SessionAttendance::where('session_id', '=', $session->id)->exists()) {
             return view('sessions.edit', [
                 'session'=> $session,
                 'coaches'=>$session->coaches,
                 'gym'=>$session->gym,
             ]);
-
         } else {
             // TODO: msg saying user can't be updated.
             return redirect()->route('sessions.index');
@@ -126,7 +124,7 @@ class SessionController extends Controller
      */
     public function destroy($session)
     {
-        if (!SessionAttendance::where('session_id','=',$session)->exists()) {
+        if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
             Session::find($session)->delete();
             return redirect()->route('sessions.index');
         } else {
@@ -134,5 +132,4 @@ class SessionController extends Controller
             return redirect()->route('sessions.index');
         };
     }
-
 }
