@@ -13,14 +13,14 @@ class Coach extends Model
     protected $table = 'coaches';
     public $timestamps = false;
 
-    public function session(){
-        
+    // public $primary_key= 'id';
+    public function session()
+    {
         return $this->belongsToMany('App\Session');
     }
 
-    public function gym(){
-
+    public function gym()
+    {
         return $this->belongsTo('App\Gym');
-
     }
 }
