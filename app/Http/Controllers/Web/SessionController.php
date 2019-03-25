@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\User;
-use App\Attendee;
-use Illuminate\Http\Request;
+
+use App\Gym;
+use App\Coach;
+use App\Session;
+use App\SessionAttendance;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Session\StoreSessionRequest;
+use App\Http\Requests\Session\UpdateSessionRequest;
 
 class SessionController extends Controller
 {
@@ -17,7 +21,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        // 
+        return view('sessions.index');
     }
 
     /**
@@ -27,7 +31,17 @@ class SessionController extends Controller
      */
     public function create()
     {
-        return view('sessions.create');
+        $gym = Gym::find(Auth::User()->role->gym_id);
+        $gym_id = Auth::User()->role->gym_id;
+        $coaches = Coach::all();
+        $filteredCoaches = $coaches->filter(function ($coach) use ($gym_id) {
+            return $coach->at_gym_id == $gym_id;
+        });
+        
+        return view('sessions.create', [
+            'gym'=>$gym,
+            'coaches'=>$filteredCoaches->all(),
+        ]);
     }
 
     /**
@@ -36,9 +50,15 @@ class SessionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreSessionRequest $request)
     {
-        //
+        $request['starts_at'] = date("H:m:s", strtotime($request->starts_at));
+        $request['ends_at'] = date("H:m:s", strtotime($request->ends_at));
+    
+        $session = Session::create($request->all());
+        $session->coach()->attach($request->coach_id);
+
+        return redirect()->route('sessions.index');
     }
 
     /**
@@ -47,9 +67,13 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Session $session)
     {
-        //
+        return view('sessions.show',[
+            'session'=> $session,
+            'coaches'=>$session->coaches,
+            'gym'=>$session->gym,
+        ]);
     }
 
     /**
@@ -58,9 +82,19 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Session $session)
     {
-        //
+        if (!SessionAttendance::where('session_id','=',$session->id)->exists()) {
+            return view('sessions.edit', [
+                'session'=> $session,
+                'coaches'=>$session->coaches,
+                'gym'=>$session->gym,
+            ]);
+
+        } else {
+            // TODO: msg saying user can't be updated.
+            return redirect()->route('sessions.index');
+        };
     }
 
     /**
@@ -70,9 +104,18 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSessionRequest $request, $session)
     {
-        //
+        $request['starts_at'] = date("H:m:s", strtotime($request->starts_at));
+        $request['ends_at'] = date("H:m:s", strtotime($request->ends_at));
+
+        Session::find($session)->update([
+            'starts_at'=>$request->starts_at,
+            'ends_at'=>$request->ends_at,
+            'session_date'=>$request->session_date,
+        ]);
+
+        return redirect()->route('sessions.index');
     }
 
     /**
@@ -81,8 +124,15 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($session)
     {
-        //
+        if (!SessionAttendance::where('session_id','=',$session)->exists()) {
+            Session::find($session)->delete();
+            return redirect()->route('sessions.index');
+        } else {
+            // TODO: msg saying user can't be updated.
+            return redirect()->route('sessions.index');
+        };
     }
+
 }
