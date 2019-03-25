@@ -106,12 +106,12 @@ class UsersController extends Controller
         $user = User::create($request->only('name' , 'email' ,'profile_img') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $attendee->id,
-            "role_type" => "App\Attendee",
+            "role_type" => get_class($attendee),
             ]);
 
         $user->sendEmailVerificationNotification();
 
-        $user->notify(new UserVerified);
+        // $user->notify(new UserVerified);
 
         return response()->json([
 
