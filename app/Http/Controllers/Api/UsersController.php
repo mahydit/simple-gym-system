@@ -9,9 +9,11 @@ use App\Http\Requests\Attendee\StoreAttendeeRequest;
 use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 use App\User;
 use App\Attendee;
+use App\Purchase;
+use App\Package;
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\UserVerified;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\RemainingSessionResource;
 
 
 class UsersController extends Controller
@@ -111,8 +113,6 @@ class UsersController extends Controller
 
         $user->sendEmailVerificationNotification();
 
-        // $user->notify(new UserVerified);
-
         return response()->json([
 
             'message' => 'User Created Successfully'
@@ -122,6 +122,11 @@ class UsersController extends Controller
     public function update(User $user , UpdateAttendeeRequest $request){
         $user->update($request->only('name' , 'profile_img'));
         Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
+    }
+
+    public function show(User $user , Request $request){
+        return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
+         Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
     
 }
