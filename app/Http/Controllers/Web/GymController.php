@@ -14,7 +14,9 @@ class GymController extends Controller
      */
     public function index()
     {
-        //
+        return view('gyms.index',[
+            'gyms' => Gym::all(),
+        ]);
     }
 
     /**
@@ -44,9 +46,11 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Gym $gym)
     {
-        //
+        return view('gyms.show',[
+            'gym' => $gym
+        ]);
     }
 
     /**
@@ -55,9 +59,11 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Gym $gym)
     {
-        //
+        return view('gyms.edit',[
+            'gym' => $gym,
+        ]);
     }
 
     /**
@@ -78,8 +84,9 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Gym $gym)
     {
-        //
+        $gym->delete();
+        return redirect()->route('gyms.index');
     }
 }

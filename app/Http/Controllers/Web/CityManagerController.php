@@ -15,7 +15,7 @@ class CityManagerController extends Controller
     public function index()
     {
         return view('cityManagers.index',[
-            'cityManagers' => City::all(),
+            'cityManagers' => CityManager::all(),
         ]);
     }
 
@@ -26,9 +26,7 @@ class CityManagerController extends Controller
      */
     public function create()
     {
-        return view('cityManagers.create',[
-            'cityManagers' => City::all(),
-        ]);
+        //
     }
 
     /**
@@ -50,7 +48,7 @@ class CityManagerController extends Controller
      */
     public function show(CityManager $cityManager)
     {
-        return view('cityManager.show',[
+        return view('cityManagers.show',[
             'cityManager' => $cityManager
         ]);
     }
@@ -63,7 +61,9 @@ class CityManagerController extends Controller
      */
     public function edit(CityManager $cityManager)
     {
-        //
+        return view('cityManagers.edit',[
+            'cityManager' => $cityManager,
+        ]);
     }
 
     /**
@@ -87,6 +87,6 @@ class CityManagerController extends Controller
     public function destroy(CityManager $cityManager)
     {
         $cityManager->delete();
-        return redirect()->route('cityManager.index');
+        return redirect()->route('cityManagers.index');
     }
 }
