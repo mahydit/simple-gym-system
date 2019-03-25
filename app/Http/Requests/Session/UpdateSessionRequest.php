@@ -24,9 +24,12 @@ class UpdateSessionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3',
-            'starts_at' => 'required|timezone',
-            'ends_at' => 'required|timezone',
+            'session_date' => 'required|date_format:Y-m-d',
+            'starts_at' => 'required|',//TODO: validate time format
+            'ends_at' => 'required|different:starts_at|after:starts_at',
         ];
     }
+    
+    // TODO: add customizer error msgs
+
 }
