@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Attendee\StoreAttendeeRequest;
+use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 use App\User;
 use App\Attendee;
 use Illuminate\Support\Facades\Hash;
 use App\Notifications\UserVerified;
+use App\Http\Resources\UserResource;
 
 
 class UsersController extends Controller
@@ -21,7 +23,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store' , 'notify']]);
+        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store']]);
     }
 
     /**
@@ -34,9 +36,8 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
@@ -100,7 +101,7 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreUserRequest $request){        
+    public function store(StoreAttendeeRequest $request){        
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
         $user = User::create($request->only('name' , 'email' ,'profile_img') + [
             "password" => Hash::make($request->only('password')['password']),
@@ -116,6 +117,11 @@ class UsersController extends Controller
 
             'message' => 'User Created Successfully'
         ] , 201);
+    }
+
+    public function update(User $user , UpdateAttendeeRequest $request){
+        $user->update($request->only('name' , 'profile_img'));
+        Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
     }
     
 }
