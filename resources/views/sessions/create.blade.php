@@ -87,12 +87,6 @@
                         <!-- /.input group -->
 
                     </div>
-                    <!-- /.form group -->
-                    <!-- @if ($errors->has('starts_at'))
-                <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('starts_at') }}</strong>
-                </span>
-                @endif -->
                 </div>
             </div>
 
@@ -121,7 +115,7 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('coach_id') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('coach_id') ? 'has-error' : '' }}">
                 <div class="form-group">
                     <label>Coaches</label>
                     <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
