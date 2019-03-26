@@ -9,17 +9,8 @@
 <link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
 @endsection
 
-<!-- TODO: add error msg underneath each element -->
-@section('content') 
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+@section('content')
+
 <!-- general form elements disabled -->
 <div class="box box-warning">
     <div class="box-header with-border">
@@ -59,25 +50,23 @@
             <!-- Date -->
             <div class="form-group">
                 <label>Date:</label>
-
                 <div class="input-group date {{ $errors->has('session_date') ? 'has-error' : '' }}">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control pull-right" id="datepicker" placeholder="Session Date"
-                        name="session_date"  value="{{ old('session_date') }}">
-                      
+                        name="session_date" value="{{ old('session_date') }}">
+
                 </div>
-                  @if ($errors->has('session_date'))
-                <span class="help-block" role="alert">
+                @if ($errors->has('session_date'))
+                <span class="help-block" style="color:red;" role="alert">
                     <strong>{{ $errors->first('session_date') }}</strong>
                 </span>
                 @endif
                 <!-- /.input group -->
-                
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6{{ $errors->has('starts_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
                     <div class="form-group">
                         <label>Starts at:</label>
@@ -89,21 +78,19 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                           
+                            @if ($errors->has('starts_at'))
+                            <span class="help-block" role="alert">
+                                <strong>{{ $errors->first('starts_at') }}</strong>
+                            </span>
+                            @endif
                         </div>
                         <!-- /.input group -->
-                       
+
                     </div>
-                    <!-- /.form group -->
-                    <!-- @if ($errors->has('starts_at'))
-                <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('starts_at') }}</strong>
-                </span>
-                @endif -->
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 {{ $errors->has('ends_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
                     <div class="form-group">
                         <label>Ends at:</label>
@@ -115,14 +102,20 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
+
                         </div>
+                        @if ($errors->has('ends_at'))
+                        <span class="help-block" role="alert">
+                            <strong>{{ $errors->first('ends_at') }}</strong>
+                        </span>
+                        @endif
                         <!-- /.input group -->
                     </div>
                     <!-- /.form group -->
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('coach_id') ? 'has-error' : '' }}">
                 <div class="form-group">
                     <label>Coaches</label>
                     <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
@@ -131,6 +124,11 @@
                         <option value="{{$coach->id}}">{{$coach->name}}</option>
                         @endforeach
                     </select>
+                    @if ($errors->has('coach_id'))
+                    <span class="help-block" role="alert">
+                        <strong>{{ $errors->first('coach_id') }}</strong>
+                    </span>
+                    @endif
                 </div>
             </div>
 
