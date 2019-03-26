@@ -14,6 +14,8 @@ use App\Package;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RemainingSessionResource;
+use App\Session;
+use App\Http\Requests\Session\AttendSessionRequest;
 
 
 class UsersController extends Controller
@@ -103,7 +105,8 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreAttendeeRequest $request){        
+    public function store(StoreAttendeeRequest $request){  
+              
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
         $user = User::create($request->only('name' , 'email' ,'profile_img') + [
             "password" => Hash::make($request->only('password')['password']),
@@ -124,9 +127,14 @@ class UsersController extends Controller
         Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
     }
 
-    public function show(User $user , Request $request){
+    public function show(User $user){
         return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
          Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+    }
+
+    public function attend(Session $session , AttendSessionRequest $request){
+        dd($session);
+
     }
     
 }
