@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\CityManager;
+use App\City;
 
 class CityManagerController extends Controller
 {
@@ -14,8 +16,10 @@ class CityManagerController extends Controller
      */
     public function index()
     {
+        // dd(CityManager::with('user')->get());
         return view('cityManagers.index',[
-            'cityManagers' => CityManager::all(),
+            'cityManagers' => CityManager::with('user')->get(),
+            'cities' => City::all(),
         ]);
     }
 
@@ -26,7 +30,10 @@ class CityManagerController extends Controller
      */
     public function create()
     {
-        //
+        return view('cityManagers.create',[
+            'cityManagers' => CityManager::all(),
+            'cities' => City::all(),
+        ]);
     }
 
     /**
