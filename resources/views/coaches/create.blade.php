@@ -12,19 +12,36 @@
 
 @section('content')
 
-<table id="users-table" class="table">
-    <thead>
-        <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>At Gym</td>
-            <td>action</td>
-        </tr>
-    </thead>
-    <tbody>
+@if(count($errors))
+            <ul class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+@endif
 
-    </tbody>
-</table>
+<form action="{{route('coaches.store')}}" method="POST">
+    @csrf
+    <div class="form-group">
+        <label for="exampleInputEmail1">Name</label>
+        <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name">
+    </div>
+
+    <div class="form-group">
+        <label for="exampleInputPassword1">At Gym</label>
+        <select class="form-control" name="at_gym_id">
+            @foreach($gyms as $gym)
+                <option value="{{$gym->id}}">{{$gym->name}}</option>
+            @endforeach
+        </select>
+    </div>
+
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+
+
 
 @endsection
 
@@ -55,22 +72,6 @@
 <script src="https://datatables.yajrabox.com/js/bootstrap.min.js"></script>
 <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>
 <script src="https://datatables.yajrabox.com/js/datatables.bootstrap.js"></script>
-<script>
-    $(function () {
-        $('#users-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: 'http://localhost:8000/admin/coaches/datatables',
-            columns: [
-                {data: 'id'},
-                {data: 'name'},
-                {data: 'at_gym_id'},          
-                // {data: 'action', orderable = false, searchable = false}
-            ]
-        });
-    })
-
-</script>
 
 
 @endsection

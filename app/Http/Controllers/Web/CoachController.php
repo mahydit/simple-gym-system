@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Coach;
+use App\Gym;
+
+use App\Http\Requests\Coach\StoreCoachRequest;
 
 class CoachController extends Controller
 {
@@ -15,13 +18,22 @@ class CoachController extends Controller
         ]);
     }
 
+    
     public function get_data_table()
     {
-        $coaches = Coach::select('id', 'name', 'at_gym_id');
-        return Datatables::of($coaches)
-        ->addColumn('action', function ($coach) {
-            return 'Edit';
-        })
-        ->make(true);
+        return datatables()->eloquent(Coach::query())->toJson();
+    }
+
+    public function create()
+    {
+        $gyms = Gym::all();
+        return view('coaches.create', [
+            'gyms' => $gyms,
+        ]);
+    }
+    public function store(StoreCoachRequest $request)
+    {
+        Coach::create($request->all());
+        return redirect()->route('coaches.index');
     }
 }

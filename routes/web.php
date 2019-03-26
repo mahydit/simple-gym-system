@@ -32,11 +32,11 @@ Route::get('admin', function () {
 });
 
 Route::get('admin/coaches', 'Web\CoachController@index')->name('coaches.index');
-Route::get('admin/coaches/create', 'Web\CoachesController@create')->name('coaches.create');
-Route::post('admin/coaches', 'Web\CoachesController@store')->name('coaches.store');
-Route::get('admin/coaches/{coach}/show', 'Web\CoachesController@show')->name('coaches.show');
-Route::get('admin/coaches/{coach}/edit', 'Web\CoachesController@edit')->name('coaches.edit');
-Route::put('admin/coaches/{coach}', 'Web\CoachesController@update')->name('coaches.update');
-Route::delete('admin/coaches/{coach}', 'Web\CoachesController@destroy')->name('coaches.destroy');
+Route::get('admin/coaches/create', 'Web\CoachController@create')->name('coaches.create');
+Route::post('admin/coaches', 'Web\CoachController@store')->name('coaches.store');
+Route::get('admin/coaches/{coach}/show', 'Web\CoachController@show')->name('coaches.show');
+Route::get('admin/coaches/{coach}/edit', 'Web\CoachController@edit')->name('coaches.edit');
+Route::put('admin/coaches/{coach}', 'Web\CoachController@update')->name('coaches.update');
+Route::delete('admin/coaches/{coach}', 'Web\CoachController@destroy')->name('coaches.destroy');
 
 Route::get('admin/coaches/datatables', 'Web\CoachController@get_data_table');
