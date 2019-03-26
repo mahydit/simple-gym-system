@@ -49,7 +49,7 @@
 
             <!-- Date -->
             <div class="form-group">
-                <label>Date:</label>
+                <label>Date</label>
                 <div class="input-group date {{ $errors->has('session_date') ? 'has-error' : '' }}">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
@@ -66,10 +66,10 @@
                 <!-- /.input group -->
             </div>
 
-            <div class="col-md-6{{ $errors->has('starts_at') ? 'has-error' : '' }}">
+            <div class="{{ $errors->has('starts_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
-                    <div class="form-group">
-                        <label>Starts at:</label>
+                    <div class="form-group col-md-6">
+                        <label>Starts at</label>
 
                         <div class="input-group">
                             <input type="text" class="form-control timepicker" name="starts_at"
@@ -78,14 +78,14 @@
                             <div class="input-group-addon">
                                 <i class="fa fa-clock-o"></i>
                             </div>
-                            @if ($errors->has('starts_at'))
-                            <span class="help-block" role="alert">
+                            
+                        </div>
+                        <!-- /.input group -->
+                        @if ($errors->has('starts_at'))
+                            <span class="help-block col-md-6" role="alert">
                                 <strong>{{ $errors->first('starts_at') }}</strong>
                             </span>
                             @endif
-                        </div>
-                        <!-- /.input group -->
-
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
             <div class="col-md-6 {{ $errors->has('ends_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
                     <div class="form-group">
-                        <label>Ends at:</label>
+                        <label>Ends at</label>
 
                         <div class="input-group">
                             <input type="text" class="form-control timepicker" name="ends_at"
@@ -114,7 +114,7 @@
                     <!-- /.form group -->
                 </div>
             </div>
-
+            <br>
             <div class="form-group {{ $errors->has('coach_id') ? 'has-error' : '' }}">
                 <div class="form-group">
                     <label>Coaches</label>
