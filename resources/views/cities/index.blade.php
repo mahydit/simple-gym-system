@@ -1,13 +1,14 @@
 @extends('layouts.dashboard')
 
 @section('content')
+<a href="{{route('cities.create')}}" class="btn btn-success">Add New City</a>
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">ID</th>
       <th scope="col">City Name</th>
-      <th scope="col">City Manager ID</th>
-      <th scope="col">Country ID</th>
+      <th scope="col">City Manager Name</th>
+      <th scope="col">Country Name</th>
     </tr>
   </thead>
   <tbody>
@@ -15,8 +16,8 @@
     <tr>
       <th scope="row">{{$city->id}}</th>
       <td>{{$city->name}}</td>
-      <td>{{$city->city_manager_id}}</td>
-      <td>{{$city->country_id}}</td>
+      <td>{{$city->cityManager->user->name}}</td>
+      <td>{{$city->country->name}}</td>
       <td>
         <a href="{{route('cities.show', [$city->id])}}" class="btn btn-success">View</a>
         <a href="{{route('cities.edit', [$city->id])}}" class="btn btn-success">Edit</a>

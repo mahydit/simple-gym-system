@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\City;
+use App\CityManager;
+use App\Country;
+use App\User;
 
 class CityController extends Controller
 {
@@ -13,19 +17,21 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        // dd(City::find(1)->cityManager->user);
         return view('cities.index',[
-            'cities' => City::with('countries')->get(),
+            'cities' => City::all(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     *  
      * @return \Illuminate\Http\Response
      */
+
     public function create(){
         return view('cities.create',[
-            'countries' => Country::all()
+            'cities' => City::all(),
         ]);
     }
 
