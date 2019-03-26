@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\City;
+use App\GymManager;
 use App\Gym;
+use App\City;
 
-class GymController extends Controller
+class GymManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +17,10 @@ class GymController extends Controller
      */
     public function index()
     {
-        return view('gyms.index',[
+        // dd(GymManager::find(1)->user);
+        return view('gymManagers.index',[
+            'gymManagers' => GymManager::all(),
             'gyms' => Gym::all(),
-            'cities' => City::all(),
         ]);
     }
 
@@ -29,9 +31,9 @@ class GymController extends Controller
      */
     public function create()
     {
-        return view('gyms.create',[
+        return view('gymManagers.create',[
+            'gymManagers' => GymManager::with('user')->get(),
             'gyms' => Gym::all(),
-            'cities' => City::all(),
         ]);
     }
 
@@ -52,11 +54,10 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Gym $gym)
+    public function show(GymManager $gymManager)
     {
-        return view('gyms.show',[
-            'gym' => $gym,
-            'creator'=>User::find($created_by),
+        return view('gymManagers.show',[
+            'gymManager' => $gymManager
         ]);
     }
 
@@ -66,10 +67,10 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Gym $gym)
+    public function edit(GymManager $gymManager)
     {
-        return view('gyms.edit',[
-            'gym' => $gym,
+        return view('gymManagers.edit',[
+            'gymManager' => $gymManager,
         ]);
     }
 
@@ -91,9 +92,9 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gym $gym)
+    public function destroy(GymManager $gymManager)
     {
-        $gym->delete();
-        return redirect()->route('gyms.index');
+        $gymManager->delete();
+        return redirect()->route('gymManagers.index');
     }
 }

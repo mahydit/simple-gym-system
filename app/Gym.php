@@ -16,7 +16,6 @@ class Gym extends Model
     ];
     protected $table = 'gyms';
 
-
     public function gymManagers(){
 
         return $this->hasMany('App\GymManager');

@@ -22,7 +22,7 @@ class City extends Model
 
     public function cityManager(){
 
-        return $this->hasOne('App\CityManager');
+        return $this->belongsTo('App\CityManager','city_manager_id');
 
     }
 
