@@ -32,8 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('sessions.edit');
     Route::put('/sessions/{session}', 'Web\SessionController@update')
     ->name('sessions.update');
-    Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
-    ->name('sessions.destroy');
+    Route::delete('/sessions/{session}', 'Web\SessionController@destroy')->name('sessions.destroy');
+    Route::get('get-session-my-datatables', ['as'=>'get.session','uses'=>'Web\SessionController@getSession']);
 });
 
 Auth::routes(['verify' => true]);
