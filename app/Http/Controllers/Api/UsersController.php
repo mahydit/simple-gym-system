@@ -12,6 +12,7 @@ use App\Attendee;
 use App\Purchase;
 use App\Package;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RemainingSessionResource;
 use App\Session;
@@ -106,12 +107,14 @@ class UsersController extends Controller
     }
 
     public function store(StoreAttendeeRequest $request){  
-              
+
+        $path = $request->file('profile_img')->store('public/attendees_profile_images');
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
-        $user = User::create($request->only('name' , 'email' ,'profile_img') + [
+        $user = User::create($request->only('name' , 'email') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $attendee->id,
             "role_type" => get_class($attendee),
+            "profile_img" => $path,
             ]);
 
         $user->sendEmailVerificationNotification();
