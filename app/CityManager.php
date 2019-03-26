@@ -14,7 +14,7 @@ class CityManager extends Model
 
     public function city(){
 
-        return $this->belongsTo('App\City');
+        return $this->hasOne('App\City','city_manager_id');
 
     }
 
