@@ -6,7 +6,7 @@
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- Select2 -->
-<link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css')}}">
 @endsection
 
 @section('content')
@@ -146,12 +146,14 @@
 @endsection
 
 @section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- bootstrap time picker -->
 <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <!-- bootstrap datepicker -->
 <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
 <!-- Select2 -->
-<script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
+<script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 @endsection
 
 @section('script')
@@ -167,8 +169,9 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            use24hours: true,
-            timeFormat: "h:m:s",
+            // use24hours: true,
+            // timeFormat: "h:m:s",
+            // showMeridian:false,
             showInputs: false,
         })
     })
