@@ -122,6 +122,8 @@
 @endsection
 
 @section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- bootstrap time picker -->
 <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <!-- bootstrap datepicker -->
