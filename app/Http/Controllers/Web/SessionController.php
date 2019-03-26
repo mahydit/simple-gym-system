@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
+use DB;
+use DataTables;
 
 class SessionController extends Controller
 {
@@ -51,11 +53,11 @@ class SessionController extends Controller
      */
     public function store(StoreSessionRequest $request)
     {
-        $request['starts_at'] = date("H:m:s", strtotime($request->starts_at));
-        $request['ends_at'] = date("H:m:s", strtotime($request->ends_at));
+        $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
+        $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
     
         $session = Session::create($request->all());
-        $session->coach()->attach($request->coach_id);
+        $session->coaches()->attach($request->coach_id);
 
         return redirect()->route('sessions.index');
     }
@@ -104,8 +106,8 @@ class SessionController extends Controller
      */
     public function update(UpdateSessionRequest $request, $session)
     {
-        $request['starts_at'] = date("H:m:s", strtotime($request->starts_at));
-        $request['ends_at'] = date("H:m:s", strtotime($request->ends_at));
+        $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
+        $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
 
         Session::find($session)->update($request->all());
 
@@ -120,12 +122,40 @@ class SessionController extends Controller
      */
     public function destroy($session)
     {
-        if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
+        // if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
             Session::find($session)->delete();
             return redirect()->route('sessions.index');
-        } else {
+        // } else {
             // TODO: msg saying user can't be updated.
-            return redirect()->route('sessions.index');
-        };
+            // return redirect()->route('sessions.index');
+        // };
     }
+
+    public function getSession()
+    {
+     
+        // $session = Session::with(['gym','coaches']);
+
+        // return DataTables::of($session)->with('gym','coaches')->toJson();
+        $gym_id = Auth::User()->role->gym_id;
+        $session = Session::with(['gym', 'coaches'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+            return $session->gym_id == $gym_id;
+        });
+        return datatables()->of($sessionFilter)->with('gym','coaches')->editColumn('starts_at', function ($sessionFilter) 
+        {
+            return date("h:i a", strtotime($sessionFilter->starts_at));
+        })
+        ->editColumn('ends_at', function ($sessionFilter) 
+        {
+            //change over here
+            return date("h:i a", strtotime($sessionFilter->ends_at));
+        })
+        ->editColumn('session_date', function ($sessionFilter) 
+        {
+            //change over here
+            return date("d-M-Y", strtotime($sessionFilter->session_date));
+        })->toJson();
+    }
+
 }
