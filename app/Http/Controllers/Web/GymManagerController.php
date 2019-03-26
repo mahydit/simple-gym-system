@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\GymManager;
+use App\Gym;
+use App\City;
 
 class GymManagerController extends Controller
 {
@@ -14,8 +17,10 @@ class GymManagerController extends Controller
      */
     public function index()
     {
+        // dd(GymManager::find(1)->user);
         return view('gymManagers.index',[
-            'gymManager' => GymManager::all(),
+            'gymManagers' => GymManager::all(),
+            'gyms' => Gym::all(),
         ]);
     }
 
@@ -26,7 +31,10 @@ class GymManagerController extends Controller
      */
     public function create()
     {
-        //
+        return view('gymManagers.create',[
+            'gymManagers' => GymManager::with('user')->get(),
+            'gyms' => Gym::all(),
+        ]);
     }
 
     /**
