@@ -17,7 +17,6 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        // dd(City::find(1)->cityManager->user);
         return view('cities.index',[
             'cities' => City::all(),
         ]);
@@ -32,6 +31,7 @@ class CityController extends Controller
     public function create(){
         return view('cities.create',[
             'cities' => City::all(),
+            'countries' => Country::all(),
         ]);
     }
 

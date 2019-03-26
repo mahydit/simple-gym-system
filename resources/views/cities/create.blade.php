@@ -28,8 +28,8 @@
         <div class="form-group">
             <label for="exampleInputPassword1">Country</label>
             <select class="form-control" name="user_id">
-                @foreach($cities as $city)
-                    <option value="{{$city->id}}">{{$city->country->name}}</option>
+                @foreach($countries as $country)
+                    <option value="{{$country->id}}">{{$country->name}}</option>
                 @endforeach
             </select>
         </div>
