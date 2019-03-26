@@ -14,7 +14,7 @@ class CoachController extends Controller
     public function index()
     {
         return view('coaches.index', [
-            'coaches' => Coach::all(),
+            'coaches' => Coach::with('gyms').all(),
         ]);
     }
 
@@ -35,5 +35,13 @@ class CoachController extends Controller
     {
         Coach::create($request->all());
         return redirect()->route('coaches.index');
+    }
+
+
+    public function show(Coach $coach)
+    {
+        return view('coaches.show', [
+            'coach' =>$coach,
+        ]);
     }
 }
