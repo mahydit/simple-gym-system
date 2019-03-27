@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RemainingSessionResource;
 use App\Http\Requests\Session\AttendSessionRequest;
+use App\SessionAttendance;
+use Carbon\Carbon;
 
 
 class UsersController extends Controller
@@ -152,8 +154,18 @@ class UsersController extends Controller
     }
 
     public function attend(Session $session ,AttendSessionRequest $request){
-        dd(["session" => $session , "Request" => $request->all()]);
+        Attendee::where('id' , Auth::user()->role_id)->decrement('remain_sessions');
+        SessionAttendance::create([
+            "session_id" => $session->id,
+            "attendee_id" => Auth::user()->role_id,
+            "attendance_time" => Carbon::now()->toTimeString(),
+            "attendance_date" => Carbon::now()->toDateString(),
+        ]);
 
+        return response()->json([
+
+            'message' => 'Session Attended'
+        ] , 201);
     }
     
 }
