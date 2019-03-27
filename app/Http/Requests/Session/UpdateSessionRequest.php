@@ -27,8 +27,8 @@ class UpdateSessionRequest extends FormRequest
     {
         return [
             'session_date' => 'required|date_format:Y-m-d',
-            'starts_at' => ['required',new OverlappingStartTime($this->session_date)],//TODO: validate time format
-            'ends_at' => ['required','different:starts_at','after:starts_at',new OverlappingEndTime($this->session_date)],
+            'starts_at' => ['required',new OverlappingStartTime($this->session_date,$this->gym_id)],//TODO: validate time format
+            'ends_at' => ['required','different:starts_at','after:starts_at',new OverlappingEndTime($this->session_date,$this->gym_id)],
         ];
     }
     

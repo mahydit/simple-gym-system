@@ -8,15 +8,17 @@ use Illuminate\Contracts\Validation\Rule;
 class OverlappingEndTime implements Rule
 {
     private $date;
-    
+    private $gym_id;
+
     /**
      * Create a new rule instance.
      *
      * @return void
      */
-    public function __construct($date)
+    public function __construct($date,$gym_id)
     {
-        $this->date=$date;
+        $this->date = $date;
+        $this->gym_id = $gym_id;
     }
 
     /**
@@ -29,7 +31,7 @@ class OverlappingEndTime implements Rule
     public function passes($attribute, $value)
     {
         $value = date("H:i:s", strtotime($value));
-        $sessions = Session::all()->where('session_date','=',$this->date);
+        $sessions = Session::all()->where('session_date','=',$this->date)->where('gym_id','=',$this->gym_id);
         
         if($sessions)
         {
