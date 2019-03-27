@@ -63,6 +63,7 @@ Route::get('admin/packages/{package}/edit', 'Web\PackagesController@edit')->name
 Route::put('admin/packages/{package}', 'Web\PackagesController@update')->name('packages.update');
 Route::delete('admin/packages/{package}', 'Web\PackagesController@destroy')->name('packages.destroy');
 Route::get('admin/packages/datatables', 'Web\PackagesController@get_data_table');
+
 ///// CITIES //////
 Route::get('/cities', 'Web\CityController@index')   ->name('cities.index');
 Route::get('/cities/create', 'Web\CityController@create')  ->name('cities.create');

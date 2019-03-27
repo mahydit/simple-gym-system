@@ -8,6 +8,7 @@ use App\City;
 use App\CityManager;
 use App\Country;
 use App\User;
+use App\Http\Requests\City\StoreCityRequest;
 
 class CityController extends Controller
 {
@@ -41,8 +42,10 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-
+    public function store(StoreCityRequest $request){
+        dd(City::create($request->all()));
+        City::create($request->all());
+        return redirect()->route('cities.index');
     }
 
     /**
