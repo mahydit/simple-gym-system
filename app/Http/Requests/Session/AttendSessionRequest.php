@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Session;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Carbon\Carbon;
 
 class AttendSessionRequest extends FormRequest
 {
@@ -23,8 +24,16 @@ class AttendSessionRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            "session_date" => "date_format:Y-m-d|before:todat|after:today"
+            "session_date"  => "date_format:Y-m-d|date_equals:today",
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'session_date' => $this->route('session')->session_date,
+        ]);
     }
 }

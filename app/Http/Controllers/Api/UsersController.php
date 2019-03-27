@@ -11,11 +11,11 @@ use App\User;
 use App\Attendee;
 use App\Purchase;
 use App\Package;
+use App\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RemainingSessionResource;
-use App\Session;
 use App\Http\Requests\Session\AttendSessionRequest;
 
 
@@ -151,7 +151,7 @@ class UsersController extends Controller
         Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
 
-    public function attend(Session $session , AttendSessionphpRequest $request){
+    public function attend(Session $session ,AttendSessionRequest $request){
         dd(["session" => $session , "Request" => $request->all()]);
 
     }
