@@ -11,12 +11,15 @@ use App\User;
 use App\Attendee;
 use App\Purchase;
 use App\Package;
+use App\Session;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\RemainingSessionResource;
-use App\Session;
 use App\Http\Requests\Session\AttendSessionRequest;
+use App\SessionAttendance;
+use Carbon\Carbon;
+use App\Http\Resources\AttendanceHistoryResource;
 
 
 class UsersController extends Controller
@@ -151,9 +154,25 @@ class UsersController extends Controller
         Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
 
-    public function attend(Session $session , AttendSessionphpRequest $request){
-        dd(["session" => $session , "Request" => $request->all()]);
+    public function attend(Session $session ,AttendSessionRequest $request){
+        Attendee::where('id' , Auth::user()->role_id)->decrement('remain_sessions');
+        SessionAttendance::create([
+            "session_id" => $session->id,
+            "attendee_id" => Auth::user()->role_id,
+            "attendance_time" => Carbon::now()->toTimeString(),
+            "attendance_date" => Carbon::now()->toDateString(),
+        ]);
 
+        return response()->json([
+
+            'message' => 'Session Attended'
+        ] , 201);
+    }
+
+    public function history(){
+
+        
+        return new AttendanceHistoryResource(Auth::user()->sessionAttendance);
     }
     
 }
