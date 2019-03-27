@@ -58,7 +58,7 @@ class GymController extends Controller
     {
         return view('gyms.show',[
             'gym' => $gym,
-            'creator'=>User::find($created_by),
+            'city'=>City::all(),
         ]);
     }
 
@@ -72,6 +72,7 @@ class GymController extends Controller
     {
         return view('gyms.edit',[
             'gym' => $gym,
+            'cities' => City::all(),
         ]);
     }
 
@@ -82,9 +83,11 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGymRequest $request, Gym $gym)
     {
-        //
+        dd($gym->update($request->all()));
+        $gym->update($request->all());
+        return redirect()->route('gyms.index');
     }
 
     /**
