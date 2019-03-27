@@ -5,33 +5,33 @@ namespace App\Http\Controllers\Web;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\City;
-use App\Gym;
+use App\CityManager;
+use App\Country;
+use App\User;
 
-class GymController extends Controller
+class CityController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        return view('gyms.index',[
-            'gyms' => Gym::all(),
+    public function index(){
+        return view('cities.index',[
             'cities' => City::all(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
+     *  
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        return view('gyms.create',[
-            'gyms' => Gym::all(),
+
+    public function create(){
+        return view('cities.create',[
             'cities' => City::all(),
+            'countries' => Country::all(),
         ]);
     }
 
@@ -41,9 +41,8 @@ class GymController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
+    public function store(Request $request){
+
     }
 
     /**
@@ -52,11 +51,9 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Gym $gym)
-    {
-        return view('gyms.show',[
-            'gym' => $gym,
-            'creator'=>User::find($created_by),
+    public function show(City $city){
+        return view('cities.show',[
+            'city' => $city
         ]);
     }
 
@@ -66,10 +63,10 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Gym $gym)
-    {
-        return view('gyms.edit',[
-            'gym' => $gym,
+    public function edit(City $city){
+        return view('cities.edit',[
+            'city' => $city,
+            'countries' => Country::all()
         ]);
     }
 
@@ -91,9 +88,8 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gym $gym)
-    {
-        $gym->delete();
-        return redirect()->route('gyms.index');
+    public function destroy(City $city){
+        $city->delete();
+        return redirect()->route('cities.index');
     }
 }

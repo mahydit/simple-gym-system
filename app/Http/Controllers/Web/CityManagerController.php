@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\CityManager;
 use App\City;
-use App\Gym;
 
-class GymController extends Controller
+class CityManagerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,9 @@ class GymController extends Controller
      */
     public function index()
     {
-        return view('gyms.index',[
-            'gyms' => Gym::all(),
+        // dd(CityManager::with('user')->get());
+        return view('cityManagers.index',[
+            'cityManagers' => CityManager::with('user')->get(),
             'cities' => City::all(),
         ]);
     }
@@ -29,8 +30,8 @@ class GymController extends Controller
      */
     public function create()
     {
-        return view('gyms.create',[
-            'gyms' => Gym::all(),
+        return view('cityManagers.create',[
+            'cityManagers' => CityManager::all(),
             'cities' => City::all(),
         ]);
     }
@@ -52,11 +53,10 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Gym $gym)
+    public function show(CityManager $cityManager)
     {
-        return view('gyms.show',[
-            'gym' => $gym,
-            'creator'=>User::find($created_by),
+        return view('cityManagers.show',[
+            'cityManager' => $cityManager
         ]);
     }
 
@@ -66,10 +66,10 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Gym $gym)
+    public function edit(CityManager $cityManager)
     {
-        return view('gyms.edit',[
-            'gym' => $gym,
+        return view('cityManagers.edit',[
+            'cityManager' => $cityManager,
         ]);
     }
 
@@ -91,9 +91,9 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gym $gym)
+    public function destroy(CityManager $cityManager)
     {
-        $gym->delete();
-        return redirect()->route('gyms.index');
+        $cityManager->delete();
+        return redirect()->route('cityManagers.index');
     }
 }

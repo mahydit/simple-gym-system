@@ -16,7 +16,7 @@ class Session extends Model
 
     public $timestamps = false;
 
-    public function coach(){
+    public function coaches(){
         
         return $this->belongsToMany('App\Coach','sessions_coaches', 'session_id','coach_id');
     }

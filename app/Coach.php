@@ -13,10 +13,9 @@ class Coach extends Model
     protected $table = 'coaches';
     public $timestamps = false;
 
-    // public $primary_key= 'id';
     public function session()
     {
-        return $this->belongsToMany('App\Session');
+        return $this->belongsToMany('App\Session', 'sessions_coaches', 'session_id', 'coach_id');
     }
 
     public function gym()

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Attendee;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class StoreAttendeeRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Determine if the Attendee is authorized to make this request.
      *
      * @return bool
      */
@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             "password" => "required|string|min:8|max:255|confirmed",
             "password_confirmation" => "required|string|min:8|max:255",
             "birth_date" => "required|date_format:Y-m-d|before:2018-01-1|string",
-            "profile_img" => "required|string",
+            "profile_img" => "required|image|mimes:jpg,jpeg",
         ];
     }
 }

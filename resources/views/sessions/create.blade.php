@@ -5,9 +5,12 @@
 <link rel="stylesheet" href="{{ asset('plugins/timepicker/bootstrap-timepicker.min.css')}}">
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
+<!-- Select2 -->
+<link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css')}}">
 @endsection
 
 @section('content')
+
 <!-- general form elements disabled -->
 <div class="box box-warning">
     <div class="box-header with-border">
@@ -15,81 +18,122 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <form role="form">
+        <form action="{{route('sessions.store')}}" method="POST">
+            @csrf
 
             <!-- text input -->
-            <div class="form-group">
+            <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                 <label>Name</label>
-                <input type="text" class="form-control" placeholder="Session Name" name="name">
+                <input type="text" class="form-control" value="{{ old('name') }}" placeholder="Session Name"
+                    name="name">
+                @if ($errors->has('name'))
+                <span class="help-block" role="alert">
+                    <strong>{{ $errors->first('name') }}</strong>
+                </span>
+                @endif
             </div>
+
 
             <!-- select -->
-            <div class="form-group">
+            <div class="form-group{{ $errors->has('gym_id') ? 'has-error' : '' }}">
                 <label>Select Gym</label>
-                <select class="form-control" disabled>
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
+                <select class="form-control" name="gym_id" readonly>
+                    <option value="{{$gym->id}}">{{$gym->name}}</option>
                 </select>
-            </div>
-
-            <div class="form-group">
-                <label>Select City</label>
-                <select class="form-control" disabled>
-                    <option>option 1</option>
-                    <option>option 2</option>
-                    <option>option 3</option>
-                    <option>option 4</option>
-                    <option>option 5</option>
-                </select>
+                @if ($errors->has('gym_id'))
+                <span class="help-block" role="alert">
+                    <strong>{{ $errors->first('gym_id') }}</strong>
+                </span>
+                @endif
             </div>
 
             <!-- Date -->
             <div class="form-group">
-                <label>Date:</label>
-
-                <div class="input-group date">
+                <label>Date</label>
+                <div class="input-group date {{ $errors->has('session_date') ? 'has-error' : '' }}">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control pull-right" id="datepicker" placeholder="Session Date" name="session_date">
+                    <input type="text" class="form-control pull-right" id="datepicker" placeholder="Session Date"
+                        name="session_date" value="{{ old('session_date') }}">
+
                 </div>
+                @if ($errors->has('session_date'))
+                <span class="help-block" style="color:red;" role="alert">
+                    <strong>{{ $errors->first('session_date') }}</strong>
+                </span>
+                @endif
                 <!-- /.input group -->
             </div>
 
-            <div class="bootstrap-timepicker">
-                <div class="form-group">
-                    <label>Starts at:</label>
+            <div class="{{ $errors->has('starts_at') ? 'has-error' : '' }}">
+                <div class="bootstrap-timepicker">
+                    <div class="form-group col-md-6">
+                        <label>Starts at</label>
 
-                    <div class="input-group">
-                        <input type="text" class="form-control timepicker" name="starts_at" placeholder="Session Starts At">
+                        <div class="input-group">
+                            <input type="text" class="form-control timepicker" name="starts_at"
+                                placeholder="Session Starts At">
 
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
+                            <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+                            
                         </div>
+                        <!-- /.input group -->
+                        @if ($errors->has('starts_at'))
+                            <span class="help-block col-md-6" role="alert">
+                                <strong>{{ $errors->first('starts_at') }}</strong>
+                            </span>
+                            @endif
                     </div>
-                    <!-- /.input group -->
                 </div>
-                <!-- /.form group -->
             </div>
 
-            <div class="bootstrap-timepicker">
-                <div class="form-group">
-                    <label>Ends at:</label>
+            <div class="col-md-6 {{ $errors->has('ends_at') ? 'has-error' : '' }}">
+                <div class="bootstrap-timepicker">
+                    <div class="form-group">
+                        <label>Ends at</label>
 
-                    <div class="input-group">
-                        <input type="text" class="form-control timepicker" name="ends_at" placeholder="Session Ends At">
+                        <div class="input-group">
+                            <input type="text" class="form-control timepicker" name="ends_at"
+                                placeholder="Session Ends At">
 
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
+                            <div class="input-group-addon">
+                                <i class="fa fa-clock-o"></i>
+                            </div>
+
                         </div>
+                        @if ($errors->has('ends_at'))
+                        <span class="help-block" role="alert">
+                            <strong>{{ $errors->first('ends_at') }}</strong>
+                        </span>
+                        @endif
+                        <!-- /.input group -->
                     </div>
-                    <!-- /.input group -->
+                    <!-- /.form group -->
                 </div>
-                <!-- /.form group -->
             </div>
+            <br>
+            <div class="form-group {{ $errors->has('coach_id') ? 'has-error' : '' }}">
+                <div class="form-group">
+                    <label>Coaches</label>
+                    <select id="coaches" class="form-control select2" name="coach_id[]" multiple="multiple"
+                        data-placeholder="Select a coach" style="width: 100%;">
+                        @foreach($coaches as $coach)
+                        <option value="{{$coach->id}}">{{$coach->name}}</option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('coach_id'))
+                    <span class="help-block" role="alert">
+                        <strong>{{ $errors->first('coach_id') }}</strong>
+                    </span>
+                    @endif
+                </div>
+            </div>
+
+
+
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
@@ -102,22 +146,33 @@
 @endsection
 
 @section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 <!-- bootstrap time picker -->
 <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
 <!-- bootstrap datepicker -->
 <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+<!-- Select2 -->
+<script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
 @endsection
 
 @section('script')
 <script>
     $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+
         //Date picker
         $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",
             autoclose: true
         })
         //Timepicker
         $('.timepicker').timepicker({
-            showInputs: false
+            // use24hours: true,
+            // timeFormat: "h:m:s",
+            // showMeridian:false,
+            showInputs: false,
         })
     })
 

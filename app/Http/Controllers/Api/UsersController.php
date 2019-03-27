@@ -5,11 +5,18 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Attendee\StoreAttendeeRequest;
+use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 use App\User;
-use Illuminate\Support\Facades\Hash;
 use App\Attendee;
-
+use App\Purchase;
+use App\Package;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Resources\UserResource;
+use App\Http\Resources\RemainingSessionResource;
+use App\Session;
+use App\Http\Requests\Session\AttendSessionRequest;
 
 
 class UsersController extends Controller
@@ -21,7 +28,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login' , 'store']]);
+        $this->middleware(['auth:api' , 'verified'], ['except' => ['login' , 'store']]);
     }
 
     /**
@@ -34,9 +41,8 @@ class UsersController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
         if ($token = $this->guard()->attempt($credentials)) {
-            return $this->respondWithToken($token);
+            return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);
@@ -100,14 +106,54 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreUserRequest $request){        
+    public function store(StoreAttendeeRequest $request){  
+
+        $path = $request->file('profile_img')->store('public/attendees_profile_images');
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
-        $user = User::create($request->only('name' , 'email' ,'profile_img') + [
+        $user = User::create($request->only('name' , 'email') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $attendee->id,
-            "role_type" => "App\Attendee",
+            "role_type" => get_class($attendee),
+            "profile_img" => $path,
             ]);
 
         $user->sendEmailVerificationNotification();
+
+        return response()->json([
+
+            'message' => 'User Created Successfully'
+        ] , 201);
     }
+
+    public function update(UpdateAttendeeRequest $request){
+        $user = Auth::user();
+        if($request->only('profile_img')){
+            $path = $this->update_profile_img($request);
+            $user->update(['profile_img' => $path]);
+        }
+        $user->update($request->only('name'));
+        Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
+
+        return response()->json([
+
+            'message' => 'User Updated Successfully'
+        ] , 200);
+    }
+
+    private function update_profile_img($request){
+        Storage::delete(Auth::user()->profile_img);
+        return $request->file('profile_img')->store('public/attendees_profile_images');
+    }
+
+    public function show(){
+        $user = Auth::user();
+        return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
+        Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+    }
+
+    public function attend(Session $session , AttendSessionphpRequest $request){
+        dd(["session" => $session , "Request" => $request->all()]);
+
+    }
+    
 }

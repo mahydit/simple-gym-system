@@ -42,8 +42,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('cities.create')}}">Create</a></li>
+                    <li><a href="{{route('cities.index')}}">View All</a></li>
                 </ul>
             </li>
             
@@ -54,8 +54,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('cityManagers.create')}}">Create</a></li>
+                    <li><a href="{{route('cityManagers.index')}}">View All</a></li>
                 </ul>
             </li>
 
@@ -66,8 +66,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('gyms.create')}}">Create</a></li>
+                    <li><a href="{{route('gyms.index')}}">View All</a></li>
                 </ul>
             </li>
 
@@ -78,8 +78,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('gymManagers.create')}}">Create</a></li>
+                    <li><a href="{{route('gymManagers.index')}}">View All</a></li>
                 </ul>
             </li>
 
@@ -114,8 +114,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('sessions.create')}}">Create</a></li>
+                    <li><a href="{{route('sessions.index')}}">View All</a></li>
                 </ul>
             </li>
 
