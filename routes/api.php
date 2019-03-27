@@ -29,8 +29,10 @@ Route::group([
     Route::post('logout', 'Api\UsersController@logout');
     Route::post('refresh', 'Api\UsersController@refresh');
     Route::post('me', 'Api\UsersController@me');
-    Route::post('/users', 'Api\UsersController@store');
-    Route::put('/users/{user}' , 'Api\UsersController@update');
-    
+    Route::post('/register', 'Api\UsersController@store');
+    Route::put('/update' , 'Api\UsersController@update');
+    Route::get('/show' , 'Api\UsersController@show');
+    Route::post('/sessions/{session}/attend' , 'Api\UsersController@attend');
+
     
 });

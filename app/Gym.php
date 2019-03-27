@@ -16,32 +16,28 @@ class Gym extends Model
     ];
     protected $table = 'gyms';
 
-    public function gymManagers(){
-
+    public function gymManagers()
+    {
         return $this->hasMany('App\GymManager');
     }
 
-    public function coaches(){
-
-        return $this->hasMany('App\Coach');
-
+    public function coaches()
+    {
+        return $this->hasMany('App\Coach', 'at_gym_id');
     }
 
-    public function sessions(){
-
+    public function sessions()
+    {
         return $this->hasMany('App\Session');
-
     }
 
-    public function purchaseHistory(){
-
+    public function purchaseHistory()
+    {
         return $this->hasMany('App\Purchase');
-
     }
 
-    public function city(){
-
+    public function city()
+    {
         return $this->belongsTo('App\City');
-
     }
 }

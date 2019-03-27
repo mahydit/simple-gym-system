@@ -9,9 +9,14 @@ use App\Http\Requests\Attendee\StoreAttendeeRequest;
 use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 use App\User;
 use App\Attendee;
+use App\Purchase;
+use App\Package;
 use Illuminate\Support\Facades\Hash;
-use App\Notifications\UserVerified;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Resources\UserResource;
+use App\Http\Resources\RemainingSessionResource;
+use App\Session;
+use App\Http\Requests\Session\AttendSessionRequest;
 
 
 class UsersController extends Controller
@@ -101,17 +106,18 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
-    public function store(StoreAttendeeRequest $request){        
+    public function store(StoreAttendeeRequest $request){  
+
+        $path = $request->file('profile_img')->store('public/attendees_profile_images');
         $attendee = Attendee::create($request->only('birth_date' , 'gender'));
-        $user = User::create($request->only('name' , 'email' ,'profile_img') + [
+        $user = User::create($request->only('name' , 'email') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $attendee->id,
-            "role_type" => "App\Attendee",
+            "role_type" => get_class($attendee),
+            "profile_img" => $path,
             ]);
 
         $user->sendEmailVerificationNotification();
-
-        $user->notify(new UserVerified);
 
         return response()->json([
 
@@ -119,9 +125,35 @@ class UsersController extends Controller
         ] , 201);
     }
 
-    public function update(User $user , UpdateAttendeeRequest $request){
-        $user->update($request->only('name' , 'profile_img'));
+    public function update(UpdateAttendeeRequest $request){
+        $user = Auth::user();
+        if($request->only('profile_img')){
+            $path = $this->update_profile_img($request);
+            $user->update(['profile_img' => $path]);
+        }
+        $user->update($request->only('name'));
         Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
+
+        return response()->json([
+
+            'message' => 'User Updated Successfully'
+        ] , 200);
+    }
+
+    private function update_profile_img($request){
+        Storage::delete(Auth::user()->profile_img);
+        return $request->file('profile_img')->store('public/attendees_profile_images');
+    }
+
+    public function show(){
+        $user = Auth::user();
+        return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
+        Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+    }
+
+    public function attend(Session $session , AttendSessionphpRequest $request){
+        dd(["session" => $session , "Request" => $request->all()]);
+
     }
     
 }

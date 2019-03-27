@@ -30,7 +30,7 @@ class StoreAttendeeRequest extends FormRequest
             "password" => "required|string|min:8|max:255|confirmed",
             "password_confirmation" => "required|string|min:8|max:255",
             "birth_date" => "required|date_format:Y-m-d|before:2018-01-1|string",
-            "profile_img" => "required|string",
+            "profile_img" => "required|image|mimes:jpg,jpeg",
         ];
     }
 }
