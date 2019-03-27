@@ -15,15 +15,11 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Gym Name</label>
-            <input name="title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Name">
+            <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Name">
         </div>
         <div class="form-group">
-            <label for="exampleInputPassword1">Gym Manager Name</label>
-            <input name="title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Manager">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">City</label>
-            <select class="form-control" name="user_id">
+            <label for="exampleInputPassword1">City Name</label>
+            <select class="form-control" name="city_id">
                 @foreach($cities as $city)
                     <option value="{{$city->id}}">{{$city->name}}</option>
                 @endforeach
@@ -31,9 +27,12 @@
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Image</label>
-            <button type="submit" class="btn btn-light">Upload Image</button>
+            <button type="button" class="btn btn-light">Upload Image</button>
         </div>
-
+        <div class="form-group">
+            <label for="exampleInputPassword1">Created By</label>
+            <input name="created_by" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Creator">
+        </div>
     <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

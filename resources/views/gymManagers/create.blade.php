@@ -15,11 +15,19 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">Gym Manager Name</label>
-            <select class="form-control" name="user_id">
-                @foreach($gymManagers as $gymManager)
-                    <option value="{{$gymManager->id}}">{{$gymManager->user->name}}</option>
-                @endforeach
-            </select>
+            <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Manager Name">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Gym Manager Email</label>
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Manager Email">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Gym Manager Password</label>
+            <input name="password" type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Manager Password">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Gym Manager SID</label>
+            <input name="sid" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Manager National ID">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Gym Name</label>

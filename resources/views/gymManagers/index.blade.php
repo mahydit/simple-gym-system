@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<a href="{{route('cityManagers.create')}}" class="btn btn-success">Add New Gym Manager</a>
+<a href="{{route('gymManagers.create')}}" class="btn btn-success">Add New Gym Manager</a>
 <table class="table table-striped">
   <thead>
     <tr>

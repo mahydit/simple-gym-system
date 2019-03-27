@@ -24,7 +24,11 @@ class StoreGymManagerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+            'SID' => 'required',
+            'gym_id' => 'required|exists:gyms,id',
         ];
     }
 }

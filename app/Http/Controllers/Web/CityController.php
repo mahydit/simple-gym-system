@@ -18,6 +18,7 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        // dd(City::all());
         return view('cities.index',[
             'cities' => City::all(),
         ]);
@@ -43,7 +44,6 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCityRequest $request){
-        dd(City::create($request->all()));
         City::create($request->all());
         return redirect()->route('cities.index');
     }

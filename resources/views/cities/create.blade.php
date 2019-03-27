@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Country</label>
-            <select class="form-control" name="country">
+            <select class="form-control" name="country_id">
                 @foreach($countries as $country)
                     <option value="{{$country->id}}">{{$country->name}}</option>
                 @endforeach

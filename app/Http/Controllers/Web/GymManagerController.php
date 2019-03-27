@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\GymManager;
 use App\Gym;
 use App\City;
+use App\Http\Requests\GymManager\StoreGymManagerRequest;
 
 class GymManagerController extends Controller
 {
@@ -43,9 +44,10 @@ class GymManagerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGymManagerRequest $request)
     {
-        //
+        GymManager::create($request->all());
+        return redirect()->route('gymManagers.index');
     }
 
     /**
