@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\City;
 use App\Gym;
 use App\Http\Requests\Gym\StoreGymRequest;
+use App\Http\Requests\Gym\UpdateGymRequest;
 
 class GymController extends Controller
 {

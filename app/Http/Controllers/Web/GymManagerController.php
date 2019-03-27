@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\GymManager;
 use App\Gym;
 use App\City;
+use App\User;
 use App\Http\Requests\GymManager\StoreGymManagerRequest;
+use App\Http\Requests\GymManager\UpdateGymManagerRequest;
 
 class GymManagerController extends Controller
 {
@@ -73,6 +75,8 @@ class GymManagerController extends Controller
     {
         return view('gymManagers.edit',[
             'gymManager' => $gymManager,
+            'gyms' => Gym::all(),
+            'user' => User::all(),
         ]);
     }
 
