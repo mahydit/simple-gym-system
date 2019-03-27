@@ -45,10 +45,9 @@ class UsersController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
-            dd(Auth::user());
+            $this->guard()->user()->update(["last_log_in" => Carbon::now()->toDateTimeString()]);
             return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
-        }
-
+        }        
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
