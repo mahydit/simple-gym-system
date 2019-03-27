@@ -60,7 +60,7 @@
         $('#packages-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'http://localhost:8000/admin/packages/datatables',
+            ajax: 'http://localhost:8000/packages/datatables',
             columns: [
                 {data: 'id'},
                 {data: 'name'},

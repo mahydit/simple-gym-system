@@ -22,7 +22,7 @@ class CoachController extends Controller
     
     public function get_data_table()
     {
-        return datatables()->eloquent(Coach::query())->toJson();
+        return datatables()->eloquent(Package::query())->toJson();
     }
 
     public function create()
