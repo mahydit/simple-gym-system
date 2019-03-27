@@ -119,6 +119,8 @@
                 </ul>
             </li>
             
+            <li><a href="{{route('purchases.index')}}"><i class="fa fa-link"></i> <span>Purchases History</span></a></li>
+
             <li><a href="{{route('revenues.index')}}"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
 
             <li><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
