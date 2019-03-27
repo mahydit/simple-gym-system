@@ -133,6 +133,11 @@ class UsersController extends Controller
         }
         $user->update($request->only('name'));
         Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
+
+        return response()->json([
+
+            'message' => 'User Updated Successfully'
+        ] , 200);
     }
 
     private function update_profile_img($request){
