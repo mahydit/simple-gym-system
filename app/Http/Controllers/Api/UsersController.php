@@ -151,7 +151,7 @@ class UsersController extends Controller
         Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
 
-    public function attend(Session $session , AttendSessionRequest $request){
+    public function attend(Session $session , AttendSessionphpRequest $request){
         dd(["session" => $session , "Request" => $request->all()]);
 
     }
