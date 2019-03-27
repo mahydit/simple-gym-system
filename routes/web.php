@@ -32,8 +32,25 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('sessions.edit');
     Route::put('/sessions/{session}', 'Web\SessionController@update')
     ->name('sessions.update');
-    Route::delete('/sessions/{session}', 'Web\SessionController@destroy')->name('sessions.destroy');
-    Route::get('get-session-my-datatables', ['as'=>'get.session','uses'=>'Web\SessionController@getSession']);
+    Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
+    ->name('sessions.destroy');
+    Route::get('get-session-my-datatables', [
+        'as'=>'get.session',
+        'uses'=>'Web\SessionController@getSession'
+    ]);
+
+    Route::get('/revenues', 'Web\RevenueController@index')
+    ->name('revenues.index');
+
+    Route::get('/purchases', 'Web\PurchaseController@index')
+    ->name('purchases.index');
+    Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
+    ->name('purchases.show');
+    Route::get('get-purchase-my-datatables', [
+        'as'=>'get.purchase',
+        'uses'=>'Web\PurchaseController@getPurchase'
+    ]);
+    
 });
 
 Auth::routes(['verify' => true]);

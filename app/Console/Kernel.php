@@ -25,7 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')
-        //          ->hourly();
+        //          ->everyMinute();
+        $schedule->command('notify:users-not-logged-in-for-month')
+                    ->daily();
     }
 
     /**

@@ -22,6 +22,7 @@ use Carbon\Carbon;
 use App\Http\Resources\AttendanceHistoryResource;
 
 
+
 class UsersController extends Controller
 {
     /**
@@ -45,9 +46,9 @@ class UsersController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
+            $this->guard()->user()->update(["last_log_in" => Carbon::now()->toDateTimeString()]);
             return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
-        }
-
+        }        
         return response()->json(['error' => 'Unauthorized'], 401);
     }
 
@@ -170,9 +171,7 @@ class UsersController extends Controller
     }
 
     public function history(){
-
-        
-        return new AttendanceHistoryResource(Auth::user()->sessionAttendance);
+        return AttendanceHistoryResource::collection(Auth::user()->sessionAttendance);
     }
     
 }

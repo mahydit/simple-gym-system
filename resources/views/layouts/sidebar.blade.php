@@ -118,19 +118,12 @@
                     <li><a href="{{route('sessions.index')}}">View All</a></li>
                 </ul>
             </li>
+            
+            <li><a href="{{route('purchases.index')}}"><i class="fa fa-link"></i> <span>Purchases History</span></a></li>
 
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Revenue</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">View All</a></li>
-                </ul>
-            </li>
+            <li><a href="{{route('revenues.index')}}"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
 
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
+            <li><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
 
         </ul>
         <!-- /.sidebar-menu -->
