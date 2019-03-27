@@ -2,25 +2,28 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\WeMissYou;
 use App\User;
+use Carbon\Carbon;
 
-class createAdmin extends Command
+
+class NotifyUser extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'create:admin {--email=} {--password=}';
+    protected $signature = 'notify:users-not-logged-in-for-month';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create an admin';
+    protected $description = "notify users that didn't log in for a month";
 
     /**
      * Create a new command instance.
@@ -39,13 +42,7 @@ class createAdmin extends Command
      */
     public function handle()
     {
-        User::insert(
-            ['name' => "admin",
-            'profile_img' => "default",
-            'role_id' => "1",
-            'role_type' => "admin",
-            'email' => $this->option('email'),
-            'password'=>Hash::make($this->option('password'))]
-        );
+        $users = User::whereDate('last_log_in' ,'<' ,Carbon::now()->subDays(30)->toDateTimeString())->get();
+        Notification::send($users , new WeMissYou);
     }
 }

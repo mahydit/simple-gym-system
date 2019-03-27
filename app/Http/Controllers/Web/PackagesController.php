@@ -27,10 +27,7 @@ class PackagesController extends Controller
     }
     public function store(StorePackageRequest $request)
     {
-        Package::insert(['name'=>$request->name,
-            'price'=>($request->price)*100,
-            'no_sessions'=>$request->no_sessions,
-        ]);
+        Package::create($request->all());
 
         return redirect()->route('packages.index');
     }

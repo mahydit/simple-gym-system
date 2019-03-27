@@ -3,14 +3,12 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Session;
 
 class AttendanceHistoryResource extends JsonResource
 {
 
-    private $user_attendance;
-    public function __construct($user_attendance){
-        $this->user_attendance = $user_attendance;
-    }
+
     /**
      * Transform the resource into an array.
      *
@@ -19,7 +17,12 @@ class AttendanceHistoryResource extends JsonResource
      */
     public function toArray($request)
     {
-        dd($this->user_attendance);
-        return parent::toArray($request);
+        $session = Session::find($this->session_id); 
+        return [
+            "session_name" => $session->name,
+            "gym_name" => $session->gym->name,
+            "attendance_date" => $this->attendance_date,
+            "attendance_time" => $this->attendance_time,
+        ];
     }
 }
