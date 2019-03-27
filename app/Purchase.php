@@ -30,7 +30,13 @@ class Purchase extends Model
 
    public function user(){
 
-    return $this->belongsTo('App\User','client_id');
+        return $this->belongsTo('App\User','client_id');
+
+   }
+
+   public function priceInDollar(){
+
+        return ($this->price/100);
    }
 
 }
