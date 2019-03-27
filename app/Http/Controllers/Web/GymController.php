@@ -59,7 +59,7 @@ class GymController extends Controller
     {
         return view('gyms.show',[
             'gym' => $gym,
-            'city'=>City::all(),
+            'city'=> City::all(),
         ]);
     }
 
