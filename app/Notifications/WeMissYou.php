@@ -44,7 +44,7 @@ class WeMissYou extends Notification
                     ->subject('Our Gym Misses You')
                     ->greeting('Hello,')
                     ->line("Just Wanted to check up on you we haven't seend you in over a month now")
-                    ->line('Hope you are well!')
+                    ->line('Hope you are well')
                     ->salutation('Best Regards , Shaf3y :D');
     }
 

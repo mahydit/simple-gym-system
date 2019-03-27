@@ -5,6 +5,9 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\WeMissYou;
+use App\User;
+use Carbon\Carbon;
+
 
 class NotifyUser extends Command
 {
@@ -39,6 +42,7 @@ class NotifyUser extends Command
      */
     public function handle()
     {
+        $users = User::whereDate('last_log_in' ,'<' ,Carbon::now()->subDays(30)->toDateTimeString())->get();
         Notification::send($users , new WeMissYou);
     }
 }
