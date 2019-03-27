@@ -49,7 +49,6 @@ class CoachController extends Controller
     public function edit(Coach $coach)
     {
         $gyms = Gym::all();
-        // dd(Coach::find(4)->gym);
         return view('coaches.edit', [
             'coach' => $coach,
             'gyms' => $gyms,

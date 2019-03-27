@@ -33,4 +33,12 @@ class PackagesController extends Controller
 
         return redirect()->route('packages.index');
     }
+
+
+    public function show(Package $package)
+    {
+        return view('packages.show', [
+            'package' =>$package,
+        ]);
+    }
 }
