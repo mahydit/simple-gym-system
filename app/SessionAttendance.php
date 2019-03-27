@@ -13,6 +13,6 @@ class SessionAttendance extends Model
         'attendance_date'
     ];
     
-    protected $table = 'coaches';
+    protected $table = 'sessions_attendance';
     public $timestamps = false;
 }

@@ -15,8 +15,6 @@ class Gym extends Model
         'created_by'
     ];
     protected $table = 'gyms';
-    protected $dateFormat = 'U';
-
 
     public function gymManagers(){
 

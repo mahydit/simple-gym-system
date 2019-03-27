@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class GymManager extends Model
 {
     protected $fillable = [
-        'gym_manager_id',
-        'gym_id'
+        'gym_id',
+        'SID'
     ];
     protected $table = 'gym_managers';
     public $timestamps = false;
