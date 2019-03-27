@@ -167,5 +167,10 @@ class UsersController extends Controller
             'message' => 'Session Attended'
         ] , 201);
     }
+
+    public function history(){
+
+        
+    }
     
 }
