@@ -132,10 +132,6 @@ class SessionController extends Controller
 
     public function getSession()
     {
-     
-        // $session = Session::with(['gym','coaches']);
-
-        // return DataTables::of($session)->with('gym','coaches')->toJson();
         $gym_id = Auth::User()->role->gym_id;
         $session = Session::with(['gym', 'coaches'])->get();
         $sessionFilter = $session->filter(function ($session) use ($gym_id) {
@@ -147,12 +143,10 @@ class SessionController extends Controller
         })
         ->editColumn('ends_at', function ($sessionFilter) 
         {
-            //change over here
             return date("h:i a", strtotime($sessionFilter->ends_at));
         })
         ->editColumn('session_date', function ($sessionFilter) 
         {
-            //change over here
             return date("d-M-Y", strtotime($sessionFilter->session_date));
         })->toJson();
     }
