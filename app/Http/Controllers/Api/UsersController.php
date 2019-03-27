@@ -145,13 +145,14 @@ class UsersController extends Controller
         return $request->file('profile_img')->store('public/attendees_profile_images');
     }
 
-    public function show(User $user){
+    public function show(){
+        $user = Auth::user();
         return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
-         Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+        Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
 
     public function attend(Session $session , AttendSessionRequest $request){
-        dd($session);
+        dd(["session" => $session , "Request" => $request->all()]);
 
     }
     

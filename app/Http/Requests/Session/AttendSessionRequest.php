@@ -24,7 +24,7 @@ class AttendSessionRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "session_date" => "date_format:Y-m-d|before:todat|after:today"
         ];
     }
 }
