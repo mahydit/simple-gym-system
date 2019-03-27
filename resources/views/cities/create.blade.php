@@ -15,11 +15,11 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">City Name</label>
-            <input name="title" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Title">
+            <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City Name">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">City Manager Name</label>
-            <select class="form-control" name="user_id">
+            <select class="form-control" name="city_manager_id">
                 @foreach($cities as $city)
                     <option value="{{$city->id}}">{{$city->cityManager->user->name}}</option>
                 @endforeach
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Country</label>
-            <select class="form-control" name="user_id">
+            <select class="form-control" name="country_id">
                 @foreach($countries as $country)
                     <option value="{{$country->id}}">{{$country->name}}</option>
                 @endforeach
@@ -37,4 +37,8 @@
     <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
+@endsection
+@section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 @endsection

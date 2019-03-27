@@ -22,8 +22,8 @@
       @foreach($cities as $city)
         <td>{{$city->name}}</td>
       @endforeach
-      <td>{{date('Y-m-d H:m:s', strtotime($gym->created_at))}}</td>
-      <td>{{date('Y-m-d H:m:s', strtotime($gym->updated_at))}}</td>
+      <td>{{date('d-m-Y H:m:s', strtotime($gym->created_at))}}</td>
+      <td>{{date('d-m-Y H:m:s', strtotime($gym->updated_at))}}</td>
       <td>{{$gym->created_by}}</td>
       <td>{{$gym->image}}</td>
 
@@ -41,4 +41,8 @@
 
   </tbody>
 </table>
+@endsection
+@section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 @endsection
