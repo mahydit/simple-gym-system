@@ -171,4 +171,3 @@
 </script>
 @endsection
 
-<!-- jQuery 3 -->
