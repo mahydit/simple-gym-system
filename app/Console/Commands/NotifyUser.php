@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\WeMissYou;
 
 class NotifyUser extends Command
 {
@@ -37,6 +39,6 @@ class NotifyUser extends Command
      */
     public function handle()
     {
-        
+        Notification::send($users , new WeMissYou);
     }
 }

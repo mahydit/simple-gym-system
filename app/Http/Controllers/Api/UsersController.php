@@ -45,6 +45,7 @@ class UsersController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
+            dd(Auth::user());
             return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
         }
 
@@ -170,8 +171,6 @@ class UsersController extends Controller
     }
 
     public function history(){
-
-        
         return AttendanceHistoryResource::collection(Auth::user()->sessionAttendance);
     }
     
