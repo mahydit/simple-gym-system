@@ -51,6 +51,14 @@ Route::group(['middleware' => 'auth'], function () {
         'uses'=>'Web\PurchaseController@getPurchase'
     ]);
     
+    Route::get('/attendances', 'Web\AttendanceController@index')
+    ->name('attendances.index');
+    Route::get('/attendances/{attendance}', 'Web\AttendanceController@show')
+    ->name('attendances.show');
+    Route::get('get-attendance-my-datatables', [
+        'as'=>'get.attendance',
+        'uses'=>'Web\AttendanceController@getAttendance'
+    ]);
 });
 
 Auth::routes(['verify' => true]);
