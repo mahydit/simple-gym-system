@@ -33,6 +33,7 @@ Route::group([
     Route::put('/update' , 'Api\UsersController@update');
     Route::get('/show' , 'Api\UsersController@show');
     Route::post('/sessions/{session}/attend' , 'Api\UsersController@attend');
+    Route::get('/sessions/history' , 'Api\UsersController@history');
 
     
 });
