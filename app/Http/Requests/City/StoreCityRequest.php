@@ -24,9 +24,9 @@ class StoreCityRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'min:2',
-            'city_manager_id' => 'min:3|exists:city_managers,id',
-            'country' => 'exists:countries,id'
+            'name' => 'required|min:2',
+            'city_manager_id' => 'required|min:3|exists:city_managers,id',
+            'country' => 'required|exists:countries,id'
         ];
     }
 }
