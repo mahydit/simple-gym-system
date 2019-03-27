@@ -7,6 +7,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class OverlappingEndTime implements Rule
 {
+    private $date;
+    
     /**
      * Create a new rule instance.
      *
