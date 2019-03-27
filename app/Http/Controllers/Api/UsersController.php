@@ -125,9 +125,17 @@ class UsersController extends Controller
         ] , 201);
     }
 
-    public function update(User $user , UpdateAttendeeRequest $request){
-        $user->update($request->only('name' , 'profile_img'));
-        Attendee::findOrFail($user->role_id)->update($request->only('gender' , 'birth_date'));
+    public function update(UpdateAttendeeRequest $request){
+        if($request->only('profile_img')){
+            $path = $this->update_profile_img($request);
+        }
+        Auth::user()->update($request->only('name') + ['profile_img' => $path]);
+        Attendee::findOrFail(Auth::user()->role_id)->update($request->only('gender' , 'birth_date'));
+    }
+
+    private function update_profile_img($request){
+        Storage::delete(Auth::user()->profile_img);
+        return $request->file('profile_img')->store('public/attendees_profile_images');
     }
 
     public function show(User $user){
