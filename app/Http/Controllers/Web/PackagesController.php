@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Package;
 use App\Http\Requests\Package\StorePackageRequest;
+use App\Http\Requests\Package\EditPackageRequest;
 
 class PackagesController extends Controller
 {
@@ -40,5 +41,19 @@ class PackagesController extends Controller
         return view('packages.show', [
             'package' =>$package,
         ]);
+    }
+
+
+    public function edit(Package $package)
+    {
+        return view('packages.edit', [
+            'package' => $package,
+        ]);
+    }
+
+    public function update(Package $package, EditPackageRequest $request)
+    {
+        package::find($package['id'])->update($request->all());
+        return redirect()->route('packages.index');
     }
 }
