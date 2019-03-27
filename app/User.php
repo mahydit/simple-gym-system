@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject , MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
 
@@ -74,15 +74,18 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
         return [];
     }
 
-    public function sessionAttendance(){
-
-        return $this->hasMany('App\SessionAttendance' , 'attendee_id');
-
+    public function sessionAttendance()
+    {
+        return $this->hasMany('App\SessionAttendance', 'attendee_id');
     }
 
-    public function purchases(){
+    public function purchases()
+    {
+        return $this->hasMany('App\Purchase', 'client_id');
+    }
 
-        return $this->hasMany('App\Purchase','client_id');
-        
+    public function attendacne()
+    {
+        return $this->hasMany('App\SessionAttendance', 'attendee_id');
     }
 }
