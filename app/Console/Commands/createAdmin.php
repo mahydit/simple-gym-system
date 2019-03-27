@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Console\Command;
 use App\User;
 
@@ -44,7 +45,7 @@ class createAdmin extends Command
             'role_id' => "1",
             'role_type' => "admin",
             'email' => $this->option('email'),
-            'password'=>$this->option('password')]
+            'password'=>Hash::make($this->option('password'))]
         );
     }
 }

@@ -43,26 +43,24 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('admin', function () {
     return view('admin');
 });
-
-Route::get('admin/coaches', 'Web\CoachController@index')->name('coaches.index');
-Route::get('admin/coaches/create', 'Web\CoachController@create')->name('coaches.create');
-Route::post('admin/coaches', 'Web\CoachController@store')->name('coaches.store');
-Route::get('admin/coaches/{coach}/show', 'Web\CoachController@show')->name('coaches.show');
-Route::get('admin/coaches/{coach}/edit', 'Web\CoachController@edit')->name('coaches.edit');
-Route::put('admin/coaches/{coach}', 'Web\CoachController@update')->name('coaches.update');
-Route::delete('admin/coaches/{coach}', 'Web\CoachController@destroy')->name('coaches.destroy');
-
-Route::get('admin/coaches/datatables', 'Web\CoachController@get_data_table');
-
-
-Route::get('admin/packages', 'Web\PackagesController@index')->name('packages.index');
-Route::get('admin/packages/create', 'Web\PackagesController@create')->name('packages.create');
-Route::post('admin/packages', 'Web\PackagesController@store')->name('packages.store');
-Route::get('admin/packages/{package}/show', 'Web\PackagesController@show')->name('packages.show');
-Route::get('admin/packages/{package}/edit', 'Web\PackagesController@edit')->name('packages.edit');
-Route::put('admin/packages/{package}', 'Web\PackagesController@update')->name('packages.update');
-Route::delete('admin/packages/{package}', 'Web\PackagesController@destroy')->name('packages.destroy');
-Route::get('admin/packages/datatables', 'Web\PackagesController@get_data_table');
+//coaches//
+Route::get('/coaches', 'Web\CoachController@index')->name('coaches.index');
+Route::get('/coaches/create', 'Web\CoachController@create')->name('coaches.create');
+Route::post('/coaches', 'Web\CoachController@store')->name('coaches.store');
+Route::get('/coaches/{coach}', 'Web\CoachController@show')->name('coaches.show');
+Route::get('/coaches/{coach}/edit', 'Web\CoachController@edit')->name('coaches.edit');
+Route::put('/coaches/{coach}', 'Web\CoachController@update')->name('coaches.update');
+Route::delete('/coaches/{coach}', 'Web\CoachController@destroy')->name('coaches.destroy');
+Route::get('/coaches/datatables', 'Web\CoachController@get_data_table');
+//packages//
+Route::get('/packages', 'Web\PackagesController@index')->name('packages.index');
+Route::get('/packages/create', 'Web\PackagesController@create')->name('packages.create');
+Route::post('/packages', 'Web\PackagesController@store')->name('packages.store');
+Route::get('/packages/{package}/show', 'Web\PackagesController@show')->name('packages.show');
+Route::get('/packages/{package}/edit', 'Web\PackagesController@edit')->name('packages.edit');
+Route::put('/packages/{package}', 'Web\PackagesController@update')->name('packages.update');
+Route::delete('/packages/{package}', 'Web\PackagesController@destroy')->name('packages.destroy');
+Route::get('/packages/datatables', 'Web\PackagesController@get_data_table');
 ///// CITIES //////
 Route::get('/cities', 'Web\CityController@index')   ->name('cities.index');
 Route::get('/cities/create', 'Web\CityController@create')  ->name('cities.create');

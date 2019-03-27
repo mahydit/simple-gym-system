@@ -64,6 +64,7 @@
 @endsection
 
 @section('plugins')
+
 <script src="//code.jquery.com/jquery.js"></script>
 <script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 @endsection
@@ -82,8 +83,7 @@
             "bLengthChange": true,
             'autoWidth': true,
 
-            ajax: '{!! route('
-            get.session ') !!}',
+            ajax: '{!! route('get.session') !!}',
             columns: [{
                     data: 'id',
                     name: 'id'
@@ -170,3 +170,5 @@
 
 </script>
 @endsection
+
+<!-- jQuery 3 -->

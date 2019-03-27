@@ -122,16 +122,16 @@
 @endsection
 
 @section('plugins')
- <!-- jQuery 3 -->
- <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
-<!-- bootstrap time picker -->
-<script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
-<!-- bootstrap datepicker -->
-<script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
-<!-- Select2 -->
-<script src="../../bower_components/select2/dist/js/select2.full.min.js"></script>
-@endsection
-
+<!-- jQuery 3 -->
+<script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
+ <!-- bootstrap time picker -->
+ <script src="{{ asset('plugins/timepicker/bootstrap-timepicker.min.js')}}"></script>
+ <!-- bootstrap datepicker -->
+ <script src="{{ asset('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>
+ <!-- Select2 -->
+ <script src="{{ asset('bower_components/select2/dist/js/select2.full.min.js')}}"></script>
+ @endsection
+ 
 @section('script')
 <script>
     $(function () {

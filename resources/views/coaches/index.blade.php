@@ -12,7 +12,7 @@
 
 @section('content')
 
-<table id="users-table" class="table">
+<table id="coaches-table" class="table">
     <thead>
         <tr>
             <td>ID</td>
@@ -51,21 +51,21 @@
     })
 
 </script>
+
 <script src="https://datatables.yajrabox.com/js/jquery.min.js"></script>
 <script src="https://datatables.yajrabox.com/js/bootstrap.min.js"></script>
 <script src="https://datatables.yajrabox.com/js/jquery.dataTables.min.js"></script>
 <script src="https://datatables.yajrabox.com/js/datatables.bootstrap.js"></script>
 <script>
     $(function () {
-        $('#users-table').DataTable({
+        $('#coaches-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: 'http://localhost:8000/admin/coaches/datatables',
+            ajax: 'http://localhost:8000/coaches/datatables',
             columns: [
                 {data: 'id'},
                 {data: 'name'},
-                {data: 'at_gym_id'},          
-                // {data: 'action', orderable = false, searchable = false}
+                {data: 'at_gym_id'},
             ]
         });
     })

@@ -78,12 +78,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         <!-- REQUIRED JS SCRIPTS -->
 
+        @yield('plugins')
         <!-- Bootstrap 3.3.7 -->
         <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <!-- AdminLTE App -->
         <script src="{{ asset('dist/js/adminlte.min.js')}}"></script>
         
-        @yield('plugins')
 
         @yield('script')
         <!-- Optionally, you can add Slimscroll and FastClick plugins.
