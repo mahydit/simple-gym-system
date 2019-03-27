@@ -40,3 +40,13 @@ Route::put('admin/coaches/{coach}', 'Web\CoachController@update')->name('coaches
 Route::delete('admin/coaches/{coach}', 'Web\CoachController@destroy')->name('coaches.destroy');
 
 Route::get('admin/coaches/datatables', 'Web\CoachController@get_data_table');
+
+
+Route::get('admin/packages', 'Web\PackagesController@index')->name('packages.index');
+Route::get('admin/packages/create', 'Web\PackagesController@create')->name('packages.create');
+Route::post('admin/packages', 'Web\PackagesController@store')->name('packages.store');
+Route::get('admin/packages/{package}/show', 'Web\PackagesController@show')->name('packages.show');
+Route::get('admin/packages/{package}/edit', 'Web\PackagesController@edit')->name('packages.edit');
+Route::put('admin/packages/{package}', 'Web\PackagesController@update')->name('packages.update');
+Route::delete('admin/packages/{package}', 'Web\PackagesController@destroy')->name('packages.destroy');
+Route::get('admin/packages/datatables', 'Web\PackagesController@get_data_table');
