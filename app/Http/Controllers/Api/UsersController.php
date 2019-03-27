@@ -172,7 +172,7 @@ class UsersController extends Controller
     public function history(){
 
         
-        return new AttendanceHistoryResource(Auth::user()->sessionAttendance);
+        return AttendanceHistoryResource::collection(Auth::user()->sessionAttendance);
     }
     
 }
