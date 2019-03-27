@@ -21,6 +21,6 @@ class Coach extends Model
 
     public function gym()
     {
-        return $this->belongsTo('App\Gym');
+        return $this->belongsTo('App\Gym', 'at_gym_id');
     }
 }

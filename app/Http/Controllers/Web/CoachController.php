@@ -8,13 +8,14 @@ use App\Coach;
 use App\Gym;
 
 use App\Http\Requests\Coach\StoreCoachRequest;
+use App\Http\Requests\Coach\EditCoachRequest;
 
 class CoachController extends Controller
 {
     public function index()
     {
         return view('coaches.index', [
-            'coaches' => Coach::with('gyms').all(),
+            'coaches' => Coach::all(),
         ]);
     }
 
@@ -43,5 +44,21 @@ class CoachController extends Controller
         return view('coaches.show', [
             'coach' =>$coach,
         ]);
+    }
+
+    public function edit(Coach $coach)
+    {
+        $gyms = Gym::all();
+        // dd(Coach::find(4)->gym);
+        return view('coaches.edit', [
+            'coach' => $coach,
+            'gyms' => $gyms,
+        ]);
+    }
+
+    public function update(Coach $coach, EditCoachRequest $request)
+    {
+        Coach::find($coach['id'])->update($request->all());
+        return redirect()->route('coaches.index');
     }
 }

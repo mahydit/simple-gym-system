@@ -12,14 +12,39 @@
 
 @section('content')
 
-<h1>
-ID: {{$coach['id']}}
-<br>
-Name: {{$coach['name']}}
-<br>
-at Gym: {{$coach['at_gym_id']}}
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+   <form action="{{ route('coaches.update', [$coach->id]) }}" method="POST">
+        @method('PUT')
+        @csrf
+        <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input name="name" value="{{$coach->name}}" type="text" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name">
+        </div>
 
-</h1>
+        <div class="form-group">
+           <label for="exampleInputPassword1">At Gym</label>
+           <select class="form-control" name="at_gym_id">
+                <option name="at_gym_id" value="{{$coach->at_gym_id}}">{{$coach->gym->name}}</option>
+           
+               @foreach($gyms as $gym)
+                   <option name="at_gym_id" value="{{$gym->id}}">{{$gym->name}}</option>
+               @endforeach
+           </select>
+       </div>
+
+   <button type="submit" class="btn btn-primary">Submit</button>
+   </form>
+
+
+
 
 @endsection
 
