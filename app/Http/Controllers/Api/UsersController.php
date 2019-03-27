@@ -19,6 +19,7 @@ use App\Http\Resources\RemainingSessionResource;
 use App\Http\Requests\Session\AttendSessionRequest;
 use App\SessionAttendance;
 use Carbon\Carbon;
+use App\Http\Resources\AttendanceHistoryResource;
 
 
 class UsersController extends Controller
@@ -171,6 +172,7 @@ class UsersController extends Controller
     public function history(){
 
         
+        return new AttendanceHistoryResource(Auth::user()->sessionAttendance);
     }
     
 }
