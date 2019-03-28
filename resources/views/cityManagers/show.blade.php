@@ -4,23 +4,23 @@
  <!-- ./col -->
  <div class="box">
     <div class="box-header with-border">
-              <h3 class="box-title">{{$session->name}}</h3>
+              <h3 class="box-title">{{$citymanager->name}}</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <dl class="dl-horizontal">
-                <dt>Session date</dt>
-                <dd>{{date(' \o\n l jS F Y ', strtotime($session->session_date))}}</dd>
-                <dt>Session starts at</dt>
-                <dd>{{date('g:ia', strtotime($session->starts_at))}}</dd>
-                <dt>Session ends at</dt>
-                <dd>{{date('g:ia', strtotime($session->ends_at))}}</dd>
-                <dt>Gym</dt>
-                <dd>{{$gym->name}}</dd>
-                <dt>Coaches</dt>
-                @foreach($coaches as $coach)
-                <dd>{{$coach->name}}</dd>
-                @endforeach
+                <dt>ID</dt>
+                <dd>{{$citymanager->id}}</dd>
+                <dt>SID</dt>
+                <dd>{{$citymanager->SID}}</dd>
+                <dt>Name</dt>
+                <dd>{{$citymanager->user->name}}</dd>
+                <dt>Email</dt>
+                <dd>{{$citymanager->user->email}}</dd>
+                <dt>Password</dt>
+                <dd>{{$citymanager->user->password}}</dd>
+                <dt>Avatar Image</dt>
+                <dd><img src="{{Storage::url($citymanager->user->profile_img)}}"></dd>
               </dl>
             </div>
             <!-- /.box-body -->

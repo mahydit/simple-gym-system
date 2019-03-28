@@ -54,10 +54,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CityManager $city_manager)
+    public function show(CityManager $citymanager)
     {
         return view('cityManagers.show',[
-            'cityManager' => $city_manager
+            'citymanager' => $citymanager,
         ]);
     }
 
