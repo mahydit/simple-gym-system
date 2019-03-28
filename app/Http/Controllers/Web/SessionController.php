@@ -54,6 +54,7 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
+        $request['gym_id'] = Auth::User()->role->gym_id;
     
         $session = Session::create($request->all());
         $session->coaches()->attach($request->coach_id);
@@ -107,6 +108,7 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
+        $request['gym_id'] = Auth::User()->role->gym_id;
 
         Session::findOrFail($session)->update($request->all());
 
