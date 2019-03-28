@@ -19,8 +19,6 @@ class CityController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        // dd(City::find(1)->cityManager->user->name);
-        // dd(City::all());
         return view('cities.index',[
             'cities' => City::all(),
         ]);
