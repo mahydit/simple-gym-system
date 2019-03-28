@@ -34,9 +34,10 @@ class Purchase extends Model
 
    }
 
+    // TODO: remove this and remove every usage.
    public function priceInDollar(){
 
         return ($this->price/100);
-   }
+   } 
 
 }
