@@ -7,6 +7,8 @@ use App\Purchase;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Package;
+use Illuminate\Http\Request;
+use Stripe\Stripe;
 
 class PurchaseController extends Controller
 {
@@ -40,9 +42,23 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PurchaseStoreRequest $request)
+    public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $request['gym_id'] = Auth::User()->role->gym_id;
+        $package = Package::findorFail($request->package_id);
+        // $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
+        $this->acceptPayment($request, $package);
+        $payment = [
+            "_token" => $request->_token,
+            "user_id" => $request->user_id,
+            'package_name' => $request->package_name,
+            'package_price' => $package->price,
+            'gym_id' => $request->gym_id,
+            // 'purchase_date' => Carbon\Carbon::now(),
+        ];
+        Purchase::create($payment);
+        // return back()->with('success', 'Purchase created successfully!');
     }
     
     /**
@@ -58,6 +74,31 @@ class PurchaseController extends Controller
             'attendee' => $purchase->user,
             'gym' => $purchase->gym,
         ]);
+    }
+
+    private function acceptPayment($request, $package)
+    {
+        $stripe = Stripe::make(env('STRIPE_SECRET'));
+        try {
+            $token = $stripe->tokens()->create([
+                'card' => [
+                    'number' => $request->card_no,
+                    'exp_month' => $request->expiry_month,
+                    'exp_year' => $request->expiry_year,
+                    'cvc' => $request->cvv,
+                ],
+            ]);
+            if (!isset($token['id'])) {
+                return Redirect::to('strips')->with('Token is not generate correct');
+            }
+            $charge = $stripe->charges()->create([
+                'card' => $token['id'],
+                'currency' => 'USD',
+                'amount' => $package->price,
+            ]);
+        } catch (\Exception $ex) {
+            return $ex->getMessage();
+        }
     }
 
     

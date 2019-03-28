@@ -11,7 +11,6 @@ class Purchase extends Model
         'gym_id', 
         'name', 
         'price',
-        'purchase_date'
     ];
     
     protected $table = 'purchase_history';
