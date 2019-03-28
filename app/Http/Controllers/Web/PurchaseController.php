@@ -47,11 +47,10 @@ class PurchaseController extends Controller
      */
     public function store(PurchaseStoreRequest $request)
     {
-        // dd($request);
         $request['gym_id'] = Auth::User()->role->gym_id;
         $package = Package::findorFail($request->package_id);
 
-        // $this->acceptPayment($request, $package);
+        $this->acceptPayment($request, $package);
 
         $payment = [
             'client_id' => $request->user_id,
