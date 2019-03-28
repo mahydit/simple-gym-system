@@ -61,7 +61,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('coaches.update');
     Route::delete('/coaches/{coach}', 'Web\CoachController@destroy')
             ->name('coaches.destroy');
-    Route::get('/coaches/datatables', 'Web\CoachController@get_data_table');
+    // Route::get('/coaches/datatables', 'Web\CoachController@get_data_table');
+    Route::get('get-coach-my-datatables', ['as'=>'get.coach','uses'=>'Web\CoachController@getCoach']);
 });
 //packages//
 Route::group(['middleware' => 'auth'], function () {

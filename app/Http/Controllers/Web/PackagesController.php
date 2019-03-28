@@ -7,11 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Package;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\EditPackageRequest;
+use App\User;
 
 class PackagesController extends Controller
 {
     public function index()
     {
+        // auth()->user()->givePermissionTo('create gym');
+        // dd(auth()->user()->getPermissionNames());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);

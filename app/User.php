@@ -6,10 +6,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements JWTSubject , MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
+
 
     /**
      * The attributes that are mass assignable.
@@ -74,9 +76,8 @@ class User extends Authenticatable implements JWTSubject , MustVerifyEmail
         return [];
     }
 
-    public function sessionAttendance(){
-
-        return $this->hasMany('App\SessionAttendance' , 'attendee_id');
-
+    public function sessionAttendance()
+    {
+        return $this->hasMany('App\SessionAttendance', 'attendee_id');
     }
 }
