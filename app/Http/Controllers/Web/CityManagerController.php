@@ -18,7 +18,7 @@ class CityManagerController extends Controller
     {
         // dd(CityManager::with('user')->get());
         return view('cityManagers.index',[
-            'cityManagers' => CityManager::with('user')->get(),
+            'cityManagers' => CityManager::all(),
             'cities' => City::all(),
         ]);
     }
