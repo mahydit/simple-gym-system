@@ -20,10 +20,7 @@ class CityManagerController extends Controller
      */
     public function index()
     {
-        $city_managers = CityManager::with('user')->get();
-        return view('cityManagers.index' , [
-            "image" => $city_managers[0]->user->profile_img,
-        ]);
+        return view('cityManagers.index');
     }
 
     /**
@@ -57,10 +54,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(CityManager $cityManager)
+    public function show(CityManager $city_manager)
     {
         return view('cityManagers.show',[
-            'cityManager' => $cityManager
+            'cityManager' => $city_manager
         ]);
     }
 
@@ -104,11 +101,9 @@ class CityManagerController extends Controller
 
     public function get_city_manager(){
         $city_managers = CityManager::with('user')->get();
-        $contents = Storage::get($city_managers[0]->user->profile_img);
-        // dd($contents);
         return datatables()->of($city_managers)->addColumn('profile_image' , function($city_managers){
             $url = Storage::url($city_managers->user->profile_img);
-            return '<img src="'.$url.'" border="0" width="40" class="img-rounded" align="center" />';
+            return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
         })->rawColumns(['profile_image' , 'action'])->toJson();
 
     }

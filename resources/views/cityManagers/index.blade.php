@@ -26,6 +26,9 @@
                             <th class="text-center">Password</th>
                             <th class="text-center">National ID</th>
                             <th class="text-center">Avatar Image</th>
+                            <th class="text-center">Show</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Delete</th>
                         </tr>
                     </thead>
                 </table>
@@ -106,30 +109,30 @@
 
                 },
 
-                // /* Show */
-                // {
-                //     mRender: function (data, type, row) {
-                //         return '<center><a href="/sessions/' + row.id +
-                //             '" class="table-delete btn btn-info" data-id="' + row.id +
-                //             '">Show</a></center>'
-                //     }
-                // },
-                // /* EDIT */
-                // {
-                //     mRender: function (data, type, row) {
-                //         return '<center><a href="/sessions/' + row.id +
-                //             '/edit" class="table-edit btn btn-warning" data-id="' + row.id +
-                //             '">Edit</a></center>'
-                //     }
-                // },
-                // /* DELETE */
-                // {
-                //     mRender: function (data, type, row) {
-                //         return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
-                //             row.id +
-                //             '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
-                //     }
-                // },
+                /* Show */
+                {
+                    mRender: function (data, type, row) {
+                        return '<center><a href="/cityManagers/' + row.id +
+                            '" class="table-delete btn btn-info" data-id="' + row.id +
+                            '">Show</a></center>'
+                    }
+                },
+                /* EDIT */
+                {
+                    mRender: function (data, type, row) {
+                        return '<center><a href="/cityManagers/' + row.id +
+                            '/edit" class="table-edit btn btn-warning" data-id="' + row.id +
+                            '">Edit</a></center>'
+                    }
+                },
+                /* DELETE */
+                {
+                    mRender: function (data, type, row) {
+                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
+                            row.id +
+                            '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
+                    }
+                },
 
             ],
         });
