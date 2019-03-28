@@ -44,9 +44,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/purchases', 'Web\PurchaseController@index')
     ->name('purchases.index');
-    Route::get('/purchases/create','Web\PurchaseController@create')
+    Route::get('/purchases/create', 'Web\PurchaseController@create')
     ->name('purchases.create');
-    Route::post('/purchases','Web\PurchaseController@store')
+    Route::post('/purchases', 'Web\PurchaseController@store')
     ->name('purchases.store');
     Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
     ->name('purchases.show');
@@ -69,15 +69,12 @@ Auth::routes(['verify' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('admin', function () {
-    return view('admin');
-});
 
 
 //coaches//
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () {
     Route::get('/coaches', 'Web\CoachController@index')
-            ->name('coaches.index');
+    ->name('coaches.index');
     Route::get('/coaches/create', 'Web\CoachController@create')
             ->name('coaches.create');
     Route::post('/coaches', 'Web\CoachController@store')
@@ -90,11 +87,13 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('coaches.update');
     Route::delete('/coaches/{coach}', 'Web\CoachController@destroy')
             ->name('coaches.destroy');
-    // Route::get('/coaches/datatables', 'Web\CoachController@get_data_table');
     Route::get('get-coach-my-datatables', ['as'=>'get.coach','uses'=>'Web\CoachController@getCoach']);
 });
+
+
+
 //packages//
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () {
     Route::get('/packages', 'Web\PackagesController@index')
         ->name('packages.index');
     Route::get('/packages/create', 'Web\PackagesController@create')
