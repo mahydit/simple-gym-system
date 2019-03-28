@@ -30,10 +30,7 @@ class CityManagerController extends Controller
      */
     public function create()
     {
-        return view('cityManagers.create',[
-            'cityManagers' => CityManager::all(),
-            'cities' => City::all(),
-        ]);
+        return view('cityManagers.create');
     }
 
     /**
