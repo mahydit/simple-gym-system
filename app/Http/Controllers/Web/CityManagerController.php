@@ -9,6 +9,7 @@ use App\City;
 use App\User;
 use App\Http\Requests\CityManager\StoreCityManagerRequest;
 use App\Http\Requests\CityManager\UpdateCityManagerRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CityManagerController extends Controller
 {
@@ -19,10 +20,9 @@ class CityManagerController extends Controller
      */
     public function index()
     {
-        // dd(CityManager::with('user')->get());
-        return view('cityManagers.index',[
-            'cityManagers' => CityManager::with('user')->get(),
-            'cities' => City::all(),
+        $city_managers = CityManager::with('user')->get();
+        return view('cityManagers.index' , [
+            "image" => $city_managers[0]->user->profile_img,
         ]);
     }
 
@@ -100,5 +100,16 @@ class CityManagerController extends Controller
     {
         $cityManager->delete();
         return redirect()->route('cityManagers.index');
+    }
+
+    public function get_city_manager(){
+        $city_managers = CityManager::with('user')->get();
+        $contents = Storage::get($city_managers[0]->user->profile_img);
+        // dd($contents);
+        return datatables()->of($city_managers)->addColumn('profile_image' , function($city_managers){
+            $url = Storage::url($city_managers->user->profile_img);
+            return '<img src="'.$url.'" border="0" width="40" class="img-rounded" align="center" />';
+        })->rawColumns(['profile_image' , 'action'])->toJson();
+
     }
 }

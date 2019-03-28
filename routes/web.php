@@ -112,6 +112,10 @@ Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    -
 Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
 Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
 Route::delete('/cityManagers/{citymanager}/destroy', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
+Route::get('get-city_managers-my-datatables', [
+    'as'=>'get.city_manager',
+    'uses'=>'Web\CityManagerController@get_city_manager'
+]);
 
 ///// GYM MANAGERS //////
 Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
