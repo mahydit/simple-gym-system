@@ -51,7 +51,7 @@
             <div class="modal-footer">
                 <div>
                     <div id="csrf_value" hidden>@csrf</div>
-                    {{ method_field('DELETE') }}
+                    @method('DELETE')
                     <button type="button" row_delete="" id="delete_item" class="btn btn-danger"
                         data-dismiss="modal">Yes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
