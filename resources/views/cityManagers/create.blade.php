@@ -15,7 +15,7 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">City Manager Name</label>
-            <select class="form-control" name="user_id">
+            <select class="form-control" name="city_manager_name">
                 @foreach($cityManagers as $cityManager)
                     <option value="{{$cityManager->id}}">{{$cityManager->user->name}}</option>
                 @endforeach

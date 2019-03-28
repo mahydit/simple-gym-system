@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Gym;
+namespace App\Http\Requests\CityManager;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGymManagerRequest extends FormRequest
+class UpdateCityManagerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class UpdateGymManagerRequest extends FormRequest
             'password' => 'required|min:6',
             'profile_img' => 'jpg,jpeg',
             'SID' => 'required',
-            'gym_id' => 'required|exists:gyms,id',
+            'city_id' => 'required|exists:cities,id',
         ];
     }
 }

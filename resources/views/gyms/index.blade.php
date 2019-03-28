@@ -19,9 +19,7 @@
     <tr>
       <th scope="row">{{$gym->id}}</th>
       <td>{{$gym->name}}</td>
-      @foreach($cities as $city)
-        <td>{{$city->name}}</td>
-      @endforeach
+      <td>{{$gym->cities->name}}</td>
       <td>{{date('d-m-Y H:m:s', strtotime($gym->created_at))}}</td>
       <td>{{date('d-m-Y H:m:s', strtotime($gym->updated_at))}}</td>
       <td>{{$gym->created_by}}</td>

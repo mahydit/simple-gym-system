@@ -87,9 +87,10 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGymManagerRequest $request, GymManager $gymManager)
     {
-        //
+        $request->update($request->all());
+        return redirect()->route('gymManagers.index');
     }
 
     /**
