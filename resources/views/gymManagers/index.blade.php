@@ -25,6 +25,9 @@
           @csrf
           @method('delete')
           <button class="btn btn-danger" onclick="return confirm('Are you sure?')"> Delete </button>
+          <button class="btn btn-outline-danger" onclick="return confirm('Are you sure?')"> Ban </button>
+          <button class="btn btn-secondary" onclick="return confirm('Are you sure?')"> Unban </button>
+
         </form>
       </td>
     </tr>
