@@ -8,6 +8,8 @@ use App\City;
 use App\CityManager;
 use App\Country;
 use App\User;
+use App\Http\Requests\City\StoreCityRequest;
+use App\Http\Requests\City\UpdateCityRequest;
 
 class CityController extends Controller
 {
@@ -44,8 +46,10 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCityRequest $request)
     {
+        City::create($request->all());
+        return redirect()->route('cities.index');
     }
 
     /**
@@ -69,8 +73,10 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
+        // dd($city);
         return view('cities.edit', [
             'city' => $city,
+            'cities' => City::all(),
             'countries' => Country::all()
         ]);
     }
@@ -82,9 +88,10 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCityRequest $request, City $city)
     {
-        //
+        $request->update($request->all());
+        return redirect()->route('cities.index');
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<a href="{{route('cityManagers.create')}}" class="btn btn-success">Add New Gym Manager</a>
+<a href="{{route('gymManagers.create')}}" class="btn btn-success">Add New Gym Manager</a>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -25,6 +25,9 @@
           @csrf
           @method('delete')
           <button class="btn btn-danger" onclick="return confirm('Are you sure?')"> Delete </button>
+          <button class="btn btn-outline-danger" onclick="return confirm('Are you sure?')"> Ban </button>
+          <button class="btn btn-secondary" onclick="return confirm('Are you sure?')"> Unban </button>
+
         </form>
       </td>
     </tr>
@@ -32,4 +35,8 @@
 
   </tbody>
 </table>
+@endsection
+@section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 @endsection

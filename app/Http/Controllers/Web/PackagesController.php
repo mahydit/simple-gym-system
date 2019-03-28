@@ -14,7 +14,7 @@ class PackagesController extends Controller
     public function index()
     {
         // auth()->user()->givePermissionTo('create gym');
-        // dd(auth()->user()->getPermissionNames());
+        dd(auth()->user()->getPermissionNames());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);

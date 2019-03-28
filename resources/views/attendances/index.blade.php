@@ -13,7 +13,7 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header">
-                <p class="box-title">Purchases Histroy </p>
+                <p class="box-title">Sessions Attendance</p>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -21,11 +21,11 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th class="text-center">Package Name</th>
-                            <th class="text-center">Package Price</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Time</th>
+                            <th class="text-center">Session Name</th>
                             <th class="text-center">Gym</th>
-                            <th class="text-center">Customer</th>
-                            <th class="text-center">Purchase Date</th>
+                            <th class="text-center">Attendee</th>
                             <th class="text-center"></th>
                         </tr>
                     </thead>
@@ -55,35 +55,35 @@
             "bLengthChange": true,
             'autoWidth': true,
 
-            ajax: '{!! route('get.purchase') !!}',
+            ajax: '{!! route('get.attendance') !!}',
             columns: [{
                     data: 'id',
                     name: 'id'
                 },
                 {
-                    data: 'name',
-                    name: 'name'
+                    data: 'attendance_date',
+                    name: 'attendance_date'
                 },
                 {
-                    data: 'price',
-                    name: 'price'
+                    data: 'attendance_time',
+                    name: 'attendance_time'
                 },
                 {
-                    data: 'gym.name',
-                    name: 'gym.name'
+                    data: 'session.name',
+                    name: 'session.name'
+                },
+                {
+                    data: 'gym_name',
+                    name: 'gym_name'
                 },
                 {
                     data: 'user.name',
                     name: 'user.name'
                 },
-                {
-                    data: 'purchase_date',
-                    name: 'purchase_date'
-                },
                 /* Show */
                 {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/purchases/' + row.id +
+                        return '<center><a href="/attendances/' + row.id +
                             '" class="table-delete btn btn-info" data-id="' + row.id +
                             '">Show</a></center>'
                     }

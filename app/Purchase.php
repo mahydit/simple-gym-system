@@ -28,4 +28,10 @@ class Purchase extends Model
 
     }
 
+   public function user(){
+
+        return $this->belongsTo('App\User','client_id');
+
+   }
+
 }

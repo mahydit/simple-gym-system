@@ -19,7 +19,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password' ,'profile_img', "role_id" , "role_type"
+        'name', 'email', 'password' ,'profile_img', "role_id" , "role_type" , "last_log_in"
     ];
 
     /**
@@ -77,6 +77,16 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     }
 
     public function sessionAttendance()
+    {
+        return $this->hasMany('App\SessionAttendance', 'attendee_id');
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany('App\Purchase', 'client_id');
+    }
+
+    public function attendacne()
     {
         return $this->hasMany('App\SessionAttendance', 'attendee_id');
     }

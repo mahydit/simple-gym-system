@@ -19,9 +19,9 @@
       <td>{{$city->cityManager->user->name}}</td>
       <td>{{$city->country->name}}</td>
       <td>
-        <a href="{{route('cities.show', [$city->id])}}" class="btn btn-success">View</a>
-        <a href="{{route('cities.edit', [$city->id])}}" class="btn btn-success">Edit</a>
-        <form action="{{route('cities.destroy', [$city->id])}}" method="POST">
+        <a href="{{route('cities.show', $city->city_manager_id)}}" class="btn btn-success">View</a>
+        <a href="{{route('cities.edit', $city->city_manager_id)}}" class="btn btn-success">Edit</a>
+        <form action="{{route('cities.destroy', $city->city_manager_id)}}" method="POST">
           @csrf
           @method('delete')
           <button class="btn btn-danger" onclick="return confirm('Are you sure?')"> Delete </button>
@@ -32,4 +32,8 @@
 
   </tbody>
 </table>
+@endsection
+@section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 @endsection

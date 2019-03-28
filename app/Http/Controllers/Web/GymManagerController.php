@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\GymManager;
 use App\Gym;
 use App\City;
+use App\User;
+use App\Http\Requests\GymManager\StoreGymManagerRequest;
+use App\Http\Requests\GymManager\UpdateGymManagerRequest;
 
 class GymManagerController extends Controller
 {
@@ -43,9 +46,10 @@ class GymManagerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreGymManagerRequest $request)
     {
-        //
+        GymManager::create($request->all());
+        return redirect()->route('gymManagers.index');
     }
 
     /**
@@ -71,6 +75,8 @@ class GymManagerController extends Controller
     {
         return view('gymManagers.edit',[
             'gymManager' => $gymManager,
+            'gyms' => Gym::all(),
+            'user' => User::all(),
         ]);
     }
 
@@ -81,9 +87,10 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGymManagerRequest $request, GymManager $gymManager)
     {
-        //
+        $request->update($request->all());
+        return redirect()->route('gymManagers.index');
     }
 
     /**

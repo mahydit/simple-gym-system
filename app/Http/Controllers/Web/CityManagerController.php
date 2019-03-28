@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\CityManager;
 use App\City;
+use App\User;
+use App\Http\Requests\CityManager\StoreCityManagerRequest;
+use App\Http\Requests\CityManager\UpdateCityManagerRequest;
 
 class CityManagerController extends Controller
 {
@@ -42,9 +45,10 @@ class CityManagerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreCityManagerRequest $request)
     {
-        //
+        CityManager::create($request->all());
+        return redirect()->route('cityManagers.index');
     }
 
     /**
@@ -80,9 +84,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCityManagerRequest $request, CityManager $cityManager)
     {
-        //
+        $request->update($request->all());
+        return redirect()->route('cityManagers.index');
     }
 
     /**

@@ -2,11 +2,8 @@
 
 @section('content')
  <!-- ./col -->
- <div class="content">
-          <div class="box box-solid callout callout-info">
-            <div class="box-header with-border">
-              <i class="fa fa-text-width"></i>
-
+ <div class="box">
+    <div class="box-header with-border">
               <h3 class="box-title">{{$session->name}}</h3>
             </div>
             <!-- /.box-header -->
@@ -29,7 +26,6 @@
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
-        </div>
 @endsection
 @section('plugins')
  <!-- jQuery 3 -->

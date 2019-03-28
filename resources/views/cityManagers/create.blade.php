@@ -15,7 +15,7 @@
         @csrf
         <div class="form-group">
             <label for="exampleInputEmail1">City Manager Name</label>
-            <select class="form-control" name="user_id">
+            <select class="form-control" name="city_manager_name">
                 @foreach($cityManagers as $cityManager)
                     <option value="{{$cityManager->id}}">{{$cityManager->user->name}}</option>
                 @endforeach
@@ -33,4 +33,8 @@
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 
+@endsection
+@section('plugins')
+ <!-- jQuery 3 -->
+ <script src="{{ asset('bower_components/jquery/dist/jquery.min.js')}}"></script>
 @endsection

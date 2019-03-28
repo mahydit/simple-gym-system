@@ -10,7 +10,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Dashboard</p>
+                <p>{{Auth::User()->name}}</p>
                 <!-- Status -->
                 <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
             </div>
@@ -46,7 +46,7 @@
                     <li><a href="{{route('cities.index')}}">View All</a></li>
                 </ul>
             </li>
-            
+
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>City Manager</span>
                     <span class="pull-right-container">
@@ -82,7 +82,6 @@
                     <li><a href="{{route('gymManagers.index')}}">View All</a></li>
                 </ul>
             </li>
-
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Training Packages</span>
                     <span class="pull-right-container">
@@ -102,8 +101,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('coaches.create')}}">Create</a></li>
+                    <li><a href="{{route('coaches.index')}}">View All</a></li>
                 </ul>
             </li>
 
@@ -118,19 +117,12 @@
                     <li><a href="{{route('sessions.index')}}">View All</a></li>
                 </ul>
             </li>
+            
+            <li><a href="{{route('purchases.index')}}"><i class="fa fa-link"></i> <span>Purchases History</span></a></li>
 
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Revenue</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#">View All</a></li>
-                </ul>
-            </li>
+            <li><a href="{{route('revenues.index')}}"><i class="fa fa-link"></i> <span>Revenue</span></a></li>
 
-            <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
+            <li><a href="#"><i class="fa fa-link"></i> <span>Buy Package</span></a></li>
 
         </ul>
         <!-- /.sidebar-menu -->

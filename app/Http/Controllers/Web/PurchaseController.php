@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
+use App\User;
+use App\Purchase;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Package;
 
 class PurchaseController extends Controller
 {
@@ -14,17 +17,21 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        //
+        return view('purchases.index');
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    * Show the form for creating a new resource.
+    *
+    * @return \Illuminate\Http\Response
+    */
     public function create()
     {
-        //
+        return view('purchases.create', [
+            'users' => User::where('role_type', '=', 'App\Attendee')->get(),
+            'packages' => Package::all(),
+            'gym'=> Auth::user()->role->gym,
+        ]);
     }
 
     /**
@@ -33,53 +40,39 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseStoreRequest $request)
     {
-        //
+        dd($request);
     }
-
+    
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Purchase $purchase)
     {
-        //
+        return view('purchases.show', [
+            'purchase' =>$purchase,
+            'attendee' => $purchase->user,
+            'gym' => $purchase->gym,
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    
+    
+    public function getPurchase()
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        // TODO: check logged in user
+        // if gym manager then :
+        $purchases = Purchase::where('gym_id', Auth::User()->role->gym_id)
+                    ->with(['gym', 'user'])
+                    ->get();
+    
+        return datatables()->of($purchases)->with('gym', 'user')
+            ->editColumn('purchase_date', function ($purchases) {
+                return date("F, l jS, Y", strtotime($purchases->purchase_date));
+            })->toJson();
     }
 }
