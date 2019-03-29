@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Purchase;
 use App\City;
 use App\Gym;
+use Spatie\Permission\Models\Role;
 
 
 class RevenueController extends Controller
@@ -18,15 +19,23 @@ class RevenueController extends Controller
      */
     public function index()
     {
+        $user = Auth::User();
+        if ($user->hasRole('admin'))
+        {
+            $revenue = Purchase::all()->sum('price');
+            return view('revenues.index',[
+                'revenue'=>$revenue,
+            ]);
+        }
         // TODO: Chech who is logged in.
         // If gym manager:
-
-        $gym_id = Auth::User()->role->gym_id;
-        $revenue = Purchase::where('gym_id',$gym_id)->sum('price');
-        return view('revenues.index',[
-            'revenue'=>$revenue,
-            'gym'=>Auth::User()->role->gym,
-        ]);
+        
+        // $gym_id = Auth::User()->role->gym_id;
+        // $revenue = Purchase::where('gym_id',$gym_id)->sum('price');
+        // return view('revenues.index',[
+        //     'revenue'=>$revenue,
+        //     'gym'=>Auth::User()->role->gym,
+        // ]);
 
         // TODO: Revenue of each City
         // $city_id =Auth::User()->role->city->id;
