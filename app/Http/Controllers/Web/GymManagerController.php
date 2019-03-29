@@ -12,6 +12,7 @@ use App\Http\Requests\GymManager\StoreGymManagerRequest;
 use App\Http\Requests\GymManager\UpdateGymManagerRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\Attendee\UpdateAttendeeRequest;
 
 class GymManagerController extends Controller
 {
@@ -81,12 +82,11 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(GymManager $gymManager)
+    public function edit(GymManager $gymmanager)
     {
         return view('gymManagers.edit',[
-            'gymManager' => $gymManager,
-            'gyms' => Gym::all(),
-            'user' => User::all(),
+            'gym_manager' => $gymmanager,
+            "gyms" => Gym::all(),
         ]);
     }
 
@@ -97,9 +97,13 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateGymManagerRequest $request, GymManager $gymManager)
+    public function update(UpdateAttendeeRequest $request, GymManager $gymmanager)
     {
-        $request->update($request->all());
+        if($request->only('profile_img')){
+            $path = $this->update_profile_img($request , $gymmanager);
+            $gymmanager->user->update(['profile_img' => $path]);
+        }
+        $gymmanager->user->update($request->only('name'));
         return redirect()->route('gymManagers.index');
     }
 
