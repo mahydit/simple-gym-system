@@ -34,10 +34,6 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('sessions.update');
     Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
     ->name('sessions.destroy');
-    Route::post('dynamic_dependent/fetchCoaches', 'Web\SessionController@fetchCoaches')
-    ->name('dynamicdependent.fetchCoaches');
-    Route::post('dynamic_dependent/fetchGyms', 'Web\SessionController@fetchGyms')
-    ->name('dynamicdependent.fetchGyms');
     Route::get('get-session-my-datatables', [
         'as'=>'get.session',
         'uses'=>'Web\SessionController@getSession'
@@ -68,7 +64,11 @@ Route::group(['middleware' => 'auth'], function () {
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
 
-
+    Route::post('dynamic_dependentSession/fetch', 'Web\SessionController@fetch')
+    ->name('dynamicdependentSession.fetch');
+    Route::post('dynamic_dependentPurchase/fetch', 'Web\PurchaseController@fetchPurchaseGyms')
+    ->name('dynamicdependentPurchase.fetch');
+    
 
     ///// CITY MANAGERS //////
     Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
