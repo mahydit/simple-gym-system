@@ -61,6 +61,29 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="banpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to Ban this Gym Manager</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <div id="csrf_value" hidden>@csrf</div>
+                    {{ method_field('PUT') }}
+                    <button type="button" row_ban="" id="ban_item" class="btn btn-danger"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="banpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -133,12 +156,20 @@
                     name: 'profile_image',
 
                 },
-                /* Ban */
+                /* Ban And Unban*/
                 {
                     mRender: function (data, type, row) {
-                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
+                        if(row.banned_at === null){
+                            return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
                             row.id +
                             '" data-toggle="modal" data-target="#banpopup" id="ban_toggle">Ban</a></center>'
+                        }
+                        else{
+                            return '<center><a href="#" class="table-delete btn btn-success" row_id="' +
+                            row.id +
+                            '" data-toggle="modal" data-target="#unbanpopup" id="ban_toggle">Unban</a></center>'
+                        }
+
                     }
                 },
                 /* Show */
@@ -199,7 +230,6 @@
         });
         $(document).on('click', '#ban_item', function () {
             var gym_manager_id = $(this).attr('row_ban');
-            console.log(gym_manager_id);
             $.ajax({
                 data:{
                     _method:"put",

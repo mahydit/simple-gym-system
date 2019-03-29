@@ -128,7 +128,7 @@ class GymManagerController extends Controller
     }
 
     public function ban(GymManager $gymmanager){
-        dd($gymmanager);
-
+        $gymmanager->ban();
+        return redirect()->route('gymManagers.index');
     }
 }
