@@ -112,7 +112,7 @@
                 /* Show */
                 {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/cityManagers/' + row.id +
+                        return '<center><a href="/gymManagers/' + row.id +
                             '" class="table-delete btn btn-info" data-id="' + row.id +
                             '">Show</a></center>'
                     }
@@ -120,7 +120,7 @@
                 /* EDIT */
                 {
                     mRender: function (data, type, row) {
-                        return '<center><a href="/cityManagers/' + row.id +
+                        return '<center><a href="/gymManagers/' + row.id +
                             '/edit" class="table-edit btn btn-warning" data-id="' + row.id +
                             '">Edit</a></center>'
                     }
@@ -140,7 +140,6 @@
             var delete_id = $(this).attr('row_id');
             $('#delete_item').attr('row_delete', delete_id);
         });
-
         $(document).on('click', '#delete_item', function () {
             var gym_manager_id = $(this).attr('row_delete');
             $.ajax({
