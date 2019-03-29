@@ -13,7 +13,7 @@
             <p class="card-text"> {{$gym->name}} </p>
 
             <h5 class="card-title">Image</h5>
-            <p class="card-text"> {{$gym->image}} </p>
+            <img src="{{Storage::url($gym->image)}}">
 
             <h5 class="card-title">City</h5>
             <p class="card-text"> {{$gym->city_id}} </p>

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 use App\City;
 use App\Gym;
 use App\User;
+use App\Session;
+
 use App\Http\Requests\Gym\StoreGymRequest;
 use App\Http\Requests\Gym\UpdateGymRequest;
 
@@ -109,9 +112,14 @@ class GymController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Gym $gym)
+    public function destroy($gym)
     {
-        $gym->delete();
-        return redirect()->route('gyms.index');
+        if (!(Session::where('gym_id', $gym)->exists())) {
+            // $gym->delete();
+            Gym::findOrFail($gym)->delete();
+        // return redirect()->route('gyms.index');
+        } else {
+            alert('You cannot delete this gym');
+        }
     }
 }
