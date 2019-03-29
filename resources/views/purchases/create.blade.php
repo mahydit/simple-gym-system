@@ -1,38 +1,5 @@
 @extends('layouts.dashboard')
 
-@section('style')
-<style>
-    .StripeElement {
-        box-sizing: border-box;
-
-        height: 40px;
-
-        padding: 10px 12px;
-
-        border: 1px solid transparent;
-        border-radius: 4px;
-        background-color: white;
-
-        box-shadow: 0 1px 3px 0 #e6ebf1;
-        -webkit-transition: box-shadow 150ms ease;
-        transition: box-shadow 150ms ease;
-    }
-
-    .StripeElement--focus {
-        box-shadow: 0 1px 3px 0 #cfd7df;
-    }
-
-    .StripeElement--invalid {
-        border-color: #fa755a;
-    }
-
-    .StripeElement--webkit-autofill {
-        background-color: #fefde5 !important;
-    }
-
-</style>
-@endsection
-
 @section('content')
 
 <!-- general form elements disabled -->
@@ -45,11 +12,44 @@
         <form action="{{route('purchases.store')}}" method="POST" id="payment-form">
             @csrf
 
+            @hasrole('admin')
+            <div class="box-body">
+            <div class="form-group">
+                <label>City</label>
+                <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
+                    <option value="">Select City</option>
+                    @foreach ($cities as $city)
+                        <option value="{{$city->id}}">{{$city->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label>Gym</label>
+                <select class="form-control" name="gym_id" id="gym">
+                   <option value="">Select Gym </option>
+                </select>
+            </div>
+        </div>
+            @endrole
+
+            @hasrole('citymanager')
+
+            <div class="form-group">
+                <label>Select City</label>
+                <select class="form-control" name="city_id" readonly>
+                    <option value="{{$cities->id}}">{{$cities->name}}</option>
+                </select>
+            </div>
+
             <!-- select -->
             <div class="form-group{{ $errors->has('gym_id') ? 'has-error' : '' }}">
                 <label>Select Gym</label>
-                <select class="form-control" name="gym_id" readonly>
+                <select class="form-control" name="gym_id">
+                    @foreach($gyms as $gym)
                     <option value="{{$gym->id}}">{{$gym->name}}</option>
+                    @endforeach
                 </select>
                 @if ($errors->has('gym_id'))
                 <span class="help-block" role="alert">
@@ -57,6 +57,22 @@
                 </span>
                 @endif
             </div>
+            @endhasrole
+
+            @hasrole('gymmanager')
+            <!-- select -->
+            <div class="form-group{{ $errors->has('gym_id') ? 'has-error' : '' }}">
+                <label>Select Gym</label>
+                <select class="form-control" name="gym_id" readonly>
+                    <option value="{{$gyms->id}}">{{$gyms->name}}</option>
+                </select>
+                @if ($errors->has('gym_id'))
+                <span class="help-block" role="alert">
+                    <strong>{{ $errors->first('gym_id') }}</strong>
+                </span>
+                @endif
+            </div>
+            @endhasrole
 
             <div class="form-group{{ $errors->has('user_id') ? 'has-error' : '' }}">
                 <label>Select User </label>
@@ -86,19 +102,10 @@
                 @endif
             </div>
 
-
-            <!-- <div class="form-row"> -->
-            <!-- <label for="card-element">
-                Credit or debit card
-            </label>
-            <div id="card-element">-->
-            <!-- A Stripe Element will be inserted here. -->
-            <!-- </div>  -->
-
             <div class="row form-group">
                 <div class="form-group col-xs-6">
                     <label class='control-label'>Card Number</label>
-                    <input autocomplete='off' class='form-control card-number'size='20' type='text' name="card_no">
+                    <input autocomplete='off' class='form-control card-number' size='20' type='text' name="card_no">
                     @if ($errors->has('card_no'))
                     <div class="alert alert-danger" style="margin: 4px;">
                         <ul style="list-style: none;">
@@ -110,53 +117,51 @@
 
 
 
-                
-                    <div class='col-xs-2 form-group cvc required'>
 
-                        <label class='control-label'>CVV (ex. 311)</label>
-                        <input autocomplete='off' class='form-control card-cvc' size='4'
-                            type='text' name="cvv">
-                        @if ($errors->has('cvv'))
-                        <div class="alert alert-danger" style="margin: 4px;">
-                            <ul style="list-style: none;">
-                                <li>{{ $errors->first('cvv')}}</li>
-                            </ul>
-                        </div>
-                        @endif
+                <div class='col-xs-2 form-group cvc required'>
+
+                    <label class='control-label'>CVV (ex. 311)</label>
+                    <input autocomplete='off' class='form-control card-cvc' size='4' type='text' name="cvv">
+                    @if ($errors->has('cvv'))
+                    <div class="alert alert-danger" style="margin: 4px;">
+                        <ul style="list-style: none;">
+                            <li>{{ $errors->first('cvv')}}</li>
+                        </ul>
                     </div>
-
-                    <div class='col-xs-2 form-group expiration'>
-                        <label class='control-label'>Expiration Month (MM)</label>
-                        <input class='form-control card-expiry-month' size='4' type='text'
-                            name="expiry_month">
-                        @if ($errors->has('expiry_month'))
-                        <div class="alert alert-danger" style="margin: 4px;">
-                            <ul style="list-style: none;">
-                                <li>{{ $errors->first('expiry_month')}}</li>
-                            </ul>
-                        </div>
-                        @endif
-                    </div>
-
-                    <div class='col-xs-2 form-group expiration'>
-
-                        <label class='control-label'>Expiration Year (YYYY)</label>
-
-                        <input class='form-control card-expiry-year' size='4' type='text'name="expiry_year">
-                        @if ($errors->has('expiry_year'))
-                        <div class="alert alert-danger" style="margin: 4px;">
-                            <ul style="list-style: none;">
-                                <li>{{ $errors->first('expiry_year')}}</li>
-                            </ul>
-                        </div>
-                        @endif
-
-                    </div>
+                    @endif
                 </div>
 
-                <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">Buy</button>
+                <div class='col-xs-2 form-group expiration'>
+                    <label class='control-label'>Expiration Month (MM)</label>
+                    <input class='form-control card-expiry-month' size='4' type='text' name="expiry_month">
+                    @if ($errors->has('expiry_month'))
+                    <div class="alert alert-danger" style="margin: 4px;">
+                        <ul style="list-style: none;">
+                            <li>{{ $errors->first('expiry_month')}}</li>
+                        </ul>
+                    </div>
+                    @endif
                 </div>
+
+                <div class='col-xs-2 form-group expiration'>
+
+                    <label class='control-label'>Expiration Year (YYYY)</label>
+
+                    <input class='form-control card-expiry-year' size='4' type='text' name="expiry_year">
+                    @if ($errors->has('expiry_year'))
+                    <div class="alert alert-danger" style="margin: 4px;">
+                        <ul style="list-style: none;">
+                            <li>{{ $errors->first('expiry_year')}}</li>
+                        </ul>
+                    </div>
+                    @endif
+
+                </div>
+            </div>
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Buy</button>
+            </div>
         </form>
     </div>
 
@@ -171,80 +176,32 @@
 @endsection
 
 @section('script')
-<!-- <script src="https://js.stripe.com/v3/"></script>
 <script>
-    // Create a Stripe client.
-    var stripe = Stripe('pk_test_5ZlU021zZ5BBzPRV44stQu6v00q0sYmjdU');
-
-    // Create an instance of Elements.
-    var elements = stripe.elements();
-
-    // Custom styling can be passed to options when creating an Element.
-    // (Note that this demo uses a wider set of styles than the guide below.)
-    var style = {
-        base: {
-            color: '#32325d',
-            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-            fontSmoothing: 'antialiased',
-            fontSize: '16px',
-            '::placeholder': {
-                color: '#aab7c4'
-            }
-        },
-        invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
-        }
-    };
-
-    // Create an instance of the card Element.
-    var card = elements.create('card', {
-        style: style
-    });
-
-    // Add an instance of the card Element into the `card-element` <div>.
-    card.mount('#card-element');
-
-    // Handle real-time validation errors from the card Element.
-    card.addEventListener('change', function (event) {
-        var displayError = document.getElementById('card-errors');
-        if (event.error) {
-            displayError.textContent = event.error.message;
-        } else {
-            displayError.textContent = '';
-        }
-    });
-
-    // Handle form submission.
-    var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        stripe.createToken(card).then(function (result) {
-            if (result.error) {
-                // Inform the user if there was an error.
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-            } else {
-                // Send the token to your server.
-                stripeTokenHandler(result.token);
+       $(document).ready(function() {
+        $('.dynamic').change(function () {
+            if ($(this).val() != '') {
+                var select = $(this).attr("id");
+                var value = $(this).val();
+                var dependent = $(this).data('dependent');
+                var _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamicdependentPurchase.fetch') }}",
+                    method: "POST",
+                    data: {select: select, value: value, _token: _token, dependent: dependent},
+                    success: function (result) {
+                        console.log(result);
+                        $('#' + dependent).html(result);
+                    },
+                    error: function (respose) {
+                        alert(' error');
+                        console.log(respose);
+                    }
+                })
             }
         });
+        $('#city_id').change(function(){
+            $('#gym').val('');
+        });
     });
-
-    // Submit the form with the token ID.
-    function stripeTokenHandler(token) {
-        // Insert the token ID into the form so it gets submitted to the server
-        var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
-
-        // Submit the form
-        form.submit();
-    }
-
-</script> -->
+</script>
 @endsection
