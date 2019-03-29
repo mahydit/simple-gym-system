@@ -103,9 +103,9 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GymManager $gymManager)
+    public function destroy(GymManager $gymmanager)
     {
-        $gymManager->delete();
+        $gymmanager->delete();
         return redirect()->route('gymManagers.index');
     }
 
