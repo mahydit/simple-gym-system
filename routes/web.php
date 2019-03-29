@@ -19,7 +19,7 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth' , 'forbid-banned-user']], function () {
     Route::get('/sessions', 'Web\SessionController@index')
     ->name('sessions.index');
     Route::get('/sessions/create', 'Web\SessionController@create')
