@@ -96,10 +96,12 @@ Route::group(['middleware' => ['auth' , 'forbid-banned-user']], function () {
     ]);
 
 
+    
 });
 
 Auth::routes(['verify' => true]);
 
+Route::get('/banned', 'Web\BannedController@index')->name('BannedController.ban');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('admin', function () {
