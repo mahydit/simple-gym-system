@@ -33,10 +33,8 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
     ->name('sessions.update');
     Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
     ->name('sessions.destroy');
-    Route::post('dynamic_dependent/fetchCoaches', 'Web\SessionController@fetchCoaches')
-    ->name('dynamicdependent.fetchCoaches');
-    Route::post('dynamic_dependent/fetchGyms', 'Web\SessionController@fetchGyms')
-    ->name('dynamicdependent.fetchGyms');
+    Route::post('dynamic_dependentSession/fetch', 'Web\SessionController@fetch')
+    ->name('dynamicdependentSession.fetch');
     Route::get('get-session-my-datatables', [
         'as'=>'get.session',
         'uses'=>'Web\SessionController@getSession'
@@ -53,6 +51,8 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
     ->name('purchases.store');
     Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
     ->name('purchases.show');
+    Route::post('dynamic_dependentPurchase/fetch', 'Web\PurchaseController@fetchPurchaseGyms')
+    ->name('dynamicdependentPurchase.fetch');
     Route::get('get-purchase-my-datatables', [
         'as'=>'get.purchase',
         'uses'=>'Web\PurchaseController@getPurchase'

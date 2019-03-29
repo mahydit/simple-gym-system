@@ -14,66 +14,47 @@ use App\Http\Requests\Session\UpdateSessionRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
-
 class SessionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('sessions.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $user = Auth::user();
-        if($user->hasRole('admin')){
+        if ($user->hasRole('admin')) {
             $cities = City::all();
-            // dd($cities);
-            return view('sessions.create', [
+
+            $content = [
                 'cities'=>$cities,
-            ]);
-
-        }elseif($user->hasRole('citymanager')){
-
+            ];
+        } elseif ($user->hasRole('citymanager')) {
             $city_id = Auth::User()->role->city->id;
             $city = Auth::User()->role->city;
-            $gyms = Gym::where('city_id','=',$city_id)->get();
+            $gyms = Gym::where('city_id', '=', $city_id)->get();
             
-            return view('sessions.create', [
+            $content = [
                 'city'=>$city,
                 'gyms'=>$gyms,
-            ]);
-
-        }else{
-
+            ];
+        } else {
             $gym_id = Auth::User()->role->gym_id;
             $gym = Auth::User()->role->gym;
             $filteredCoaches = Coach::all()->filter(function ($coach) use ($gym_id) {
                 return $coach->at_gym_id == $gym_id;
             });
             
-            return view('sessions.create', [
+            $content = [
                 'gym'=>$gym,
                 'coaches'=>$filteredCoaches->all(),
-            ]);
+            ];
         }
+
+        return view('sessions.create', $content);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(StoreSessionRequest $request)
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
@@ -85,12 +66,6 @@ class SessionController extends Controller
         return redirect()->route('sessions.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show(Session $session)
     {
         return view('sessions.show', [
@@ -100,12 +75,6 @@ class SessionController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Session $session)
     {
         if (!SessionAttendance::where('session_id', '=', $session->id)->exists()) {
@@ -116,18 +85,10 @@ class SessionController extends Controller
                 'city'=>$session->gym->city,
             ]);
         } else {
-            // TODO: msg saying user can't be updated.
             return redirect()->route('sessions.index');
         };
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateSessionRequest $request, $session)
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
@@ -138,54 +99,41 @@ class SessionController extends Controller
         return redirect()->route('sessions.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($session)
     {
-        // if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
+        if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
             DB::table('sessions_coaches')->where('session_id', '=', $session)->delete();
             Session::findOrFail($session)->delete();
             return redirect()->route('sessions.index');
-        // } else {
-            // TODO: msg saying user can't be updated.
-            // return redirect()->route('sessions.index');
-        // };
+        } else {
+            return redirect()->route('sessions.index');
+        };
     }
 
     public function getSession()
     {
         $user = Auth::user();
-        if($user->hasRole('admin')){
+        if ($user->hasRole('admin')) {
             $sessionFilter = $this->getAdminFilteredSessions();
-        }elseif($user->hasRole('citymanager')){
+        } elseif ($user->hasRole('citymanager')) {
             $sessionFilter = $this->getCityFilteredSessions();
-        }else{
+        } else {
             $sessionFilter = $this->getGymFilteredSessions();
         }
         
         return datatables()->of($sessionFilter)->with(['gym','coaches'])
-        ->editColumn('starts_at', function ($sessionFilter) 
-        {
+        ->editColumn('starts_at', function ($sessionFilter) {
             return date("h:i a", strtotime($sessionFilter->starts_at));
         })
-        ->addColumn('city_name', function ($sessionFilter) 
-        {
+        ->addColumn('city_name', function ($sessionFilter) {
             return City::findorFail($sessionFilter->gym->city_id)->name;
-
         })
-        ->editColumn('ends_at', function ($sessionFilter) 
-        {
+        ->editColumn('ends_at', function ($sessionFilter) {
             return date("h:i a", strtotime($sessionFilter->ends_at));
         })
-        ->editColumn('session_date', function ($sessionFilter) 
-        {
+        ->editColumn('session_date', function ($sessionFilter) {
             return date("d-M-Y", strtotime($sessionFilter->session_date));
         })->toJson();
-        
     }
 
     private function getGymFilteredSessions()
@@ -217,27 +165,21 @@ class SessionController extends Controller
         return $sessions;
     }
 
-    function fetchCoaches(Request $request)
+    public function fetch(Request $request)
     {
+        $select = $request->get('select');
         $value = $request->get('value');
-        $data = Coach::where('at_gym_id','=', $value)->get();
-        $output = '';
-        foreach($data as $row)
-        {
-            $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+        $dependent = $request->get('dependent');
+        if ($select == 'city_id'){
+            $data = Gym::where($select, $value)
+                ->get();
+        }else{
+            $data = Coach::where('at_gym_id', $value)
+                ->get();
         }
-        echo $output;
-    }
-
-    function fetchGyms(Request $request)
-    {
-        $value = $request->get('value');
-        $data = Gym::where('city_id','=', $value)->get();
-        $output = '';
-        foreach($data as $row)
-        {
-            $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
         }
-        echo $output;
     }
 }
