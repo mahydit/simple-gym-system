@@ -8,7 +8,8 @@
 @endsection
 
 @section('content')
-
+<a href="{{route('coaches.create')}}" class="btn btn-success">Add New Coach</a>
+<br>
 <table id="coaches-table" class="table">
     <thead>
         <tr>

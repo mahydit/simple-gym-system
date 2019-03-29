@@ -100,7 +100,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () 
         ->name('packages.create');
     Route::post('/packages', 'Web\PackagesController@store')
         ->name('packages.store');
-    Route::get('/packages/{package}/show', 'Web\PackagesController@show')
+    Route::get('/packages/{package}', 'Web\PackagesController@show')
         ->name('packages.show');
     Route::get('/packages/{package}/edit', 'Web\PackagesController@edit')
         ->name('packages.edit');
@@ -108,7 +108,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () 
         ->name('packages.update');
     Route::delete('/packages/{package}', 'Web\PackagesController@destroy')
         ->name('packages.destroy');
-    Route::get('/packages/datatables', 'Web\PackagesController@get_data_table');
+    Route::get('get-package-my-datatables', ['as'=>'get.package','uses'=>'Web\PackagesController@getPackage']);
 });
 
 ///// CITIES //////
@@ -119,14 +119,25 @@ Route::get('/cities/{city}', 'Web\CityController@show')    ->name('cities.show')
 Route::get('/cities/{city}/edit', 'Web\CityController@edit')    ->name('cities.edit');
 Route::put('/cities/{city}', 'Web\CityController@update')  ->name('cities.update');
 Route::delete('/cities/{city}/destroy', 'Web\CityController@destroy') ->name('cities.destroy');
+
 ///// GYMS //////
-Route::get('/gyms', 'Web\GymController@index')   ->name('gyms.index');
-Route::get('/gyms/create', 'Web\GymController@create')  ->name('gyms.create');
-Route::post('/gyms', 'Web\GymController@store')   ->name('gyms.store');
-Route::get('/gyms/{gym}', 'Web\GymController@show')    ->name('gyms.show');
-Route::get('/gyms/{gym}/edit', 'Web\GymController@edit')    ->name('gyms.edit');
-Route::put('/gyms/{gym}', 'Web\GymController@update')  ->name('gyms.update');
-Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy') ->name('gyms.destroy');
+Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], function () {
+    Route::get('/gyms', 'Web\GymController@index')
+            ->name('gyms.index');
+    Route::get('/gyms/create', 'Web\GymController@create')
+            ->name('gyms.create');
+    Route::post('/gyms', 'Web\GymController@store')
+            ->name('gyms.store');
+    Route::get('/gyms/{gym}', 'Web\GymController@show')
+            ->name('gyms.show');
+    Route::get('/gyms/{gym}/edit', 'Web\GymController@edit')
+            ->name('gyms.edit');
+    Route::put('/gyms/{gym}', 'Web\GymController@update')
+            ->name('gyms.update');
+    Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy')
+            ->name('gyms.destroy');
+    Route::get('get-gym-my-datatables', ['as'=>'get.gym','uses'=>'Web\GymController@getGym']);
+});
 
 ///// CITY MANAGERS //////
 Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
@@ -136,6 +147,7 @@ Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    -
 Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
 Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
 Route::delete('/cityManagers/{citymanager}/destroy', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
+Route::get('get-city-my-datatables', ['as'=>'get.city','uses'=>'Web\GityController@getCity']);
 
 ///// GYM MANAGERS //////
 Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');

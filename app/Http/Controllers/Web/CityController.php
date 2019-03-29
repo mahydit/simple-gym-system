@@ -25,6 +25,10 @@ class CityController extends Controller
             'cities' => City::all(),
         ]);
     }
+    public function getCity()
+    {
+        return datatables()->eloquent(Gym::query())->toJson();
+    }
 
     /**
      * Show the form for creating a new resource.

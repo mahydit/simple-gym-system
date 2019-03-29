@@ -24,7 +24,7 @@ class HomeController extends Controller
     public function index()
     {
         // auth()->user()->assignRole('gymmanager');
-        dd(auth()->user()->getRoleNames());
+        // dd(auth()->user()->getRoleNames());
         return view('home');
     }
 }

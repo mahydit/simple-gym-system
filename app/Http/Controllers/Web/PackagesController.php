@@ -13,13 +13,16 @@ class PackagesController extends Controller
 {
     public function index()
     {
-        // auth()->user()->givePermissionTo('create gym');
-        dd(auth()->user()->getPermissionNames());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);
     }
     public function get_data_table()
+    {
+        return datatables()->eloquent(Package::query())->toJson();
+    }
+
+    public function getPackage()
     {
         return datatables()->eloquent(Package::query())->toJson();
     }
@@ -54,6 +57,12 @@ class PackagesController extends Controller
     public function update(Package $package, EditPackageRequest $request)
     {
         package::find($package['id'])->update($request->all());
+        return redirect()->route('packages.index');
+    }
+    public function destroy(Package $package)
+    {
+        dd($package);
+        $package->delete();
         return redirect()->route('packages.index');
     }
 }
