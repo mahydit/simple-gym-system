@@ -20,11 +20,11 @@ class RevenueController extends Controller
     {
         $user = Auth::User();
         if ($user->hasRole('admin')) {
-            $content = calculateAdminRevene();
+            $content = $this->calculateAdminRevene();
         } elseif ($user->hasRole('citymanager')) {
-            $content = calculateCityRevene();
+            $content = $this->calculateCityRevene();
         } else {
-            $content = calculateGymRevene();
+            $content = $this->calculateGymRevene();
         }
         return view('revenues.index', $content);
     }
