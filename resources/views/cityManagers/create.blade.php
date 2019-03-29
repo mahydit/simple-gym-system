@@ -18,9 +18,10 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <form action="{{route('cityManagers.store')}}" method="POST">
+        <form action="{{route('cityManagers.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
-
+            @if ($errors->any())
+            
             <!-- National ID input -->
             <div class="form-group {{ $errors->has('national_id') ? 'has-error' : '' }}">
                 <label>National ID</label>
@@ -75,26 +76,26 @@
             
             
             <!-- Confirm Password input -->
-            <div class="form-group {{ $errors->has('password_confirm') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('password_confirmation') ? 'has-error' : '' }}">
                 <label>Confirm Password</label>
-                <input type="password" class="form-control" value="{{ old('password_confirm') }}" placeholder="Confirm Password"
-                    name="password_confirm">
-                @if ($errors->has('password_confirm'))
+                <input type="password" class="form-control" value="{{ old('password_confirmation') }}" placeholder="Confirm Password"
+                    name="password_confirmation">
+                @if ($errors->has('password_confirmation'))
                 <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('password_confirm') }}</strong>
+                    <strong>{{ $errors->first('password_confirmation') }}</strong>
                 </span>
                 @endif
             </div>   
 
 
             <!-- Upload Image input -->
-            <div class="form-group {{ $errors->has('image') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('profile_img') ? 'has-error' : '' }}">
 
-                <label for="exampleInputFile">Upload Avatar Image</label>
-                  <input type="file"  id="image">
-                @if ($errors->has('image'))
+                <label for="profile_img">Upload Avatar Image</label>
+                  <input type="file"  id="profile_img" name="profile_img">
+                @if ($errors->has('profile_img'))
                 <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('image') }}</strong>
+                    <strong>{{ $errors->first('profile_img') }}</strong>
                 </span>
                 @endif
             </div>               

@@ -23,13 +23,14 @@ class StoreCityManagerRequest extends FormRequest
      */
     public function rules()
     {
+        // dd($this->file());
         return [
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:6',
-            'profile_img' => 'jpg,jpeg',
-            'SID' => 'required',
-            'city_id' => 'required|exists:cities,id',
+            'name' => 'required|string',
+            'email' => 'required|unique:users,email|email',
+            'password' => 'required|min:6|integer|confirmed',
+            'password_confirmation' => 'required|min:6|integer',
+            'profile_img' => 'image|mimes:jpg,jpeg',
+            'national_id' => 'required|unique:city_managers,SID|integer',
         ];
     }
 }
