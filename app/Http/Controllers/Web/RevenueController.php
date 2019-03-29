@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Purchase;
-use App\City;
 use App\Gym;
-use Spatie\Permission\Models\Role;
 
 class RevenueController extends Controller
 {
