@@ -35,7 +35,8 @@
             @endhasrole
 
             @hasrole('admin')
-            <!-- TODO: Add some data here -->
+            <b>Total revenue for the gym</b>
+            <b>Doing well so far</b>
             @endhasrole
         </div>
         <div class="col col-lg-4">

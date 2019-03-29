@@ -10,7 +10,7 @@
 @section('content')
 
 <a href="{{route('gyms.create')}}" class="btn btn-success">Add New Gym</a>
-<table id="gyms-table"class="table table-striped">
+<table id="gyms-table" class="table table-striped">
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -29,7 +29,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Package</h3>
+                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to delete this Gym</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -86,7 +86,7 @@
                         /* DELETE */
                         {
                     mRender: function (data, type, row) {
-                        return '<center><a href="{{route('gyms.index')}}" class="table-delete btn btn-danger" row_id="' +
+                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
                             row.id +
                             '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
@@ -101,6 +101,7 @@
 
         $(document).on('click', '#delete_item', function () {
             var gym_id = $(this).attr('row_delete');
+            console.log(gym_id);
             $.ajax({
                 data:{
                     _method:"delete",
@@ -108,7 +109,7 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/gyms/' + gym_id +'/destroy',
+                url: '/gyms/' + gym_id,
                 type: 'post',
                 success: function (data) {
                     var table = $('#gyms_table').DataTable();
@@ -116,6 +117,7 @@
                 },
                 error: function (response) {
                     alert(' error');
+                    console.log(response);
 
                 }
             });

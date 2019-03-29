@@ -7,23 +7,21 @@ use App\Purchase;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Package;
-use Illuminate\Http\Request;
-use Stripe\Stripe;
+use App\City;
+use App\Gym;
 use Cartalyst\Stripe\Stripe as CartalystStripe;
 use Carbon\Carbon;
 use App\Http\Requests\Purchase\PurchaseStoreRequest;
+use Illuminate\Http\Request;
+
 
 class PurchaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         return view('purchases.index');
     }
+<<<<<<< HEAD
     public function get_data_table()
     {
         return datatables()->eloquent(Purchase::query())->toJson();
@@ -33,24 +31,35 @@ class PurchaseController extends Controller
     *
     * @return \Illuminate\Http\Response
     */
+=======
+
+>>>>>>> 2c605d35e3d626cd6abaca30c0c40cccb5673f2c
     public function create()
     {
-        return view('purchases.create', [
-            'users' => User::where('role_type', '=', 'App\Attendee')->get(),
-            'packages' => Package::all(),
-            'gym'=> Auth::user()->role->gym,
-        ]);
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $content = [
+                'cities' => City::all(),
+            ];
+        } elseif ($user->hasRole('citymanager')) {
+            $content = [
+                'cities' => Auth::user()->role->city,
+                'gyms' => Gym::where('city_id', '=', Auth::user()->role->city->id)->get(),
+            ];
+        } else {
+            $content = [
+                'gyms' => Auth::user()->role->gym,
+            ];
+        }
+
+        $content['users'] = User::where('role_type', '=', 'App\Attendee')->get();
+        $content['packages'] = Package::all();
+
+        return view('purchases.create', $content);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(PurchaseStoreRequest $request)
     {
-        $request['gym_id'] = Auth::User()->role->gym_id;
         $package = Package::findorFail($request->package_id);
 
         $this->acceptPayment($request, $package);
@@ -68,16 +77,9 @@ class PurchaseController extends Controller
             'remain_sessions' => $user->remain_sessions + $package->no_sessions,
         ]);
 
-        return redirect()->route('sessions.index');
-        // return back()->with('success', 'Purchase created successfully!');
+        return redirect()->route('purchases.index');
     }
     
-    /**
-     * Display the specified resource.
-     *
-     * @param  Purchase  $purchase
-     * @return \Illuminate\Http\Response
-     */
     public function show(Purchase $purchase)
     {
         return view('purchases.show', [
@@ -112,7 +114,18 @@ class PurchaseController extends Controller
         }
     }
 
-    
+    public function fetchPurchaseGyms(Request $request)
+    {
+        $select = $request->get('select');
+        $value = $request->get('value');
+        $dependent = $request->get('dependent');
+        $data = Gym::where($select, $value)
+            ->get();
+        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        foreach ($data as $row) {
+            $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
+        }
+    }
     
     public function getPurchase()
     {
