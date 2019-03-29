@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Session;
+use App\City;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\SessionAttendance;
@@ -31,27 +32,45 @@ class AttendanceController extends Controller
 
     public function getAttendance()
     {
-        // TODO: check looged in user
-        // If  gym manager then:
+        // TODO: check logged in user
+    
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $attendanceFilter = $this->getAdminFilteredAttendance();
+        }elseif($user->hasRole('citymanager')){
+            $attendanceFilter = $this->getCityFilteredAttendance();
+        }else{
+            $attendanceFilter = $this->getGymFilteredAttendance();
+        }
+
+        return datatables()->of($attendanceFilter)->with('user', 'session')->toJson();
+
+    }
+        
+    private function getGymFilteredAttendance()
+    {
         $gym_id = Auth::User()->role->gym_id;
         $attendances = SessionAttendance::with(['user', 'session'])->get();
         $attendanceFilter = $attendances->filter(function ($attendance) use ($gym_id) {
             return $attendance->session->gym_id == $gym_id;
         });
+        return $attendanceFilter;
+    }
 
-        return datatables()->of($attendanceFilter)->with('user', 'session')
-        ->editColumn('attendance_time', function ($attendanceFilter) {
-            return date("h:i a", strtotime($attendanceFilter->attendance_time));
-        })
-        ->editColumn('attendance_date', function ($attendanceFilter) {
-            return date("F, l jS, Y", strtotime($attendanceFilter->attendance_date));
-        })
-        ->editColumn('gym_name', function ($attendanceFilter) {
-            return $attendanceFilter->session->gym->name;
-        })->toJson();
+    private function getCityFilteredAttendance()
+    {
+        $attendance = SessionAttendance::with('session')->whereHas(
+            'session.gym.city', function($query)
+            {
+                $query->where('city_manager_id', Auth::User()->id);
+            }
+        )->get();
+        return $attendance;
+    }
 
-        // If  cit manager then:
-
-        // If  admin then:
+    public function getAdminFilteredAttendance()
+    {
+        $attendance = SessionAttendance::with('session.gym.city')->get();
+        return $attendance;
     }
 }

@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
@@ -34,10 +33,8 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
     ->name('sessions.update');
     Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
     ->name('sessions.destroy');
-    Route::post('dynamic_dependent/fetchCoaches', 'Web\SessionController@fetchCoaches')
-    ->name('dynamicdependent.fetchCoaches');
-    Route::post('dynamic_dependent/fetchGyms', 'Web\SessionController@fetchGyms')
-    ->name('dynamicdependent.fetchGyms');
+    Route::post('dynamic_dependentSession/fetch', 'Web\SessionController@fetch')
+    ->name('dynamicdependentSession.fetch');
     Route::get('get-session-my-datatables', [
         'as'=>'get.session',
         'uses'=>'Web\SessionController@getSession'
@@ -54,6 +51,8 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
     ->name('purchases.store');
     Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
     ->name('purchases.show');
+    Route::post('dynamic_dependentPurchase/fetch', 'Web\PurchaseController@fetchPurchaseGyms')
+    ->name('dynamicdependentPurchase.fetch');
     Route::get('get-purchase-my-datatables', [
         'as'=>'get.purchase',
         'uses'=>'Web\PurchaseController@getPurchase'
@@ -67,6 +66,8 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
         'as'=>'get.attendance',
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
+
+    // Route::get("/yousra", 'Web\AttendanceController@getAttendance');
 });
 
 Auth::routes(['verify' => true]);
@@ -139,7 +140,7 @@ Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
             ->name('gyms.edit');
     Route::put('/gyms/{gym}', 'Web\GymController@update')
             ->name('gyms.update');
-    Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy')
+    Route::delete('/gyms/{gym}', 'Web\GymController@destroy')
             ->name('gyms.destroy');
     Route::get('get-gym-my-datatables', ['as'=>'get.gym','uses'=>'Web\GymController@getGym']);
 });

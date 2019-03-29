@@ -6,10 +6,9 @@
 <!-- bootstrap datepicker -->
 <link rel="stylesheet" href="{{ asset('bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}">
 <!-- Select2 -->
-<link rel="stylesheet" href="../../bower_components/select2/dist/css/select2.min.css">
+<link rel="stylesheet" href="{{ asset('bower_components/select2/dist/css/select2.min.css')}}">
 @endsection
 
-<!-- TODO: add error msg underneath each element -->
 @section('content') 
 @if ($errors->any())
 <div class="alert alert-danger">
@@ -37,7 +36,17 @@
                 <input type="text" class="form-control" value="{{$session->name}}"disabled>
             </div>
 
+            @hasrole('admin')
+             <!-- select -->
+             <div class="form-group">
+                <label>Select City</label>
+                <select class="form-control" disabled>
+                    <option selected>{{$city->name}}</option>
+                </select>
+            </div>
+            @endhasrole
 
+            @hasrole('citymanager')
             <!-- select -->
             <div class="form-group">
                 <label>Select Gym</label>
@@ -45,24 +54,30 @@
                     <option selected>{{$gym->name}}</option>
                 </select>
             </div>
+            @endhasrole
 
             <!-- Date -->
             <div class="form-group">
                 <label>Date:</label>
 
-                <div class="input-group date">
+                <div class="input-group date {{ $errors->has('session_date') ? 'has-error' : '' }}">
                     <div class="input-group-addon">
                         <i class="fa fa-calendar"></i>
                     </div>
                     <input type="text" class="form-control pull-right" id="datepicker" placeholder="Session Date"
                         name="session_date"  value="{{$session->session_date}}">
                 </div>
+                @if ($errors->has('session_date'))
+                <span class="help-block" style="color:red;" role="alert">
+                    <strong>{{ $errors->first('session_date') }}</strong>
+                </span>
+                @endif
                 <!-- /.input group -->
             </div>
 
-            <div class="col-md-6">
+            <div class="{{ $errors->has('starts_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
-                    <div class="form-group">
+                    <div class="form-group col-md-6">
                         <label>Starts at:</label>
 
                         <div class="input-group">
@@ -73,12 +88,17 @@
                             </div>
                         </div>
                         <!-- /.input group -->
+                        @if ($errors->has('starts_at'))
+                            <span class="help-block col-md-6" role="alert">
+                                <strong>{{ $errors->first('starts_at') }}</strong>
+                            </span>
+                            @endif
                     </div>
             
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6 {{ $errors->has('ends_at') ? 'has-error' : '' }}">
                 <div class="bootstrap-timepicker">
                     <div class="form-group">
                         <label>Ends at:</label>
@@ -90,6 +110,11 @@
                                 <i class="fa fa-clock-o"></i>
                             </div>
                         </div>
+                        @if ($errors->has('ends_at'))
+                        <span class="help-block" role="alert">
+                            <strong>{{ $errors->first('ends_at') }}</strong>
+                        </span>
+                        @endif
                         <!-- /.input group -->
                     </div>
                     <!-- /.form group -->
@@ -145,8 +170,6 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            use24hours: true,
-            timeFormat: "h:m:s",
             showInputs: false,
         })
     })

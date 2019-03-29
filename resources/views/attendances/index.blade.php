@@ -21,12 +21,18 @@
                     <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th class="text-center">Date</th>
-                            <th class="text-center">Time</th>
+                            <th class="text-center">User Name</th>
                             <th class="text-center">Session Name</th>
-                            <th class="text-center">Gym</th>
-                            <th class="text-center">Attendee</th>
-                            <th class="text-center"></th>
+                            <th class="text-center">Session starts at</th>
+                            <th class="text-center">Session ends at</th>
+                            <th class="text-center">Session Date</th>
+                            @hasanyrole('admin|citymanager')
+                            <th class="text-center">Gym Name</th>
+                            @endhasanyrole
+                            @hasanyrole('admin')
+                            <th class="text-center">City Name</th>
+                            @endhasanyrole
+                            <th> show <th>
                         </tr>
                     </thead>
                 </table>
@@ -61,25 +67,37 @@
                     name: 'id'
                 },
                 {
-                    data: 'attendance_date',
-                    name: 'attendance_date'
-                },
-                {
-                    data: 'attendance_time',
-                    name: 'attendance_time'
+                    data: 'user.name',
+                    name: 'user.name'
                 },
                 {
                     data: 'session.name',
                     name: 'session.name'
                 },
                 {
+                    data: 'session.starts_at',
+                    name: 'session.starts_at'
+                },
+                {
+                    data: 'session.ends_at',
+                    name: 'session.ends_at'
+                },
+                {
+                    data: 'session.session_date',
+                    name: 'session.session_date'
+                },
+                @hasanyrole('admin|citymanager')
+                {
                     data: 'gym_name',
                     name: 'gym_name'
                 },
+                @endhasanyrole
+                @hasanyrole('admin')
                 {
-                    data: 'user.name',
-                    name: 'user.name'
+                    data: 'city.name',
+                    name: 'city.name'
                 },
+                @endhasanyrole
                 /* Show */
                 {
                     mRender: function (data, type, row) {

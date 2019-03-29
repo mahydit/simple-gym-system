@@ -13,6 +13,8 @@ class PackagesController extends Controller
 {
     public function index()
     {
+        $admin = User::find(9);
+        dd($admin->getAllPermissions());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);

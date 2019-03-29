@@ -36,51 +36,34 @@
 
             @hasrole('admin')
             <!-- show cities select for the city -->
-            <div class="form-group{{ $errors->has('city_id') ? 'has-error' : '' }}">
-                <label>Select City</label>
-                <select class="form-control dynamic-gym" name="city_id" id="city_id" data-dependent="gym_id">
-                <option disabled selected>Select City</option>
-                    @foreach($cities as $city)
-                    <option value="{{$city->id}}">{{$city->name}}</option>
-                    @endforeach
-                </select>
-                @if ($errors->has('city_id'))
-                <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('city_id') }}</strong>
-                </span>
-                @endif
-            </div>
-
-            <div class="form-group {{ $errors->has('gym_id') ? 'has-error' : '' }}">
-                <div class="form-group">
-                    <label>Gyms</label>
-                    <select class="form-control select2 dynamic-coach" name="gym_id" id="gym_id"
-                        data-placeholder="Select a Gym" style="width: 100%;" data-dependent="coach_id">
-                        <option disabled selected>Select Gym</option>
-                    </select>
-                    @if ($errors->has('gym_id'))
-                    <span class="help-block" role="alert">
-                        <strong>{{ $errors->first('gym_id') }}</strong>
-                    </span>
-                    @endif
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>City</label>
+                        <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
+                            <option value="">Select City</option>
+                            @foreach ($cities as $city)
+                                <option value="{{$city->id}}">{{$city->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="form-group {{ $errors->has('coach_id') ? 'has-error' : '' }}">
-                <div class="form-group">
-                    <label>Coaches</label>
-                    <select class="form-control select2" name="coach_id[]" id="coach_id" multiple="multiple"
-                        data-placeholder="Select a coach" style="width: 100%;">
-                        <option disabled selected>Select Coach</option>
-                    </select>
-                    @if ($errors->has('coach_id'))
-                    <span class="help-block" role="alert">
-                        <strong>{{ $errors->first('coach_id') }}</strong>
-                    </span>
-                    @endif
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Gym</label>
+                        <select class="form-control dynamic" name="gym_id" id="gym" data-dependent="coaches">
+                            <option value="">Select Gym </option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            @endhasrole
+                <div class="box-body">
+                    <div class="form-group">
+                        <label>Coach</label>
+                        <select class="form-control" name="coach_id" id="coaches">
+                            <option value="">Select Coach </option>
+                        </select>
+                    </div>
+                </div>
+                @endrole
 
 
             @hasrole('citymanager')
@@ -266,9 +249,6 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            // use24hours: true,
-            // timeFormat: "h:m:s",
-            // showMeridian:false,
             showInputs: false,
         })
     })
@@ -311,57 +291,34 @@
 
 @hasrole('admin')
 <script>
-    $(document).ready(function() {
-        $('.dynamic-gym').change(function () {
+     $(document).ready(function() {
+        $('.dynamic').change(function () {
             if ($(this).val() != '') {
                 var select = $(this).attr("id");
                 var value = $(this).val();
                 var dependent = $(this).data('dependent');
                 var _token = $('input[name="_token"]').val();
-                console.log(value);
                 $.ajax({
-                    url: "{{ route('dynamicdependent.fetchGyms') }}",
+                    url: "{{ route('dynamicdependentSession.fetch') }}",
                     method: "POST",
                     data: {select: select, value: value, _token: _token, dependent: dependent},
                     success: function (result) {
                         console.log(result);
                         $('#' + dependent).html(result);
-                        console.log(select,value,dependent);
                     },
                     error: function (respose) {
                         alert(' error');
-                        console.log(select,value,dependent);
                         console.log(respose);
                     }
                 })
             }
         });
-        $('.dynamic-coach').change(function () {
-            if ($(this).val() != '') {
-                var select = $(this).attr("id");
-                var value = $(this).val();
-                var dependent = $(this).data('dependent');
-                var _token = $('input[name="_token"]').val();
-                console.log(value);
-                $.ajax({
-                    url: "{{ route('dynamicdependent.fetchCoaches') }}",
-                    method: "POST",
-                    data: {select: select, value: value, _token: _token, dependent: dependent},
-                    success: function (result) {
-                        console.log(result);
-                        $('#' + dependent).html(result);
-                        console.log(select,value,dependent);
-                    },
-                    error: function (respose) {
-                        alert(' error');
-                        console.log(select,value,dependent);
-                        console.log(respose);
-                    }
-                })
-            }
+        $('#city_id').change(function(){
+            $('#gym').val('');
+            $('#coaches').val('');
         });
-        $('#gym_id').change(function(){
-            $('#coach_id'). val('');
+        $('#gym').change(function(){
+            $('#coaches').val('');
         });
     });
 </script>

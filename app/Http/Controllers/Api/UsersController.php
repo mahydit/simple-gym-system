@@ -113,6 +113,11 @@ class UsersController extends Controller
         return Auth::guard('api');
     }
 
+    public function get_data_table()
+    {
+        return datatables()->eloquent(User::query())->toJson();
+    }
+
     public function store(StoreAttendeeRequest $request){  
 
         $path = $request->file('profile_img')->store('public/attendees_profile_images');

@@ -11,18 +11,29 @@
 @endsection
 
 @section('content')
+<div class="box">
+    <div class="box-header with-border">
+              <h3 class="box-title">{{$package->name}}</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <dl class="dl-horizontal">
+                <dt>Package ID</dt>
+                <dd>{{$package['id']}}</dd>
 
-<h1>
-ID: {{$package['id']}}
-<br>
-Name: {{$package['name']}}
-<br>
-Price: {{$package['price']}}
-<br>
-No of sessions: {{$package['no_sessions']}}
+                <dt>Package Name</dt>
+                <dd>{{$package['name']}}</dd>
 
-</h1>
-
+                <dt>Package Price</dt>
+                <dd>{{$package['price']}}</dd>
+                
+                <dt>Number of Sessions</dt>
+                <dd>{{$package['no_sessions']}}</dd>
+              </dl>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
 @endsection
 
 @section('plugins')
