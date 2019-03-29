@@ -43,7 +43,7 @@ class CityManagerController extends Controller
     public function store(StoreCityManagerRequest $request)
     {
         if($request->file('profile_img')){
-            $path = $request->file('profile_img')->store('public/gym_managers_images');
+            $path = $request->file('profile_img')->store('public/city_managers_images');
 
         }
         else{

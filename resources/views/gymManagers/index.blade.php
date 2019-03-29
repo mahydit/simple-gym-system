@@ -267,13 +267,10 @@
                 type: 'post',
                 success: function (data) {
                     var table = $('#gym_managers_table').DataTable();
-                    console.log(data);
                     table.ajax.reload();
                 },
                 error: function (response) {
                     alert(' error');
-                    console.log(response);
-
                 }
             });
         });
