@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Gym;
 use App\Coach;
 use App\Session;
+use App\City;
 use App\SessionAttendance;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -136,16 +137,24 @@ class SessionController extends Controller
 
     public function getSession()
     {
-        // TODO: check looged in user
-        // If  gym manager then:
-        $gym_id = Auth::User()->role->gym_id;
-        $session = Session::with(['gym', 'coaches'])->get();
-        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
-            return $session->gym_id == $gym_id;
-        });
-        return datatables()->of($sessionFilter)->with('gym','coaches')->editColumn('starts_at', function ($sessionFilter) 
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $sessionFilter = $this->getAdminFilteredSessions();
+        }elseif($user->hasRole('citymanager')){
+            $sessionFilter = $this->getCityFilteredSessions();
+        }else{
+            $sessionFilter = $this->getGymFilteredSessions();
+        }
+        
+        return datatables()->of($sessionFilter)->with(['gym','coaches'])
+        ->editColumn('starts_at', function ($sessionFilter) 
         {
             return date("h:i a", strtotime($sessionFilter->starts_at));
+        })
+        ->addColumn('city_name', function ($sessionFilter) 
+        {
+            return City::findorFail($sessionFilter->gym->city_id)->name;
+
         })
         ->editColumn('ends_at', function ($sessionFilter) 
         {
@@ -155,10 +164,35 @@ class SessionController extends Controller
         {
             return date("d-M-Y", strtotime($sessionFilter->session_date));
         })->toJson();
-
-        // If  cit manager then:
-
-        // If  admin then:
+        
     }
 
+    private function getGymFilteredSessions()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $session = Session::with(['gym', 'coaches'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+            return $session->gym_id == $gym_id;
+        });
+    
+        return $sessionFilter;
+    }
+
+    private function getCityFilteredSessions()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $session = Session::with(['gym', 'coaches'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($city_id) {
+            return $session->gym->city->id == $city_id;
+        });
+
+        return $sessionFilter;
+    }
+
+    private function getAdminFilteredSessions()
+    {
+        $sessions = Session::with(['gym', 'coaches'])->get();
+        
+        return $sessions;
+    }
 }
