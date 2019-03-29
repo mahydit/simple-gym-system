@@ -26,6 +26,7 @@
                             <th class="text-center">Password</th>
                             <th class="text-center">National ID</th>
                             <th class="text-center">Avatar Image</th>
+                            <th class="text-center">Ban</th>
                             <th class="text-center">Show</th>
                             <th class="text-center">Edit</th>
                             <th class="text-center">Delete</th>
@@ -52,6 +53,53 @@
                     <div id="csrf_value" hidden>@csrf</div>
                     {{ method_field('DELETE') }}
                     <button type="button" row_delete="" id="delete_item" class="btn btn-danger"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="banpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to Ban this Gym Manager</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <div id="csrf_value" hidden>@csrf</div>
+                    {{ method_field('PUT') }}
+                    <button type="button" row_ban="" id="ban_item" class="btn btn-danger"
+                        data-dismiss="modal">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this Gym Manager</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <div id="csrf_value" hidden>@csrf</div>
+                    {{ method_field('PUT') }}
+                    <button type="button" row_unban="" id="unban_item" class="btn btn-danger"
                         data-dismiss="modal">Yes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                 </div>
@@ -108,7 +156,22 @@
                     name: 'profile_image',
 
                 },
+                /* Ban And Unban*/
+                {
+                    mRender: function (data, type, row) {
+                        if(row.banned_at === null){
+                            return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
+                            row.id +
+                            '" data-toggle="modal" data-target="#banpopup" id="ban_toggle">Ban</a></center>'
+                        }
+                        else{
+                            return '<center><a href="#" class="table-delete btn btn-success" row_id="' +
+                            row.id +
+                            '" data-toggle="modal" data-target="#unbanpopup" id="unban_toggle">Unban</a></center>'
+                        }
 
+                    }
+                },
                 /* Show */
                 {
                     mRender: function (data, type, row) {
@@ -158,6 +221,56 @@
                 error: function (response) {
                     alert(' error');
 
+                }
+            });
+        });
+        $(document).on('click', '#ban_toggle', function () {
+            var ban_id = $(this).attr('row_id');
+            $('#ban_item').attr('row_ban', ban_id);
+        });
+        $(document).on('click', '#ban_item', function () {
+            var gym_manager_id = $(this).attr('row_ban');
+            $.ajax({
+                data:{
+                    _method:"put",
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/gymManagers/' + gym_manager_id + "/ban",
+                type: 'post',
+                success: function (data) {
+                    var table = $('#gym_managers_table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function (response) {
+                    alert(' error');
+                }
+            });
+        });
+
+
+        $(document).on('click', '#unban_toggle', function () {
+            var unban_id = $(this).attr('row_id');
+            $('#unban_item').attr('row_unban', unban_id);
+        });
+        $(document).on('click', '#unban_item', function () {
+            var gym_manager_id = $(this).attr('row_unban');
+            $.ajax({
+                data:{
+                    _method:"put",
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/gymManagers/' + gym_manager_id + "/unban",
+                type: 'post',
+                success: function (data) {
+                    var table = $('#gym_managers_table').DataTable();
+                    table.ajax.reload();
+                },
+                error: function (response) {
+                    alert(' error');
                 }
             });
         });

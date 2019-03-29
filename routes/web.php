@@ -19,7 +19,7 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
-Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager|gymmanager'], function () {
+Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanager|gymmanager'], function () {
     Route::get('/sessions', 'Web\SessionController@index')
     ->name('sessions.index');
     Route::get('/sessions/create', 'Web\SessionController@create')
@@ -71,6 +71,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager|gym
 
 Auth::routes(['verify' => true]);
 
+Route::get('/banned', 'Web\BannedController@index')->name('BannedController.ban');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
@@ -125,7 +126,7 @@ Route::put('/cities/{city}', 'Web\CityController@update')  ->name('cities.update
 Route::delete('/cities/{city}/destroy', 'Web\CityController@destroy') ->name('cities.destroy');
 
 ///// GYMS //////
-Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], function () {
+Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
     Route::get('/gyms', 'Web\GymController@index')
             ->name('gyms.index');
     Route::get('/gyms/create', 'Web\GymController@create')
@@ -144,7 +145,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], 
 });
 
 ///// CITY MANAGERS //////
-Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () {
+Route::group(['middleware' => 'auth', 'role:admin'], function () {
     Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
     Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
     Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
@@ -159,8 +160,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () 
 });
 
 ///// GYM MANAGERS //////
-Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], function () {
-    ///// GYM MANAGERS //////
+Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
     Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
     Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
     Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
