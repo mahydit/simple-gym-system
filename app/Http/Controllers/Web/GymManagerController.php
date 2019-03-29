@@ -10,6 +10,8 @@ use App\City;
 use App\User;
 use App\Http\Requests\GymManager\StoreGymManagerRequest;
 use App\Http\Requests\GymManager\UpdateGymManagerRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class GymManagerController extends Controller
 {
@@ -20,11 +22,7 @@ class GymManagerController extends Controller
      */
     public function index()
     {
-        // dd(GymManager::find(1)->user);
-        return view('gymManagers.index',[
-            'gymManagers' => GymManager::all(),
-            'gyms' => Gym::all(),
-        ]);
+        return view('gymManagers.index');
     }
 
     /**
@@ -103,5 +101,13 @@ class GymManagerController extends Controller
     {
         $gymManager->delete();
         return redirect()->route('gymManagers.index');
+    }
+
+    public function get_gym_manager(){
+        $gym_managers = GymManager::with('user')->get();
+        return datatables()->of($gym_managers)->addColumn('profile_image' , function($gym_managers){
+            $url = Storage::url($gym_managers->user->profile_img);
+            return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
+        })->rawColumns(['profile_image' , 'action'])->toJson();
     }
 }

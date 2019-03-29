@@ -75,6 +75,23 @@ Route::group(['middleware' => 'auth'], function () {
         'uses'=>'Web\CityManagerController@get_city_manager'
     ]);
 
+
+
+
+    ///// GYM MANAGERS //////
+    Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
+    Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
+    Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
+    Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
+    Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
+    Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
+    Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+    Route::get('get-gym_managers-my-datatables', [
+        'as'=>'get.gym_manager',
+        'uses'=>'Web\GymManagerController@get_gym_manager'
+    ]);
+
+
 });
 
 Auth::routes(['verify' => true]);
@@ -120,12 +137,3 @@ Route::get('/gyms/{gym}/edit', 'Web\GymController@edit')    ->name('gyms.edit');
 Route::put('/gyms/{gym}', 'Web\GymController@update')  ->name('gyms.update');
 Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy') ->name('gyms.destroy');
 
-
-///// GYM MANAGERS //////
-Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
-Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
-Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
-Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
-Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
-Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
-Route::delete('/gymManagers/{gymmanager}/destroy', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
