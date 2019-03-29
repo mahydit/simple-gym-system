@@ -13,14 +13,34 @@
 @section('content')
 
 <h1>
-ID: {{$coach['id']}}
-<br>
-Name: {{$coach['name']}}
-<br>
-at Gym: {{$coach['at_gym_id']}}
+    ID: {{$coach['id']}}
+    <br>
+    Name: {{$coach['name']}}
+    <br>
+    at Gym: {{$coach['at_gym_id']}}
 
 </h1>
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title"></h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <dl class="dl-horizontal">
+            <dt>Coach ID</dt>
+            <dd>{{$coach['id']}}</dd>
 
+            <dt>Coach Name</dt>
+            <dd>{{$coach['name']}}</dd>
+
+            <dt>At Gym</dt>
+            <dd>{{$coach['at_gym_id']}}</dd>
+
+        </dl>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
 @endsection
 
 @section('plugins')
@@ -35,7 +55,7 @@ at Gym: {{$coach['at_gym_id']}}
 @endsection
 
 @section('script')
-<script>    
+<script>
     $(function () {
         //Date picker
         $('#datepicker').datepicker({

@@ -99,8 +99,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="#">Create</a></li>
-                    <li><a href="#">View All</a></li>
+                    <li><a href="{{route('packages.create')}}">Create</a></li>
+                    <li><a href="{{route('packages.index')}}">View All</a></li>
                 </ul>
             </li>
 
