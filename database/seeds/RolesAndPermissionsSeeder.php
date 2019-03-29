@@ -80,7 +80,8 @@ class RolesAndPermissionsSeeder extends Seeder
                                 'retrieve gym','retrieve city',
                                 'retrieve coach','retrieve package','retrieve session',
 
-                                'retrieve attendance','buy package','assign coach']);
+                                'retrieve attendance','buy package','assign coach',
+                                'ban gym manager','unban gym manager']);
 
         $citymanagerrole = Role::create(['name' => 'citymanager'])
             ->givePermissionTo(['create gym','create gym manager','create coach','create session',
@@ -91,7 +92,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
                                 'retrieve gym manager','retrieve gym','retrieve coach','retrieve package',
 
-                                'retrieve session','retrieve attendance','buy package','assign coach']); 
+                                'retrieve session','retrieve attendance','buy package','assign coach',
+                                
+                                'ban gym manager','unban gym manager']); 
         
         $gymmanagerrole = Role::create(['name' => 'gymmanager'])
             ->givePermissionTo(['create session','edit session','delete session','retrieve session',

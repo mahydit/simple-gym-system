@@ -3,9 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class Package extends Model
 {
+    use HasRoles;
+
     protected $fillable = [
         'name',
         'price',

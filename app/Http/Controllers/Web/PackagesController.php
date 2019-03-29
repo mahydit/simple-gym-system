@@ -7,11 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Package;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\EditPackageRequest;
+use App\User;
 
 class PackagesController extends Controller
 {
     public function index()
     {
+        $admin = User::find(9);
+        dd($admin->getAllPermissions());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);

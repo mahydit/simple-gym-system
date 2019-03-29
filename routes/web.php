@@ -121,3 +121,5 @@ Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->na
 Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
 Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
 Route::delete('/gymManagers/{gymmanager}/destroy', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+
+Route::get('/users/datatables', 'Web\UsersController@get_data_table');
