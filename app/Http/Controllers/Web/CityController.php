@@ -38,9 +38,13 @@ class CityController extends Controller
 
     public function create()
     {
+        // $cityManager = CityManager::all();
+        // $user = User::where('role_type', 'App\CityManager')->first();
+        // dd($user);
         return view('cities.create', [
             'cities' => City::all(),
             'countries' => Country::all(),
+            'city_managers' => CityManager::all(),
         ]);
     }
 
@@ -77,7 +81,6 @@ class CityController extends Controller
      */
     public function edit(City $city)
     {
-        // dd($city);
         return view('cities.edit', [
             'city' => $city,
             'cities' => City::all(),

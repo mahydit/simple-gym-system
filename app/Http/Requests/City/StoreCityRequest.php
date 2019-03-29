@@ -25,7 +25,7 @@ class StoreCityRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2',
-            'city_manager_id' => 'required|min:3|exists:city_managers,id',
+            'city_manager_id' => 'required|exists:city_managers,id',
             'country_id' => 'required|exists:countries,id'
         ];
     }
