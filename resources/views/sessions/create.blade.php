@@ -266,9 +266,6 @@
         })
         //Timepicker
         $('.timepicker').timepicker({
-            // use24hours: true,
-            // timeFormat: "h:m:s",
-            // showMeridian:false,
             showInputs: false,
         })
     })
