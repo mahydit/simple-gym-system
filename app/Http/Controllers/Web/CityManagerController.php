@@ -42,8 +42,13 @@ class CityManagerController extends Controller
      */
     public function store(StoreCityManagerRequest $request)
     {
-        $path = $request->file('profile_img')->store('public/city_managers_images');
-        $city_manager = CityManager::create($request->only('SID'));
+        if($request->file('profile_img')){
+            $path = $request->file('profile_img')->store('public/gym_managers_images');
+
+        }
+        else{
+            $path = "public/default/default.jpeg";
+        }        $city_manager = CityManager::create($request->only('SID'));
         User::create($request->only('name' , 'email') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $city_manager->id,

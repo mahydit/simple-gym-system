@@ -45,7 +45,13 @@ class GymManagerController extends Controller
      */
     public function store(StoreGymManagerRequest $request)
     {
-        $path = $request->file('profile_img')->store('public/gym_managers_images');
+        if($request->file('profile_img')){
+            $path = $request->file('profile_img')->store('public/gym_managers_images');
+
+        }
+        else{
+            $path = "public/default/default.jpeg";
+        }
         $gym_manager = GymManager::create([ "SID" => $request->only('SID')["SID"] , "gym_id" => $request->only('gym_id')['gym_id'][0]]);
         User::create($request->only('name' , 'email') + [
             "password" => Hash::make($request->only('password')['password']),
