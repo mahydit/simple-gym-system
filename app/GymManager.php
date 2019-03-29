@@ -3,11 +3,13 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Cog\Contracts\Ban\Bannable as BannableContract;
+use Cog\Laravel\Ban\Traits\Bannable;
 use Spatie\Permission\Traits\HasRoles;
 
-class GymManager extends Model
+class GymManager extends Model implements BannableContract
 {
-    use HasRoles;
+    use Bannable , HasRoles;
 
     protected $fillable = [
         'gym_id',

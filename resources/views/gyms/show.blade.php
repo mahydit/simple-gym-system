@@ -13,10 +13,10 @@
             <p class="card-text"> {{$gym->name}} </p>
 
             <h5 class="card-title">Image</h5>
-            <p class="card-text"> {{$gym->image}} </p>
+            <img src="{{Storage::url($gym->image)}}">
 
             <h5 class="card-title">City</h5>
-            <p class="card-text"> {{$city->name}} </p>
+            <p class="card-text"> {{$gym->city_id}} </p>
         </div>
     </div>
 
@@ -26,13 +26,11 @@
         </div>
         <div class="card-body">
             <h5 class="card-title">Creator Name</h5>
-            <p class="card-text">{{$gym->name}} </p>
+            <p class="card-text">{{$gym->created_by}} </p>
 
             <h5 class="card-title">Created at</h5>
             <p class="card-text">{{date('l jS \of F, Y, g:i:s A', strtotime($gym->created_at))}} </p>
 
-            <h5 class="card-title">Updated at</h5>
-            <p class="card-text">{{date('l jS \of F, Y, g:i:s A', strtotime($gym->updated_at))}} </p>
         </div>
     </div>
 

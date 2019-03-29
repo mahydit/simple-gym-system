@@ -25,14 +25,12 @@
                 @endforeach
             </select>
         </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Image</label>
-            <button type="button" class="btn btn-light">Upload Image</button>
-        </div>
-        <div class="form-group">
-            <label for="exampleInputPassword1">Created By</label>
-            <input name="created_by" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Creator">
-        </div>
+
+
+        <label for="image">Upload Avatar Image</label>
+            <input type="file"  id="image" name="image">
+
+
     <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 

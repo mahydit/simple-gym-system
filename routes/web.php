@@ -19,7 +19,7 @@ Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanager|gymmanager'], function () {
     Route::get('/sessions', 'Web\SessionController@index')
     ->name('sessions.index');
     Route::get('/sessions/create', 'Web\SessionController@create')
@@ -34,6 +34,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('sessions.update');
     Route::delete('/sessions/{session}', 'Web\SessionController@destroy')
     ->name('sessions.destroy');
+    Route::post('dynamic_dependentSession/fetch', 'Web\SessionController@fetch')
+    ->name('dynamicdependentSession.fetch');
     Route::get('get-session-my-datatables', [
         'as'=>'get.session',
         'uses'=>'Web\SessionController@getSession'
@@ -50,6 +52,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->name('purchases.store');
     Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
     ->name('purchases.show');
+    Route::post('dynamic_dependentPurchase/fetch', 'Web\PurchaseController@fetchPurchaseGyms')
+    ->name('dynamicdependentPurchase.fetch');
     Route::get('get-purchase-my-datatables', [
         'as'=>'get.purchase',
         'uses'=>'Web\PurchaseController@getPurchase'
@@ -63,45 +67,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as'=>'get.attendance',
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
-
-    Route::post('dynamic_dependentSession/fetch', 'Web\SessionController@fetch')
-    ->name('dynamicdependentSession.fetch');
-    Route::post('dynamic_dependentPurchase/fetch', 'Web\PurchaseController@fetchPurchaseGyms')
-    ->name('dynamicdependentPurchase.fetch');
-    
-
-    ///// CITY MANAGERS //////
-    Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
-    Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
-    Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
-    Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
-    Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
-    Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
-    Route::delete('/cityManagers/{citymanager}', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
-    Route::get('get-city_managers-my-datatables', [
-        'as'=>'get.city_manager',
-        'uses'=>'Web\CityManagerController@get_city_manager'
-    ]);
-
-
-
-
-    ///// GYM MANAGERS //////
-    Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
-    Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
-    Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
-    Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
-    Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
-    Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
-    Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
-    Route::get('get-gym_managers-my-datatables', [
-        'as'=>'get.gym_manager',
-        'uses'=>'Web\GymManagerController@get_gym_manager'
-    ]);
 });
 
 Auth::routes(['verify' => true]);
 
+Route::get('/banned', 'Web\BannedController@index')->name('BannedController.ban');
 Route::get('/home', 'HomeController@index')->name('home');
 
 
@@ -156,7 +126,7 @@ Route::put('/cities/{city}', 'Web\CityController@update')  ->name('cities.update
 Route::delete('/cities/{city}/destroy', 'Web\CityController@destroy') ->name('cities.destroy');
 
 ///// GYMS //////
-Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], function () {
+Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
     Route::get('/gyms', 'Web\GymController@index')
             ->name('gyms.index');
     Route::get('/gyms/create', 'Web\GymController@create')
@@ -175,20 +145,31 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin|citymanager'], 
 });
 
 ///// CITY MANAGERS //////
-Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
-Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
-Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
-Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
-Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
-Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
-Route::delete('/cityManagers/{citymanager}/destroy', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
-Route::get('get-city-my-datatables', ['as'=>'get.city','uses'=>'Web\GityController@getCity']);
+Route::group(['middleware' => 'auth', 'role:admin'], function () {
+    Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
+    Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
+    Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
+    Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
+    Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
+    Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
+    Route::delete('/cityManagers/{citymanager}', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
+    Route::get('get-city_managers-my-datatables', [
+        'as'=>'get.city_manager',
+        'uses'=>'Web\CityManagerController@get_city_manager'
+    ]);
+});
 
 ///// GYM MANAGERS //////
-Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
-Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
-Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
-Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
-Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
-Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
-Route::delete('/gymManagers/{gymmanager}/destroy', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
+    Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
+    Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
+    Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
+    Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
+    Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
+    Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
+    Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+    Route::get('get-gym_managers-my-datatables', [
+        'as'=>'get.gym_manager',
+        'uses'=>'Web\GymManagerController@get_gym_manager'
+    ]);
+});

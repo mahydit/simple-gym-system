@@ -30,10 +30,11 @@
         </select>
     </div>
 
-    <div class="form-group">
-        <label for="exampleInputPassword1">Image</label>
-        <button type="button" class="btn btn-light">Upload Image</button>
-    </div>
+    <!-- Upload Image input -->
+
+    <label for="image">Upload Avatar Image</label>
+            <input type="file" id="image" name="image">
+
 
     <button type="submit" class="btn btn-primary">Submit</button>
 </form>
