@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
 Route::get('/dashboard', function () {
     return view('layouts.dashboard');
 });
@@ -139,7 +138,7 @@ Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
             ->name('gyms.edit');
     Route::put('/gyms/{gym}', 'Web\GymController@update')
             ->name('gyms.update');
-    Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy')
+    Route::delete('/gyms/{gym}', 'Web\GymController@destroy')
             ->name('gyms.destroy');
     Route::get('get-gym-my-datatables', ['as'=>'get.gym','uses'=>'Web\GymController@getGym']);
 });
