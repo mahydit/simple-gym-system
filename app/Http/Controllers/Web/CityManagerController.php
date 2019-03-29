@@ -72,10 +72,10 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(CityManager $cityManager)
+    public function edit(CityManager $citymanager)
     {
         return view('cityManagers.edit',[
-            'cityManager' => $cityManager,
+            'city_manager' => $citymanager,
         ]);
     }
 
@@ -86,9 +86,13 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCityManagerRequest $request, CityManager $cityManager)
+    public function update(UpdateCityManagerRequest $request, CityManager $citymanager)
     {
-        $request->update($request->all());
+        if($request->only('profile_img')){
+            $path = $this->update_profile_img($request , $citymanager);
+            $citymanager->user->update(['profile_img' => $path]);
+        }
+        $citymanager->user->update($request->only('name'));
         return redirect()->route('cityManagers.index');
     }
 
@@ -111,5 +115,11 @@ class CityManagerController extends Controller
             return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
         })->rawColumns(['profile_image' , 'action'])->toJson();
 
+    }
+
+
+    private function update_profile_img($request , CityManager $citymanager){
+        Storage::delete($citymanager->profile_img);
+        return $request->file('profile_img')->store('public/city_managers_images');
     }
 }
