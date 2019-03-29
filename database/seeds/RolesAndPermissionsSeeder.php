@@ -62,7 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // assign coach
         Permission::create(['name' => 'assign coach']);
 
-        // ROLES 
+        // ROLES
         $adminrole = Role::create(['name' => 'admin'])
             ->givePermissionTo(['create gym manager','create city manager',
                                 'create gym','create city',
@@ -91,12 +91,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
                                 'retrieve gym manager','retrieve gym','retrieve coach','retrieve package',
 
-                                'retrieve session','retrieve attendance','buy package','assign coach']); 
+                                'retrieve session','retrieve attendance','buy package','assign coach']);
         
         $gymmanagerrole = Role::create(['name' => 'gymmanager'])
             ->givePermissionTo(['create session','edit session','delete session','retrieve session',
                                 'retrieve coach','retrieve package','retrieve attendance',
-                                'buy package','assign coach']); 
-
+                                'buy package','assign coach']);
     }
 }

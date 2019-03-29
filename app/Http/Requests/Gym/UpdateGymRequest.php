@@ -24,10 +24,9 @@ class UpdateGymRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2'.$this->gym->id,
+            'name' => 'required|min:2',
             'image' => 'jpg,jpeg',
             'city_id' => 'required|exists:cities,id',
-            'created_by' => 'required',
         ];
     }
 }
