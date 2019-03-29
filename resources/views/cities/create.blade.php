@@ -20,8 +20,8 @@
         <div class="form-group">
             <label for="exampleInputPassword1">City Manager Name</label>
             <select class="form-control" name="city_manager_id">
-                @foreach($cities as $city)
-                    <option value="{{$city->id}}">{{$city->cityManager->user->name}}</option>
+                @foreach($city_managers as $city_manager)
+                    <option value="{{$city_manager->id}}">{{$city_manager->user->name}}</option>
                 @endforeach
             </select>
         </div>

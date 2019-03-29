@@ -54,6 +54,8 @@ class CityManagerController extends Controller
             "role_type" => get_class($city_manager),
             "profile_img" => $path,
         ]);
+        $user = User::where('email', $request['email']);
+        $user->assignRole('citymanager');
         return redirect()->route('cityManagers.index');
     }
 
@@ -127,5 +129,4 @@ class CityManagerController extends Controller
         Storage::delete($citymanager->profile_img);
         return $request->file('profile_img')->store('public/city_managers_images');
     }
-    
 }
