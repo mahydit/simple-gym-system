@@ -25,7 +25,7 @@ class StoreGymRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2',
-            'image' => 'jpg,jpeg',
+            'image' => 'required|image|mimes:jpeg,jpg',
             'city_id' => 'required|exists:cities,id',
             'created_by' => 'required',
         ];

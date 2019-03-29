@@ -24,12 +24,10 @@ class PurchaseController extends Controller
     {
         return view('purchases.index');
     }
-
     public function get_data_table()
     {
         return datatables()->eloquent(Purchase::query())->toJson();
     }
-
     /**
     * Show the form for creating a new resource.
     *
