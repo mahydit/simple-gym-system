@@ -20,6 +20,9 @@ use App\Http\Requests\Session\AttendSessionRequest;
 use App\SessionAttendance;
 use Carbon\Carbon;
 use App\Http\Resources\AttendanceHistoryResource;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Access\AuthorizationException;
+use App\Notifications\UserVerified;
 
 
 
@@ -49,7 +52,7 @@ class UsersController extends Controller
             $this->guard()->user()->update(["last_log_in" => Carbon::now()->toDateTimeString()]);
             return new UserResource(User::where('email' , $request->email)->with('role')->get() , $token);
         }        
-        return response()->json(['error' => 'Unauthorized'], 401);
+        return response()->json(['error' => 'Unauthorized Wrong Credentials'], 401);
     }
 
     /**
@@ -150,21 +153,16 @@ class UsersController extends Controller
     }
 
     public function show(){
-        try {
-            $user = Auth::user();
-            return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
-            Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
-          }
-          catch (\Exception $e) {
-              return dd($e);
-          }
+        $user = Auth::user();
+        return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
+        Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
     }
 
     public function attend(Session $session ,AttendSessionRequest $request){
         Attendee::where('id' , Auth::user()->role_id)->decrement('remain_sessions');
         SessionAttendance::create([
             "session_id" => $session->id,
-            "attendee_id" => Auth::user()->role_id,
+            "attendee_id" => Auth::user()->id,
             "attendance_time" => Carbon::now()->toTimeString(),
             "attendance_date" => Carbon::now()->toDateString(),
         ]);
@@ -178,5 +176,6 @@ class UsersController extends Controller
     public function history(){
         return AttendanceHistoryResource::collection(Auth::user()->sessionAttendance);
     }
+
     
 }

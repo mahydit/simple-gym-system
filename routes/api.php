@@ -26,6 +26,7 @@ Route::group([
 ], function () {
     Route::post('login', 'Api\UsersController@login');
     Route::post('/register', 'Api\UsersController@store');
+    Route::get('/email/verify/{id}' , 'Api\UsersController@verify');
 
     Route::group([
 
