@@ -27,7 +27,7 @@ class RevenueController extends Controller
         return view('revenues.index', $content);
     }
 
-    public function calculateAdminRevene()
+    private function calculateAdminRevene()
     {
         $revenue = Purchase::all()->sum('price');
         return [
@@ -35,7 +35,7 @@ class RevenueController extends Controller
             ];
     }
 
-    public function calculateCityRevene()
+    private function calculateCityRevene()
     {
         $city_id =Auth::User()->role->city->id;
         $filteredGyms = Gym::where('city_id', $city_id)->get('id');
@@ -46,7 +46,7 @@ class RevenueController extends Controller
         ];
     }
 
-    public function calculateGymRevene()
+    private function calculateGymRevene()
     {
         $gym_id = Auth::User()->role->gym_id;
         $revenue = Purchase::where('gym_id', $gym_id)->sum('price');
