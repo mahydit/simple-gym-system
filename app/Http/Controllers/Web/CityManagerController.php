@@ -42,14 +42,13 @@ class CityManagerController extends Controller
      */
     public function store(StoreCityManagerRequest $request)
     {
-        if($request->file('profile_img')){
+        if ($request->file('profile_img')) {
             $path = $request->file('profile_img')->store('public/gym_managers_images');
-
-        }
-        else{
+        } else {
             $path = "public/default/default.jpeg";
-        }        $city_manager = CityManager::create($request->only('SID'));
-        User::create($request->only('name' , 'email') + [
+        }
+        $city_manager = CityManager::create($request->only('SID'));
+        User::create($request->only('name', 'email') + [
             "password" => Hash::make($request->only('password')['password']),
             "role_id" => $city_manager->id,
             "role_type" => get_class($city_manager),
@@ -66,7 +65,7 @@ class CityManagerController extends Controller
      */
     public function show(CityManager $citymanager)
     {
-        return view('cityManagers.show',[
+        return view('cityManagers.show', [
             'citymanager' => $citymanager,
         ]);
     }
@@ -79,7 +78,7 @@ class CityManagerController extends Controller
      */
     public function edit(CityManager $citymanager)
     {
-        return view('cityManagers.edit',[
+        return view('cityManagers.edit', [
             'city_manager' => $citymanager,
         ]);
     }
@@ -93,8 +92,8 @@ class CityManagerController extends Controller
      */
     public function update(UpdateCityManagerRequest $request, CityManager $citymanager)
     {
-        if($request->only('profile_img')){
-            $path = $this->update_profile_img($request , $citymanager);
+        if ($request->only('profile_img')) {
+            $path = $this->update_profile_img($request, $citymanager);
             $citymanager->user->update(['profile_img' => $path]);
         }
         $citymanager->user->update($request->only('name'));
@@ -113,18 +112,20 @@ class CityManagerController extends Controller
         return redirect()->route('cityManagers.index');
     }
 
-    public function get_city_manager(){
+    public function get_city_manager()
+    {
         $city_managers = CityManager::with('user')->get();
-        return datatables()->of($city_managers)->addColumn('profile_image' , function($city_managers){
+        return datatables()->of($city_managers)->addColumn('profile_image', function ($city_managers) {
             $url = Storage::url($city_managers->user->profile_img);
             return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
         })->rawColumns(['profile_image' , 'action'])->toJson();
-
     }
 
 
-    private function update_profile_img($request , CityManager $citymanager){
+    private function update_profile_img($request, CityManager $citymanager)
+    {
         Storage::delete($citymanager->profile_img);
         return $request->file('profile_img')->store('public/city_managers_images');
     }
+    
 }

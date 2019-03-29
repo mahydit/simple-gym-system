@@ -83,38 +83,46 @@
                             '">Edit</a></center>'
                     }
                 },
-                /* DELETE */
-                {
+                        /* DELETE */
+                        {
                     mRender: function (data, type, row) {
-                        return '<center><a href="#" class="table-delete btn btn-danger" row_id="' +
+                        return '<center><a href="{{route('gyms.index')}}" class="table-delete btn btn-danger" row_id="' +
                             row.id +
                             '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
 
-            ]
+            ],
         });
+        $(document).on('click', '#delete_toggle', function () {
+            var delete_id = $(this).attr('row_id');
+            $('#delete_item').attr('row_delete', delete_id);
+        });
+
         $(document).on('click', '#delete_item', function () {
-            var coach_id = $(this).attr('row_delete');
+            var gym_id = $(this).attr('row_delete');
             $.ajax({
+                data:{
+                    _method:"delete",
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/coaches/' + coach_id,
-                type: 'DELETE',
+                url: '/gyms/' + gym_id +'/destroy',
+                type: 'post',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
-                    var table = $('#coaches-table').DataTable();
+                    var table = $('#gyms_table').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {
                     alert(' error');
-                    console.log(response);
+
                 }
             });
         });
 
     });
+
 </script>
 @endsection
+
