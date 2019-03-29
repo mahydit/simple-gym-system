@@ -67,6 +67,7 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
         'as'=>'get.attendance',
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
+
 });
 
 Auth::routes(['verify' => true]);
@@ -160,17 +161,6 @@ Route::group(['middleware' => 'auth', 'role:admin'], function () {
 });
 
 ///// GYM MANAGERS //////
-<<<<<<< HEAD
-Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
-Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
-Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
-Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
-Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
-Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
-Route::delete('/gymManagers/{gymmanager}/destroy', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
-
-Route::get('/users/datatables', 'Web\UsersController@get_data_table');
-=======
 Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
     Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
     Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
@@ -184,4 +174,3 @@ Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
         'uses'=>'Web\GymManagerController@get_gym_manager'
     ]);
 });
->>>>>>> 1a25e896e459e195cc52b992a4a6554e1f218909
