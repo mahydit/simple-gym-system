@@ -123,6 +123,13 @@
                     <li><a href="{{route('sessions.index')}}">View All</a></li>
                 </ul>
             </li>
+            <li class="treeview">
+                <a href="{{route('attendances.index')"><i class="fa fa-link"></i> <span>Sessions' Attendance</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+            </li>
             
             <li><a href="{{route('purchases.index')}}"><i class="fa fa-link"></i> <span>Purchases History</span></a></li>
 
