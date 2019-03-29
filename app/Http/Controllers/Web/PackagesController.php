@@ -24,6 +24,11 @@ class PackagesController extends Controller
         return datatables()->eloquent(Package::query())->toJson();
     }
 
+    public function getPackage()
+    {
+        return datatables()->eloquent(Package::query())->toJson();
+    }
+
     public function create()
     {
         return view('packages.create');
@@ -54,6 +59,12 @@ class PackagesController extends Controller
     public function update(Package $package, EditPackageRequest $request)
     {
         package::find($package['id'])->update($request->all());
+        return redirect()->route('packages.index');
+    }
+    public function destroy(Package $package)
+    {
+        dd($package);
+        $package->delete();
         return redirect()->route('packages.index');
     }
 }

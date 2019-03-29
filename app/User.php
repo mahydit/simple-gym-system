@@ -6,10 +6,12 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use Notifiable;
+    use Notifiable, HasRoles;
+
 
     /**
      * The attributes that are mass assignable.
@@ -26,7 +28,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'remember_token',
     ];
 
     /**

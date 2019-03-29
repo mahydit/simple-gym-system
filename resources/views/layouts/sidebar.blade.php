@@ -10,7 +10,7 @@
                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
             </div>
             <div class="pull-left info">
-                <p>Dashboard</p>
+                <p>{{Auth::User()->name}}</p>
                 <!-- Status -->
                 <!-- <a href="#"><i class="fa fa-circle text-success"></i> Online</a> -->
             </div>
@@ -35,18 +35,8 @@
             <!-- Optionally, you can add icons to the links -->
             <!-- <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
             <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li> -->
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>City</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{route('cities.create')}}">Create</a></li>
-                    <li><a href="{{route('cities.index')}}">View All</a></li>
-                </ul>
-            </li>
-            
+
+            @role('admin')
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>City Manager</span>
                     <span class="pull-right-container">
@@ -58,19 +48,9 @@
                     <li><a href="{{route('cityManagers.index')}}">View All</a></li>
                 </ul>
             </li>
+            @endrole
 
-            <li class="treeview">
-                <a href="#"><i class="fa fa-link"></i> <span>Gym</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{route('gyms.create')}}">Create</a></li>
-                    <li><a href="{{route('gyms.index')}}">View All</a></li>
-                </ul>
-            </li>
-
+            @hasanyrole('citymanager|admin')
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Gym Manager</span>
                     <span class="pull-right-container">
@@ -82,6 +62,35 @@
                     <li><a href="{{route('gymManagers.index')}}">View All</a></li>
                 </ul>
             </li>
+            @endhasanyrole
+
+            @role('admin')
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>City</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('cities.create')}}">Create</a></li>
+                    <li><a href="{{route('cities.index')}}">View All</a></li>
+                </ul>
+            </li>
+            @endrole
+
+            @hasanyrole('citymanager|admin')
+            <li class="treeview">
+                <a href="#"><i class="fa fa-link"></i> <span>Gym</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{route('gyms.create')}}">Create</a></li>
+                    <li><a href="{{route('gyms.index')}}">View All</a></li>
+                </ul>
+            </li>   
+            @endhasanyrole
 
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Training Packages</span>

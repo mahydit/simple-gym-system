@@ -17,11 +17,6 @@ class Purchase extends Model
     protected $table = 'purchase_history';
     public $timestamps = false;
 
-    public function setPurchaseDateAttribute($value){
-         
-        $this->attributes['purchase_date'] = \Carbon\Carbon::now(); 
-    }
-
     public function gym(){
 
         return $this->belongsTo('App\Gym');
@@ -32,11 +27,6 @@ class Purchase extends Model
 
         return $this->belongsTo('App\User','client_id');
 
-   }
-
-   public function priceInDollar(){
-
-        return ($this->price/100);
    }
 
 }

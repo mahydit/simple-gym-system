@@ -11,7 +11,7 @@
                 <dt>Purchase Made</dt>
                 <dd>{{date(' \o\n l jS F Y ', strtotime($purchase->purchase_date))}}</dd>
                 <dt>Purchase Price</dt>
-                <dd>{{$purchase->priceInDollar()}}</dd>
+                <dd>{{$purchase->price}}</dd>
                 <dt>Gym</dt>
                 <dd>{{$gym->name}}</dd>
                 <dt>Attendee Name</dt>

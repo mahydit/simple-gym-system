@@ -18,11 +18,17 @@ class GymController extends Controller
      */
     public function index()
     {
-        return view('gyms.index',[
+        return view('gyms.index', [
             'gyms' => Gym::all(),
             'cities' => City::all(),
         ]);
     }
+
+    public function getGym()
+    {
+        return datatables()->eloquent(Gym::query())->toJson();
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -31,7 +37,7 @@ class GymController extends Controller
      */
     public function create()
     {
-        return view('gyms.create',[
+        return view('gyms.create', [
             'gyms' => Gym::all(),
             'cities' => City::all(),
         ]);
@@ -57,7 +63,7 @@ class GymController extends Controller
      */
     public function show(Gym $gym)
     {
-        return view('gyms.show',[
+        return view('gyms.show', [
             'gym' => $gym,
             'city'=> City::all(),
         ]);
@@ -71,7 +77,7 @@ class GymController extends Controller
      */
     public function edit(Gym $gym)
     {
-        return view('gyms.edit',[
+        return view('gyms.edit', [
             'gym' => $gym,
             'cities' => City::all(),
         ]);
@@ -86,7 +92,6 @@ class GymController extends Controller
      */
     public function update(UpdateGymRequest $request, Gym $gym)
     {
-        dd($gym->update($request->all()));
         $gym->update($request->all());
         return redirect()->route('gyms.index');
     }
