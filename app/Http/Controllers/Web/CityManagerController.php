@@ -98,9 +98,9 @@ class CityManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(CityManager $cityManager)
+    public function destroy(CityManager $citymanager)
     {
-        $cityManager->delete();
+        $citymanager->delete();
         return redirect()->route('cityManagers.index');
     }
 

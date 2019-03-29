@@ -59,6 +59,22 @@ Route::group(['middleware' => 'auth'], function () {
         'as'=>'get.attendance',
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
+
+
+
+    ///// CITY MANAGERS //////
+    Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
+    Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
+    Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
+    Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
+    Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
+    Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
+    Route::delete('/cityManagers/{citymanager}', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
+    Route::get('get-city_managers-my-datatables', [
+        'as'=>'get.city_manager',
+        'uses'=>'Web\CityManagerController@get_city_manager'
+    ]);
+
 });
 
 Auth::routes(['verify' => true]);
@@ -104,18 +120,6 @@ Route::get('/gyms/{gym}/edit', 'Web\GymController@edit')    ->name('gyms.edit');
 Route::put('/gyms/{gym}', 'Web\GymController@update')  ->name('gyms.update');
 Route::delete('/gyms/{gym}/destroy', 'Web\GymController@destroy') ->name('gyms.destroy');
 
-///// CITY MANAGERS //////
-Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
-Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
-Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
-Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
-Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
-Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
-Route::delete('/cityManagers/{citymanager}/destroy', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
-Route::get('get-city_managers-my-datatables', [
-    'as'=>'get.city_manager',
-    'uses'=>'Web\CityManagerController@get_city_manager'
-]);
 
 ///// GYM MANAGERS //////
 Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');

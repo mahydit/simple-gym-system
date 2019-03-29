@@ -142,22 +142,23 @@
         });
 
         $(document).on('click', '#delete_item', function () {
-            var session_id = $(this).attr('row_delete');
+            var city_manager_id = $(this).attr('row_delete');
             $.ajax({
+                data:{
+                    _method:"delete",
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/sessions/' + session_id,
-                type: 'DELETE',
+                url: '/cityManagers/' + city_manager_id,
+                type: 'post',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
-                    var table = $('#session_table').DataTable();
+                    var table = $('#city_managers_table').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {
                     alert(' error');
-                    console.log(response);
+
                 }
             });
         });
