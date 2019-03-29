@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth' , 'forbid-banned-user']], function () {
     Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
     Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
     Route::put('/gymManagers/{gymmanager}/ban', 'Web\GymManagerController@ban')  ->name('gymManagers.ban');
+    Route::put('/gymManagers/{gymmanager}/unban', 'Web\GymManagerController@unban')  ->name('gymManagers.unban');
     Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
     Route::get('get-gym_managers-my-datatables', [
         'as'=>'get.gym_manager',

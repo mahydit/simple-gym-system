@@ -85,12 +85,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="banpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="unbanpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to Ban this Gym Manager</h3>
+                <h3 class="modal-title" id="exampleModalLabel">Are you sure you want to UnBan this Gym Manager</h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -99,7 +99,7 @@
                 <div>
                     <div id="csrf_value" hidden>@csrf</div>
                     {{ method_field('PUT') }}
-                    <button type="button" row_ban="" id="ban_item" class="btn btn-danger"
+                    <button type="button" row_unban="" id="unban_item" class="btn btn-danger"
                         data-dismiss="modal">Yes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
                 </div>
@@ -167,7 +167,7 @@
                         else{
                             return '<center><a href="#" class="table-delete btn btn-success" row_id="' +
                             row.id +
-                            '" data-toggle="modal" data-target="#unbanpopup" id="ban_toggle">Unban</a></center>'
+                            '" data-toggle="modal" data-target="#unbanpopup" id="unban_toggle">Unban</a></center>'
                         }
 
                     }
@@ -245,6 +245,35 @@
                 },
                 error: function (response) {
                     alert(' error');
+                }
+            });
+        });
+
+
+        $(document).on('click', '#unban_toggle', function () {
+            var unban_id = $(this).attr('row_id');
+            $('#unban_item').attr('row_unban', unban_id);
+        });
+        $(document).on('click', '#unban_item', function () {
+            var gym_manager_id = $(this).attr('row_unban');
+            $.ajax({
+                data:{
+                    _method:"put",
+                },
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/gymManagers/' + gym_manager_id + "/unban",
+                type: 'post',
+                success: function (data) {
+                    var table = $('#gym_managers_table').DataTable();
+                    console.log(data);
+                    table.ajax.reload();
+                },
+                error: function (response) {
+                    alert(' error');
+                    console.log(response);
+
                 }
             });
         });

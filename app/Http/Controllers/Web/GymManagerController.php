@@ -131,4 +131,9 @@ class GymManagerController extends Controller
         $gymmanager->ban();
         return redirect()->route('gymManagers.index');
     }
+
+    public function unban(GymManager $gymmanager){
+        $gymmanager->unban();
+        return redirect()->route('gymManagers.index');
+    }
 }
