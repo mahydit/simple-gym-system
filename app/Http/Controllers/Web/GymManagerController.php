@@ -126,4 +126,9 @@ class GymManagerController extends Controller
             return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
         })->rawColumns(['profile_image' , 'action'])->toJson();
     }
+
+    public function ban(GymManager $gymmanager){
+        dd($gymmanager);
+
+    }
 }
