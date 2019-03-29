@@ -25,7 +25,6 @@ class UpdateGymRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2',
-            'image' => 'jpg,jpeg',
             'city_id' => 'required|exists:cities,id',
         ];
     }

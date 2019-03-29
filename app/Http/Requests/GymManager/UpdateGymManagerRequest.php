@@ -24,11 +24,8 @@ class UpdateGymManagerRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|unique:users,email',
-            'password' => 'required|min:6',
-            'profile_img' => 'jpg,jpeg',
-            'SID' => 'required',
+            'name' => 'required|string',
+            'profile_img' => 'image|mimes:jpg,jpeg',
             'gym_id' => 'required|exists:gyms,id',
         ];
     }

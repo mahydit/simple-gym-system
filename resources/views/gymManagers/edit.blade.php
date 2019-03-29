@@ -13,11 +13,11 @@
 <!-- general form elements disabled -->
 <div class="box box-warning">
     <div class="box-header with-border">
-        <h3 class="box-title">Edit Session</h3>
+        <h3 class="box-title">Edit Gym Manager</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        <form action="{!! route('cityManagers.update',['city_manager'=>$city_manager->id]) !!}" method="POST" enctype="multipart/form-data">
+        <form action="{!! route('gymManagers.update',['gym_manager'=>$gym_manager->id]) !!}" method="POST" enctype="multipart/form-data">
         @method('PUT')
             @csrf
 
@@ -25,7 +25,7 @@
             <!-- National ID input -->
             <div class="form-group {{ $errors->has('SID') ? 'has-error' : '' }}">
                 <label>National ID</label>
-                <input type="number" class="form-control" value="{{$city_manager->SID}}" placeholder="National ID"
+                <input type="number" class="form-control" value="{{$gym_manager->SID}}" placeholder="National ID"
                     name="SID" disabled>
                 @if ($errors->has('SID'))
                 <span class="help-block" role="alert">
@@ -37,7 +37,7 @@
             <!-- Email input -->
             <div class="form-group {{ $errors->has('email') ? 'has-error' : '' }}">
                 <label>Email</label>
-                <input type="email" class="form-control" value="{{$city_manager->user->email}}" placeholder="Email"
+                <input type="email" class="form-control" value="{{$gym_manager->user->email}}" placeholder="Email"
                     name="email" disabled>
                 @if ($errors->has('email'))
                 <span class="help-block" role="alert">
@@ -49,7 +49,7 @@
             <!-- name input -->
             <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                 <label>Name</label>
-                <input type="text" class="form-control" value="{{ $city_manager->user->name }}" placeholder="Name"
+                <input type="text" class="form-control" value="{{ $gym_manager->user->name }}" placeholder="Name"
                     name="name">
                 @if ($errors->has('name'))
                 <span class="help-block" role="alert">
@@ -57,7 +57,6 @@
                 </span>
                 @endif
             </div>
-
 
             <!-- Upload Image input -->
             <div class="form-group {{ $errors->has('profile_img') ? 'has-error' : '' }}">
@@ -99,19 +98,6 @@
     $(function () {
         //Initialize Select2 Elements
         $('.select2').select2()
-
-        //Date picker
-        $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true
-        })
-        //Timepicker
-        $('.timepicker').timepicker({
-            use24hours: true,
-            timeFormat: "h:m:s",
-            showInputs: false,
-        })
-    })
 
 </script>
 @endsection

@@ -13,7 +13,7 @@
 <!-- general form elements disabled -->
 <div class="box box-warning">
     <div class="box-header with-border">
-        <h3 class="box-title">Edit Session</h3>
+        <h3 class="box-title">Edit City Manager</h3>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
