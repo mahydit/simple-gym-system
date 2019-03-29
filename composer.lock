@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b29364b185f7730f629004d31e06b04f",
+    "content-hash": "c405353a4e451f461be4ac8a9d1193f3",
     "packages": [
         {
             "name": "cartalyst/collections",
@@ -3408,7 +3408,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
