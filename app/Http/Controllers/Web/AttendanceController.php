@@ -43,55 +43,8 @@ class AttendanceController extends Controller
             $attendanceFilter = $this->getGymFilteredAttendance();
         }
 
-        return datatables()->of($attendanceFilter)->with('user', 'session')
-        ->editColumn('attendance_time', function ($attendanceFilter) {
-            return datatables()->of($attendanceFilter)->with(['gym','coaches'])
-            
-            ->editColumn('starts_at', function ($attendanceFilter) 
-            {
-                return date("h:i a", strtotime($attendanceFilter->starts_at));
-            })
-            ->addColumn('city_name', function ($attendanceFilter) 
-            {
-                return City::findorFail($attendanceFilter->gym->city_id)->name;
-    
-            })
-            ->editColumn('ends_at', function ($attendanceFilter) 
-            {
-                return date("h:i a", strtotime($attendanceFilter->ends_at));
-            })
-            ->editColumn('session_date', function ($attendanceFilter) 
-            {
-                return date("d-M-Y", strtotime($attendanceFilter->session_date));
-            })->toJson();
-            return date("h:i a", strtotime($attendanceFilter->attendance_time));
-        })
-        ->editColumn('attendance_date', function ($attendanceFilter) {
-            return date("F, l jS, Y", strtotime($attendanceFilter->attendance_date));
-        })
-        ->editColumn('gym_name', function ($attendanceFilter) {
-            return $attendanceFilter->session->gym->name;
-        })->toJson();
+        return datatables()->of($attendanceFilter)->with('user', 'session')->toJson();
 
-        // ================Session=======================
-        // return datatables()->of($attendanceFilter)->with(['gym','coaches'])
-        // ->editColumn('starts_at', function ($attendanceFilter) 
-        // {
-        //     return date("h:i a", strtotime($attendanceFilter->starts_at));
-        // })
-        // ->addColumn('city_name', function ($attendanceFilter) 
-        // {
-        //     return City::findorFail($attendanceFilter->gym->city_id)->name;
-
-        // })
-        // ->editColumn('ends_at', function ($attendanceFilter) 
-        // {
-        //     return date("h:i a", strtotime($attendanceFilter->ends_at));
-        // })
-        // ->editColumn('session_date', function ($attendanceFilter) 
-        // {
-        //     return date("d-M-Y", strtotime($attendanceFilter->session_date));
-        // })->toJson();
     }
         
     private function getGymFilteredAttendance()
@@ -112,19 +65,12 @@ class AttendanceController extends Controller
                 $query->where('city_manager_id', Auth::User()->id);
             }
         )->get();
-        // dd($attendance);
         return $attendance;
     }
 
-    private function getAdminFilteredAttendance()
+    public function getAdminFilteredAttendance()
     {
-        $attendance = SessionAttendance::with('session')->whereHas(
-            'session.gym.city', function($query)
-            {
-                $query->where('name', City::all());
-            }
-        )->get();
-        // dd($attendance);
+        $attendance = SessionAttendance::with('session.gym.city')->get();
         return $attendance;
     }
 }
