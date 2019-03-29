@@ -53,9 +53,17 @@ class CityManagerController extends Controller
             "role_id" => $city_manager->id,
             "role_type" => get_class($city_manager),
             "profile_img" => $path,
-        ]);
-        $user = User::where('email', $request['email']);
-        $user->assignRole('citymanager');
+    
+            ])->assignRole('citymanager')->givePermissionTo(['create gym','create gym manager','create coach','create session',
+
+            'edit gym manager','edit gym','edit coach','edit session',
+
+            'delete gym manager','delete gym','delete coach','delete session',
+
+            'retrieve gym manager','retrieve gym','retrieve coach','retrieve package',
+
+            'retrieve session','retrieve attendance','buy package','assign coach']);
+
         return redirect()->route('cityManagers.index');
     }
 
