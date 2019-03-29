@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Cog\Contracts\Ban\Bannable as BannableContract;
 use Cog\Laravel\Ban\Traits\Bannable;
+use Spatie\Permission\Traits\HasRoles;
 
 class GymManager extends Model implements BannableContract
 {
-    use Bannable;
-    
+    use Bannable , HasRoles;
+
     protected $fillable = [
         'gym_id',
         'SID'
@@ -17,10 +18,9 @@ class GymManager extends Model implements BannableContract
     protected $table = 'gym_managers';
     public $timestamps = false;
 
-    public function gym(){
-
+    public function gym()
+    {
         return $this->belongsTo('App\Gym');
-
     }
 
     public function user()

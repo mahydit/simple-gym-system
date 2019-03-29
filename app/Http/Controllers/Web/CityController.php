@@ -18,20 +18,27 @@ class CityController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        return view('cities.index',[
+    public function index()
+    {
+        // dd(User::find(1)->role_id);
+        return view('cities.index', [
             'cities' => City::all(),
         ]);
+    }
+    public function getCity()
+    {
+        return datatables()->eloquent(Gym::query())->toJson();
     }
 
     /**
      * Show the form for creating a new resource.
-     *  
+     *
      * @return \Illuminate\Http\Response
      */
 
-    public function create(){
-        return view('cities.create',[
+    public function create()
+    {
+        return view('cities.create', [
             'cities' => City::all(),
             'countries' => Country::all(),
         ]);
@@ -43,7 +50,8 @@ class CityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCityRequest $request){
+    public function store(StoreCityRequest $request)
+    {
         City::create($request->all());
         return redirect()->route('cities.index');
     }
@@ -54,8 +62,9 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(City $city){
-        return view('cities.show',[
+    public function show(City $city)
+    {
+        return view('cities.show', [
             'city' => $city
         ]);
     }
@@ -66,9 +75,10 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(City $city){
+    public function edit(City $city)
+    {
         // dd($city);
-        return view('cities.edit',[
+        return view('cities.edit', [
             'city' => $city,
             'cities' => City::all(),
             'countries' => Country::all()
@@ -94,7 +104,8 @@ class CityController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(City $city){
+    public function destroy(City $city)
+    {
         $city->delete();
         return redirect()->route('cities.index');
     }

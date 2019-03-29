@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Package;
 use App\Http\Requests\Package\StorePackageRequest;
 use App\Http\Requests\Package\EditPackageRequest;
+use App\User;
 
 class PackagesController extends Controller
 {
@@ -17,6 +18,11 @@ class PackagesController extends Controller
         ]);
     }
     public function get_data_table()
+    {
+        return datatables()->eloquent(Package::query())->toJson();
+    }
+
+    public function getPackage()
     {
         return datatables()->eloquent(Package::query())->toJson();
     }
@@ -51,6 +57,12 @@ class PackagesController extends Controller
     public function update(Package $package, EditPackageRequest $request)
     {
         package::find($package['id'])->update($request->all());
+        return redirect()->route('packages.index');
+    }
+    public function destroy(Package $package)
+    {
+        dd($package);
+        $package->delete();
         return redirect()->route('packages.index');
     }
 }

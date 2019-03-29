@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Web;
 use App\Gym;
 use App\Coach;
 use App\Session;
+use App\City;
 use App\SessionAttendance;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 
 class SessionController extends Controller
@@ -32,17 +34,38 @@ class SessionController extends Controller
      */
     public function create()
     {
-        $gym_id = Auth::User()->role->gym_id;
-        $gym = Gym::findOrFail($gym_id);
-        $coaches = Coach::all();
-        $filteredCoaches = $coaches->filter(function ($coach) use ($gym_id) {
-            return $coach->at_gym_id == $gym_id;
-        });
-        
-        return view('sessions.create', [
-            'gym'=>$gym,
-            'coaches'=>$filteredCoaches->all(),
-        ]);
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $cities = City::all();
+            // dd($cities);
+            return view('sessions.create', [
+                'cities'=>$cities,
+            ]);
+
+        }elseif($user->hasRole('citymanager')){
+
+            $city_id = Auth::User()->role->city->id;
+            $city = Auth::User()->role->city;
+            $gyms = Gym::where('city_id','=',$city_id)->get();
+            
+            return view('sessions.create', [
+                'city'=>$city,
+                'gyms'=>$gyms,
+            ]);
+
+        }else{
+
+            $gym_id = Auth::User()->role->gym_id;
+            $gym = Auth::User()->role->gym;
+            $filteredCoaches = Coach::all()->filter(function ($coach) use ($gym_id) {
+                return $coach->at_gym_id == $gym_id;
+            });
+            
+            return view('sessions.create', [
+                'gym'=>$gym,
+                'coaches'=>$filteredCoaches->all(),
+            ]);
+        }
     }
 
     /**
@@ -55,7 +78,6 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
-        $request['gym_id'] = Auth::User()->role->gym_id;
     
         $session = Session::create($request->all());
         $session->coaches()->attach($request->coach_id);
@@ -91,6 +113,7 @@ class SessionController extends Controller
                 'session'=> $session,
                 'coaches'=>$session->coaches,
                 'gym'=>$session->gym,
+                'city'=>$session->gym->city,
             ]);
         } else {
             // TODO: msg saying user can't be updated.
@@ -109,7 +132,6 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
-        $request['gym_id'] = Auth::User()->role->gym_id;
 
         Session::findOrFail($session)->update($request->all());
 
@@ -136,16 +158,24 @@ class SessionController extends Controller
 
     public function getSession()
     {
-        // TODO: check looged in user
-        // If  gym manager then:
-        $gym_id = Auth::User()->role->gym_id;
-        $session = Session::with(['gym', 'coaches'])->get();
-        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
-            return $session->gym_id == $gym_id;
-        });
-        return datatables()->of($sessionFilter)->with('gym','coaches')->editColumn('starts_at', function ($sessionFilter) 
+        $user = Auth::user();
+        if($user->hasRole('admin')){
+            $sessionFilter = $this->getAdminFilteredSessions();
+        }elseif($user->hasRole('citymanager')){
+            $sessionFilter = $this->getCityFilteredSessions();
+        }else{
+            $sessionFilter = $this->getGymFilteredSessions();
+        }
+        
+        return datatables()->of($sessionFilter)->with(['gym','coaches'])
+        ->editColumn('starts_at', function ($sessionFilter) 
         {
             return date("h:i a", strtotime($sessionFilter->starts_at));
+        })
+        ->addColumn('city_name', function ($sessionFilter) 
+        {
+            return City::findorFail($sessionFilter->gym->city_id)->name;
+
         })
         ->editColumn('ends_at', function ($sessionFilter) 
         {
@@ -155,10 +185,59 @@ class SessionController extends Controller
         {
             return date("d-M-Y", strtotime($sessionFilter->session_date));
         })->toJson();
-
-        // If  cit manager then:
-
-        // If  admin then:
+        
     }
 
+    private function getGymFilteredSessions()
+    {
+        $gym_id = Auth::User()->role->gym_id;
+        $session = Session::with(['gym', 'coaches'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($gym_id) {
+            return $session->gym_id == $gym_id;
+        });
+    
+        return $sessionFilter;
+    }
+
+    private function getCityFilteredSessions()
+    {
+        $city_id = Auth::User()->role->city->id;
+        $session = Session::with(['gym', 'coaches'])->get();
+        $sessionFilter = $session->filter(function ($session) use ($city_id) {
+            return $session->gym->city->id == $city_id;
+        });
+
+        return $sessionFilter;
+    }
+
+    private function getAdminFilteredSessions()
+    {
+        $sessions = Session::with(['gym', 'coaches'])->get();
+        
+        return $sessions;
+    }
+
+    function fetchCoaches(Request $request)
+    {
+        $value = $request->get('value');
+        $data = Coach::where('at_gym_id','=', $value)->get();
+        $output = '';
+        foreach($data as $row)
+        {
+            $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+        }
+        echo $output;
+    }
+
+    function fetchGyms(Request $request)
+    {
+        $value = $request->get('value');
+        $data = Gym::where('city_id','=', $value)->get();
+        $output = '';
+        foreach($data as $row)
+        {
+            $output .= '<option value="'.$row->id.'">'.$row->name.'</option>';
+        }
+        echo $output;
+    }
 }

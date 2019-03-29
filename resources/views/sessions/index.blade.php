@@ -22,11 +22,16 @@
                         <tr>
                             <th class="text-center">#</th>
                             <th class="text-center">Name</th>
+                            @hasanyrole('admin|citymanager')
                             <th class="text-center">Gym</th>
+                            @endhasanyrole
                             <th class="text-center">Coach</th>
                             <th class="text-center">starts at</th>
                             <th class="text-center">Ends at</th>
                             <th class="text-center">Date</th>
+                            @hasrole('admin')
+                            <th class="text-center">City</th>
+                            @endhasrole
                             <th class="text-center">Show</th>
                             <th class="text-center">Edit</th>
                             <th class="text-center">Delete</th>
@@ -92,10 +97,12 @@
                     data: 'name',
                     name: 'name'
                 },
+                @hasanyrole('admin|citymanager')
                 {
                     data: 'gym.name',
                     name: 'gym.name'
                 },
+                @endhasanyrole
                 {
                     data: 'coaches[].name',
                     name: 'coaches[].name'
@@ -112,8 +119,14 @@
                     data: 'session_date',
                     name: 'session_date'
                 },
+                @hasrole('admin')
+                {
+                    data: 'city_name',
+                    name: 'city_name'
+                },
+                @endhasrole
 
-                /* Show */
+                /* SHOW */
                 {
                     mRender: function (data, type, row) {
                         return '<center><a href="/sessions/' + row.id +

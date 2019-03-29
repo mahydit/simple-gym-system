@@ -18,7 +18,7 @@
 
     <div class="form-group">
         <label for="exampleInputEmail1">Gym Name</label>
-        <input name="gym_name" value="{{$gym->name}}" type="text" class="form-control" id="exampleInputEmail1"
+        <input name="name" value="{{$gym->name}}" type="text" class="form-control" id="exampleInputEmail1"
             aria-describedby="emailHelp">
     </div>
     <div class="form-group">
