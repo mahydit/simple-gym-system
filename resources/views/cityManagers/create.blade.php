@@ -20,16 +20,15 @@
     <div class="box-body">
         <form action="{{route('cityManagers.store')}}" method="POST" enctype="multipart/form-data">
             @csrf
-            @if ($errors->any())
             
             <!-- National ID input -->
-            <div class="form-group {{ $errors->has('national_id') ? 'has-error' : '' }}">
+            <div class="form-group {{ $errors->has('SID') ? 'has-error' : '' }}">
                 <label>National ID</label>
-                <input type="number" class="form-control" value="{{ old('national_id') }}" placeholder="National ID"
-                    name="national_id">
-                @if ($errors->has('national_id'))
+                <input type="number" class="form-control" value="{{ old('SID') }}" placeholder="National ID"
+                    name="SID">
+                @if ($errors->has('SID'))
                 <span class="help-block" role="alert">
-                    <strong>{{ $errors->first('national_id') }}</strong>
+                    <strong>{{ $errors->first('SID') }}</strong>
                 </span>
                 @endif
             </div>

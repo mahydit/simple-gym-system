@@ -10,6 +10,7 @@ use App\User;
 use App\Http\Requests\CityManager\StoreCityManagerRequest;
 use App\Http\Requests\CityManager\UpdateCityManagerRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class CityManagerController extends Controller
 {
@@ -41,8 +42,14 @@ class CityManagerController extends Controller
      */
     public function store(StoreCityManagerRequest $request)
     {
-        dd($request);
-        CityManager::create($request->all());
+        $path = $request->file('profile_img')->store('public/city_managers_images');
+        $city_manager = CityManager::create($request->only('SID'));
+        User::create($request->only('name' , 'email') + [
+            "password" => Hash::make($request->only('password')['password']),
+            "role_id" => $city_manager->id,
+            "role_type" => get_class($city_manager),
+            "profile_img" => $path,
+        ]);
         return redirect()->route('cityManagers.index');
     }
 
