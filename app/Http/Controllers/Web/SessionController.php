@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
+use Illuminate\Support\Facades\DB;
 
 
 class SessionController extends Controller
@@ -54,6 +55,7 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
+        $request['gym_id'] = Auth::User()->role->gym_id;
     
         $session = Session::create($request->all());
         $session->coaches()->attach($request->coach_id);
@@ -107,6 +109,7 @@ class SessionController extends Controller
     {
         $request['starts_at'] = date("H:i:s", strtotime($request->starts_at));
         $request['ends_at'] = date("H:i:s", strtotime($request->ends_at));
+        $request['gym_id'] = Auth::User()->role->gym_id;
 
         Session::findOrFail($session)->update($request->all());
 
@@ -122,6 +125,7 @@ class SessionController extends Controller
     public function destroy($session)
     {
         // if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
+            DB::table('sessions_coaches')->where('session_id', '=', $session)->delete();
             Session::findOrFail($session)->delete();
             return redirect()->route('sessions.index');
         // } else {

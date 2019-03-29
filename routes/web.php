@@ -37,20 +37,24 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('get-session-my-datatables', [
         'as'=>'get.session',
         'uses'=>'Web\SessionController@getSession'
-    ]);
+        ]);
 
     Route::get('/revenues', 'Web\RevenueController@index')
     ->name('revenues.index');
 
     Route::get('/purchases', 'Web\PurchaseController@index')
     ->name('purchases.index');
+    Route::get('/purchases/create','Web\PurchaseController@create')
+    ->name('purchases.create');
+    Route::post('/purchases','Web\PurchaseController@store')
+    ->name('purchases.store');
     Route::get('/purchases/{purchase}', 'Web\PurchaseController@show')
     ->name('purchases.show');
     Route::get('get-purchase-my-datatables', [
         'as'=>'get.purchase',
         'uses'=>'Web\PurchaseController@getPurchase'
-    ]);
-    
+        ]);
+            
     Route::get('/attendances', 'Web\AttendanceController@index')
     ->name('attendances.index');
     Route::get('/attendances/{attendance}', 'Web\AttendanceController@show')
