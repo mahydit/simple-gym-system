@@ -33,8 +33,7 @@ class GymManagerController extends Controller
     public function create()
     {
         return view('gymManagers.create',[
-            'gymManagers' => GymManager::with('user')->get(),
-            'gyms' => Gym::all(),
+            "gyms" => Gym::all(),
         ]);
     }
 
@@ -46,7 +45,14 @@ class GymManagerController extends Controller
      */
     public function store(StoreGymManagerRequest $request)
     {
-        GymManager::create($request->all());
+        $path = $request->file('profile_img')->store('public/gym_managers_images');
+        $gym_manager = GymManager::create([ "SID" => $request->only('SID')["SID"] , "gym_id" => $request->only('gym_id')['gym_id'][0]]);
+        User::create($request->only('name' , 'email') + [
+            "password" => Hash::make($request->only('password')['password']),
+            "role_id" => $gym_manager->id,
+            "role_type" => get_class($gym_manager),
+            "profile_img" => $path,
+        ]);
         return redirect()->route('gymManagers.index');
     }
 
