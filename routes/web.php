@@ -67,7 +67,6 @@ Route::group(['middleware' => 'auth','forbid-banned-user','role:admin|citymanage
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
 
-    // Route::get("/yousra", 'Web\AttendanceController@getAttendance');
 });
 
 Auth::routes(['verify' => true]);
