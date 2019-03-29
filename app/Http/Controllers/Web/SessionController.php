@@ -146,14 +146,14 @@ class SessionController extends Controller
      */
     public function destroy($session)
     {
-        // if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
+        if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
             DB::table('sessions_coaches')->where('session_id', '=', $session)->delete();
             Session::findOrFail($session)->delete();
             return redirect()->route('sessions.index');
-        // } else {
+        } else {
             // TODO: msg saying user can't be updated.
-            // return redirect()->route('sessions.index');
-        // };
+            return redirect()->route('sessions.index');
+        };
     }
 
     public function getSession()
