@@ -100,18 +100,5 @@
         //Initialize Select2 Elements
         $('.select2').select2()
 
-        //Date picker
-        $('#datepicker').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true
-        })
-        //Timepicker
-        $('.timepicker').timepicker({
-            use24hours: true,
-            timeFormat: "h:m:s",
-            showInputs: false,
-        })
-    })
-
 </script>
 @endsection
