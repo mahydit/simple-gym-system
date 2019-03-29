@@ -32,6 +32,7 @@ class UsersController extends Controller
      */
     public function __construct()
     {
+        
     }
 
     /**
@@ -149,9 +150,14 @@ class UsersController extends Controller
     }
 
     public function show(){
-        $user = Auth::user();
-        return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
-        Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+        try {
+            $user = Auth::user();
+            return new RemainingSessionResource($user->with('role')->find($user->id) , Package::where('name' ,
+            Purchase::where('client_id' , $user->id)->first()->name)->first()->no_sessions);
+          }
+          catch (\Exception $e) {
+              return dd($e);
+          }
     }
 
     public function attend(Session $session ,AttendSessionRequest $request){
