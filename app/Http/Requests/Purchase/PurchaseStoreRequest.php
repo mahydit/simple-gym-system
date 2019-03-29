@@ -25,9 +25,12 @@ class PurchaseStoreRequest extends FormRequest
     {
         return [
             'gym_id' =>'required|exists:gyms,id',
-            'client_id' => 'required|exists:users,id',
-            'name' => 'required|min:3',
-            'price' => 'required',
+            'user_id' => 'required|exists:users,id',
+            'package_id' => 'required|exists:packages,id',
+            'card_no' => 'required|digits_between:14,16',
+            'expiry_month' => 'required|digits:2',
+            'expiry_year' => 'required|digits:4',
+            'cvv' =>'required|digits:3',
         ];
     }
 }

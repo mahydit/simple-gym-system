@@ -10,6 +10,8 @@ use App\City;
 use App\User;
 use App\Http\Requests\GymManager\StoreGymManagerRequest;
 use App\Http\Requests\GymManager\UpdateGymManagerRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class GymManagerController extends Controller
 {
@@ -20,11 +22,7 @@ class GymManagerController extends Controller
      */
     public function index()
     {
-        // dd(GymManager::find(1)->user);
-        return view('gymManagers.index',[
-            'gymManagers' => GymManager::all(),
-            'gyms' => Gym::all(),
-        ]);
+        return view('gymManagers.index');
     }
 
     /**
@@ -35,8 +33,7 @@ class GymManagerController extends Controller
     public function create()
     {
         return view('gymManagers.create',[
-            'gymManagers' => GymManager::with('user')->get(),
-            'gyms' => Gym::all(),
+            "gyms" => Gym::all(),
         ]);
     }
 
@@ -48,7 +45,20 @@ class GymManagerController extends Controller
      */
     public function store(StoreGymManagerRequest $request)
     {
-        GymManager::create($request->all());
+        if($request->file('profile_img')){
+            $path = $request->file('profile_img')->store('public/gym_managers_images');
+
+        }
+        else{
+            $path = "public/default/default.jpeg";
+        }
+        $gym_manager = GymManager::create([ "SID" => $request->only('SID')["SID"] , "gym_id" => $request->only('gym_id')['gym_id'][0]]);
+        User::create($request->only('name' , 'email') + [
+            "password" => Hash::make($request->only('password')['password']),
+            "role_id" => $gym_manager->id,
+            "role_type" => get_class($gym_manager),
+            "profile_img" => $path,
+        ]);
         return redirect()->route('gymManagers.index');
     }
 
@@ -58,10 +68,10 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(GymManager $gymManager)
+    public function show(GymManager $gymmanager)
     {
         return view('gymManagers.show',[
-            'gymManager' => $gymManager
+            'gymmanager' => $gymmanager
         ]);
     }
 
@@ -99,9 +109,17 @@ class GymManagerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(GymManager $gymManager)
+    public function destroy(GymManager $gymmanager)
     {
-        $gymManager->delete();
+        $gymmanager->delete();
         return redirect()->route('gymManagers.index');
+    }
+
+    public function get_gym_manager(){
+        $gym_managers = GymManager::with('user')->get();
+        return datatables()->of($gym_managers)->addColumn('profile_image' , function($gym_managers){
+            $url = Storage::url($gym_managers->user->profile_img);
+            return '<img src="'.$url.'" border="0" width="80" class="img-rounded" align="center" />';
+        })->rawColumns(['profile_image' , 'action'])->toJson();
     }
 }

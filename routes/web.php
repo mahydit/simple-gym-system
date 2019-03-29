@@ -63,6 +63,37 @@ Route::group(['middleware' => 'auth'], function () {
         'as'=>'get.attendance',
         'uses'=>'Web\AttendanceController@getAttendance'
     ]);
+
+
+
+    ///// CITY MANAGERS //////
+    Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
+    Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
+    Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
+    Route::get('/cityManagers/{citymanager}', 'Web\CityManagerController@show')    ->name('cityManagers.show');
+    Route::get('/cityManagers/{citymanager}/edit', 'Web\CityManagerController@edit')    ->name('cityManagers.edit');
+    Route::put('/cityManagers/{citymanager}', 'Web\CityManagerController@update')  ->name('cityManagers.update');
+    Route::delete('/cityManagers/{citymanager}', 'Web\CityManagerController@destroy') ->name('cityManagers.destroy');
+    Route::get('get-city_managers-my-datatables', [
+        'as'=>'get.city_manager',
+        'uses'=>'Web\CityManagerController@get_city_manager'
+    ]);
+
+
+
+
+    ///// GYM MANAGERS //////
+    Route::get('/gymManagers', 'Web\GymManagerController@index')   ->name('gymManagers.index');
+    Route::get('/gymManagers/create', 'Web\GymManagerController@create')  ->name('gymManagers.create');
+    Route::post('/gymManagers', 'Web\GymManagerController@store')   ->name('gymManagers.store');
+    Route::get('/gymManagers/{gymmanager}', 'Web\GymManagerController@show')    ->name('gymManagers.show');
+    Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
+    Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
+    Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+    Route::get('get-gym_managers-my-datatables', [
+        'as'=>'get.gym_manager',
+        'uses'=>'Web\GymManagerController@get_gym_manager'
+    ]);
 });
 
 Auth::routes(['verify' => true]);

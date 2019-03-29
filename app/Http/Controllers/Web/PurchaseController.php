@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Package;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
+use Cartalyst\Stripe\Stripe as CartalystStripe;
+use Carbon\Carbon;
+use App\Http\Requests\Purchase\PurchaseStoreRequest;
 
 class PurchaseController extends Controller
 {
@@ -42,22 +45,27 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PurchaseStoreRequest $request)
     {
-        // dd($request);
         $request['gym_id'] = Auth::User()->role->gym_id;
         $package = Package::findorFail($request->package_id);
-        // $package = DB::table('gym_packages')->where('name', $request->get('package_name'))->first();
+
         $this->acceptPayment($request, $package);
+
         $payment = [
-            "_token" => $request->_token,
-            "user_id" => $request->user_id,
-            'package_name' => $request->package_name,
-            'package_price' => $package->price,
+            'client_id' => $request->user_id,
+            'name' => $package->name,
+            'price' => $package->price,
             'gym_id' => $request->gym_id,
-            // 'purchase_date' => Carbon\Carbon::now(),
+            'purchase_date' => Carbon::now(),
         ];
         Purchase::create($payment);
+        $user = User::findOrFail($request->user_id)->role;
+        $user ->update([
+            'remain_sessions' => $user->remain_sessions + $package->no_sessions,
+        ]);
+
+        return redirect()->route('sessions.index');
         // return back()->with('success', 'Purchase created successfully!');
     }
     
@@ -78,7 +86,7 @@ class PurchaseController extends Controller
 
     private function acceptPayment($request, $package)
     {
-        $stripe = Stripe::make(env('STRIPE_SECRET'));
+        $stripe = CartalystStripe::make(env('STRIPE_SECRET'));
         try {
             $token = $stripe->tokens()->create([
                 'card' => [
@@ -89,7 +97,7 @@ class PurchaseController extends Controller
                 ],
             ]);
             if (!isset($token['id'])) {
-                return Redirect::to('strips')->with('Token is not generate correct');
+                return Redirect::to('strips')->with('Token is not generated correctly');
             }
             $charge = $stripe->charges()->create([
                 'card' => $token['id'],

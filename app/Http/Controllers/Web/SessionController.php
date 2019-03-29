@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Session\StoreSessionRequest;
 use App\Http\Requests\Session\UpdateSessionRequest;
+use Illuminate\Support\Facades\DB;
 
 
 class SessionController extends Controller
@@ -124,6 +125,7 @@ class SessionController extends Controller
     public function destroy($session)
     {
         // if (!SessionAttendance::where('session_id', '=', $session)->exists()) {
+            DB::table('sessions_coaches')->where('session_id', '=', $session)->delete();
             Session::findOrFail($session)->delete();
             return redirect()->route('sessions.index');
         // } else {
