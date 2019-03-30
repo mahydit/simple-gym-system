@@ -21,19 +21,7 @@ class PurchaseController extends Controller
     {
         return view('purchases.index');
     }
-<<<<<<< HEAD
-    public function get_data_table()
-    {
-        return datatables()->eloquent(Purchase::query())->toJson();
-    }
-    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-=======
 
->>>>>>> 2c605d35e3d626cd6abaca30c0c40cccb5673f2c
     public function create()
     {
         $user = Auth::user();
