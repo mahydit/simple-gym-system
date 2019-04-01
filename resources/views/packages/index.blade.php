@@ -17,8 +17,10 @@
             <td>Price</td>
             <td>Number of Sessions</td>
             <td>show</td>
+            @hasrole('admin')
             <td>edit</td>
             <td>delete</td>
+            @endhasrole
         </tr>
     </thead>
 </table>
@@ -73,6 +75,7 @@
                             '">Show</a></center>'
                     }
                 },
+                @hasrole('admin')
                 /* EDIT */
                 {
                     mRender: function (data, type, row) {
@@ -89,7 +92,7 @@
                             '" data-toggle="modal" data-target="#deletepopup" id="delete_toggle">Delete</a></center>'
                     }
                 },
-
+                @endhasrole
             ]
         });
 
@@ -101,11 +104,14 @@
         $(document).on('click', '#delete_item', function () {
             var package_id = $(this).attr('row_delete');
             $.ajax({
+                data:{
+                    _method:"delete",
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: '/packages/' + package_id,
-                type: 'DELETE',
+                type: 'post',
                 success: function (data) {
                     console.log('success');
                     console.log(data);

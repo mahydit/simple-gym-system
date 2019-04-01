@@ -55,7 +55,7 @@
             "bLengthChange": true,
             'autoWidth': true,
 
-            ajax: '{!! route('get.purchase') !!}',
+            ajax: {url:'{!! route('get.purchase') !!}',dataSrc:""},
             columns: [{
                     data: 'id',
                     name: 'id'

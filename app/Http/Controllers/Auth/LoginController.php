@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use App\GymManager;
 
 class LoginController extends Controller
 {
@@ -32,6 +34,18 @@ class LoginController extends Controller
      *
      * @return void
      */
+
+     public function authenticated(Request $request , $user){
+         if($user->hasRole('gymmanager')){
+
+            $gymManager = GymManager::findOrFail($user->role_id);
+            if($gymManager->isBanned()){
+                return redirect()->route('BannedController.ban');
+            }
+         }
+        
+     }
+     
     public function __construct()
     {
         $this->middleware('guest')->except('logout');

@@ -265,7 +265,7 @@
                 var _token = $('input[name="_token"]').val();
                 console.log(value);
                 $.ajax({
-                    url: "{{ route('dynamicdependent.fetchCoaches') }}",
+                    url: "{{ route('dynamicdependentSession.fetch') }}",
                     method: "POST",
                     data: {select: select, value: value, _token: _token, dependent: dependent},
                     success: function (result) {

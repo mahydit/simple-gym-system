@@ -13,8 +13,8 @@ class PackagesController extends Controller
 {
     public function index()
     {
-        $admin = User::find(9);
-        dd($admin->getAllPermissions());
+        // $admin = User::find(9);
+        // dd($admin->getAllPermissions());
         return view('packages.index', [
             'packages' => Package::all(),
         ]);
@@ -63,7 +63,7 @@ class PackagesController extends Controller
     }
     public function destroy(Package $package)
     {
-        dd($package);
+        // dd($package);
         $package->delete();
         return redirect()->route('packages.index');
     }

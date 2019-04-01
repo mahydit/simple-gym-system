@@ -32,8 +32,6 @@ class AttendanceController extends Controller
 
     public function getAttendance()
     {
-        // TODO: check logged in user
-    
         $user = Auth::user();
         if($user->hasRole('admin')){
             $attendanceFilter = $this->getAdminFilteredAttendance();

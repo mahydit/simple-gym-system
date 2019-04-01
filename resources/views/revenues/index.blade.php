@@ -11,6 +11,10 @@
         <h3 class="box-title">{{$city->name}}</h3>
         @endhasrole
 
+        @hasrole('admin')
+        <h3 class="box-title">Revenue</h3>
+        @endhasrole
+
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                 title="Collapse">
@@ -35,8 +39,8 @@
             @endhasrole
 
             @hasrole('admin')
-            <b>Total revenue for the gym</b>
-            <b>Doing well so far</b>
+            <h4>Total revenue for the gym</h4>
+            <h2>Doing well so far .. !</h2>
             @endhasrole
         </div>
         <div class="col col-lg-4">

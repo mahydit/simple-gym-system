@@ -77,7 +77,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 //coaches//
-Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () {
+Route::group(['middleware' => 'auth','forbid-banned-user', 'role:admin'], function () {
     Route::get('/coaches', 'Web\CoachController@index')
     ->name('coaches.index');
     Route::get('/coaches/create', 'Web\CoachController@create')
@@ -98,7 +98,7 @@ Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () 
 
 
 //packages//
-Route::group(['middleware' => 'auth','middleware' => 'role:admin'], function () {
+Route::group(['middleware' => 'auth','role:admin','forbid-banned-user'], function () {
     Route::get('/packages', 'Web\PackagesController@index')
         ->name('packages.index');
     Route::get('/packages/create', 'Web\PackagesController@create')
@@ -124,9 +124,10 @@ Route::get('/cities/{city}', 'Web\CityController@show')    ->name('cities.show')
 Route::get('/cities/{city}/edit', 'Web\CityController@edit')    ->name('cities.edit');
 Route::put('/cities/{city}', 'Web\CityController@update')  ->name('cities.update');
 Route::delete('/cities/{city}/destroy', 'Web\CityController@destroy') ->name('cities.destroy');
+Route::get('get-city-my-datatables', ['as'=>'get.city','uses'=>'Web\CityController@getCity']);
 
 ///// GYMS //////
-Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
+Route::group(['middleware' => 'auth', 'forbid-banned-user','role:admin|citymanager'], function () {
     Route::get('/gyms', 'Web\GymController@index')
             ->name('gyms.index');
     Route::get('/gyms/create', 'Web\GymController@create')
@@ -145,7 +146,7 @@ Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
 });
 
 ///// CITY MANAGERS //////
-Route::group(['middleware' => 'auth', 'role:admin'], function () {
+Route::group(['middleware' => 'auth', 'forbid-banned-user','role:admin'], function () {
     Route::get('/cityManagers', 'Web\CityManagerController@index')   ->name('cityManagers.index');
     Route::get('/cityManagers/create', 'Web\CityManagerController@create')  ->name('cityManagers.create');
     Route::post('/cityManagers', 'Web\CityManagerController@store')   ->name('cityManagers.store');
@@ -168,6 +169,8 @@ Route::group(['middleware' => 'auth', 'role:admin|citymanager'], function () {
     Route::get('/gymManagers/{gymmanager}/edit', 'Web\GymManagerController@edit')    ->name('gymManagers.edit');
     Route::put('/gymManagers/{gymmanager}', 'Web\GymManagerController@update')  ->name('gymManagers.update');
     Route::delete('/gymManagers/{gymmanager}', 'Web\GymManagerController@destroy') ->name('gymManagers.destroy');
+    Route::put('/gymManagers/{gymmanager}/ban', 'Web\GymManagerController@ban')  ->name('gymManagers.ban');
+    Route::put('/gymManagers/{gymmanager}/unban', 'Web\GymManagerController@unban')  ->name('gymManagers.unban');
     Route::get('get-gym_managers-my-datatables', [
         'as'=>'get.gym_manager',
         'uses'=>'Web\GymManagerController@get_gym_manager'

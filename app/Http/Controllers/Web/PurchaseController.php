@@ -21,19 +21,7 @@ class PurchaseController extends Controller
     {
         return view('purchases.index');
     }
-<<<<<<< HEAD
-    public function get_data_table()
-    {
-        return datatables()->eloquent(Purchase::query())->toJson();
-    }
-    /**
-    * Show the form for creating a new resource.
-    *
-    * @return \Illuminate\Http\Response
-    */
-=======
 
->>>>>>> 2c605d35e3d626cd6abaca30c0c40cccb5673f2c
     public function create()
     {
         $user = Auth::user();
@@ -43,8 +31,8 @@ class PurchaseController extends Controller
             ];
         } elseif ($user->hasRole('citymanager')) {
             $content = [
-                'cities' => Auth::user()->role->city,
-                'gyms' => Gym::where('city_id', '=', Auth::user()->role->city->id)->get(),
+                'cities' => Auth::user()->city,
+                'gyms' => Gym::where('city_id', '=', Auth::user()->city->id)->get(),
             ];
         } else {
             $content = [
@@ -119,21 +107,34 @@ class PurchaseController extends Controller
         $select = $request->get('select');
         $value = $request->get('value');
         $dependent = $request->get('dependent');
-        $data = Gym::where($select, $value)
-            ->get();
-        $output = '<option value="">Select ' . ucfirst($dependent) . '</option>';
+        $data = Gym::where($select,$value)->get();
+        $output = '<option disabled selected value="">Select ' . ucfirst($dependent) . '</option>';
         foreach ($data as $row) {
             $output .= '<option value="' . $row->id . '">' . $row->name . '</option>';
         }
+        echo $output;
     }
     
     public function getPurchase()
     {
-        // TODO: check logged in user
-        // if gym manager then :
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $purchases = Purchase::with(['gym', 'user'])->get();
+            return $purchases;
+        }
+        elseif($user->hasRole('citymanager')){
+            $purchases = Purchase::with(['gym', 'user'])->get();
+            return $purchases;
+
+        }
+        else
+        {
         $purchases = Purchase::where('gym_id', Auth::User()->role->gym_id)
                     ->with(['gym', 'user'])
                     ->get();
+            return $purchases;
+
+        }
     
         return datatables()->of($purchases)->with('gym', 'user')
             ->editColumn('purchase_date', function ($purchases) {

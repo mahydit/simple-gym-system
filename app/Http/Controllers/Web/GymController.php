@@ -69,7 +69,7 @@ class GymController extends Controller
         } else {
             $path = "public/default/default.jpeg";
         }
-        Gym::create($request->all() + ['created_by' => auth()->user()->name]);
+        Gym::create($request->all() + ['created_by' => auth()->user()->name, 'image' => 'public/default/default.jpeg']);
         return redirect()->route('gyms.index');
     }
 

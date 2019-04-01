@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
 {
@@ -13,13 +14,11 @@ class AdminSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'admin',
-            // 'email' => Str::random(10).'@admin.com',
-            'email' => 'admin2@admin.com',
-            // 'password' => bcrypt('secret'),
-            'password' => '123456',
+            'email' => 'admin@admin.com',
+            'password' => Hash::make('123456'),
             'profile_img' => ' ',
             'role_id' => '0',
             'role_type' => 'admin',
-            ]);
+            ])->assignRole('admin');
     }
 }

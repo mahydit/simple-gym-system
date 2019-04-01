@@ -60,4 +60,7 @@ class CoachController extends Controller
         Coach::find($coach['id'])->update($request->all());
         return redirect()->route('coaches.index');
     }
+
+    public function destroy($id){
+    }
 }

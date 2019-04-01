@@ -27,7 +27,7 @@ class CityController extends Controller
     }
     public function getCity()
     {
-        return datatables()->eloquent(Gym::query())->toJson();
+        return datatables()->eloquent(City::query())->toJson();
     }
 
     /**
@@ -56,7 +56,8 @@ class CityController extends Controller
      */
     public function store(StoreCityRequest $request)
     {
-        City::create($request->all());
+        
+        City::create($request->only('name' , 'country_id') + ["city_manager_id" => User::where('role_id' , $request->only('city_manager_id'))->where('role_type' , 'App\CityManager')->get()->first()->id]);
         return redirect()->route('cities.index');
     }
 

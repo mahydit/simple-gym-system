@@ -16,23 +16,13 @@
             </div>
         </div>
 
-        <!-- search form (Optional) -->
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i
-                            class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
+        
         <!-- /.search form -->
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-
-            @role('admin')
+        <li class="header"> </li>
+            @hasrole('admin')
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>City Manager</span>
                     <span class="pull-right-container">
@@ -44,7 +34,7 @@
                     <li><a href="{{route('cityManagers.index')}}">View All</a></li>
                 </ul>
             </li>
-            @endrole
+            @endhasrole
 
             @hasanyrole('citymanager|admin')
             <li class="treeview">
@@ -60,7 +50,7 @@
             </li>
             @endhasanyrole
 
-            @role('admin')
+            @hasrole('admin')
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>City</span>
                     <span class="pull-right-container">
@@ -72,7 +62,7 @@
                     <li><a href="{{route('cities.index')}}">View All</a></li>
                 </ul>
             </li>
-            @endrole
+            @endhasrole
 
             @hasanyrole('citymanager|admin')
             <li class="treeview">
@@ -95,11 +85,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
+                    @hasrole('admin')
                     <li><a href="{{route('packages.create')}}">Create</a></li>
+                    @endhasrole
                     <li><a href="{{route('packages.index')}}">View All</a></li>
                 </ul>
             </li>
 
+            @hasrole('admin')
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Coaches</span>
                     <span class="pull-right-container">
@@ -107,11 +100,12 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{route('coaches.create')}}">Create</a></li>
-                    <li><a href="{{route('coaches.index')}}">View All</a></li>
-                </ul>
-            </li>
-
+                        <li><a href="{{route('coaches.create')}}">Create</a></li>
+                        <li><a href="{{route('coaches.index')}}">View All</a></li>
+                    </ul>
+                </li>
+                @endhasrole
+                
             <li class="treeview">
                 <a href="#"><i class="fa fa-link"></i> <span>Sessions</span>
                     <span class="pull-right-container">
@@ -123,13 +117,9 @@
                     <li><a href="{{route('sessions.index')}}">View All</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="{{route('attendances.index')}}"><i class="fa fa-link"></i> <span>Sessions' Attendance</span>
-                    <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                </a>
-            </li>
+            
+            <li><a href="{{route('attendances.index')}}"><i class="fa fa-link"></i> <span>Sessions' Attendance</span></a></li>
+                
             
             <li><a href="{{route('purchases.index')}}"><i class="fa fa-link"></i> <span>Purchases History</span></a></li>
 

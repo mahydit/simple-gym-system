@@ -13,15 +13,9 @@
 <a href="{{route('gyms.index')}}" class="btn btn-danger">Back</a>
 <form action="{{route('gyms.store')}}" method="POST">
         @csrf
-        <div class="form-group">
-            <label for="exampleInputPassword1">City Name</label>
-            <select class="form-control" name="city_id">
-                @foreach($gyms as $gym)
-                    <option value="{{$gym->id}}">{{$gym->name}}</option>
-                @endforeach
-            </select>
-        </div>
-
+        <label for="exampleInputEmail1">Gym Name</label>
+            <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Gym Name">
+            
         <div class="form-group">
             <label for="exampleInputPassword1">City Name</label>
             <select class="form-control" name="city_id">

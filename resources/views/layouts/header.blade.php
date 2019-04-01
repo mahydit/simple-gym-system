@@ -27,7 +27,7 @@
                             <li class="user-header">
                                 <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
                                 <p>
-                                {{Auth::User()->name}} - Web Developer
+                                {{Auth::User()->name}} 
                                 </p>
                                 <!-- //Auth::User()->name -->
                             </li>
@@ -44,6 +44,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                         style="display: none;">
                                         @csrf
+                                     </form>
                                 </div>
                             </li>
                         </ul>

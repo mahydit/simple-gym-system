@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-<a href="{{route('coaches.create')}}" class="btn btn-success">Add New Coach</a>
+<!-- <a href="{{route('coaches.create')}}" class="btn btn-success">Add New Coach</a> -->
 <br>
 <table id="coaches-table" class="table">
     <thead>
@@ -95,11 +95,14 @@
         $(document).on('click', '#delete_item', function () {
             var coach_id = $(this).attr('row_delete');
             $.ajax({
+                data:{
+                    _method:"delete",
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: '/coaches/' + coach_id,
-                type: 'DELETE',
+                type: 'POST',
                 success: function (data) {
                     console.log('success');
                     console.log(data);

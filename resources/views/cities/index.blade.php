@@ -1,4 +1,5 @@
 @extends('layouts.dashboard')
+
 @section('meta')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
@@ -8,10 +9,8 @@
 @endsection
 
 @section('content')
-
-
-<a href="{{route('cities.create')}}" class="btn btn-success">Add New City</a>
-<table class="table table-striped">
+<!-- <a href="{{route('cities.create')}}" class="btn btn-success">Add New City</a> -->
+<table class="table table-striped" id="city-table">  
   <thead>
     <tr>
       <th scope="col">ID</th>
@@ -24,6 +23,7 @@
   
     </tr>
   </thead>
+  </table>
   <div class="modal fade" id="deletepopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -47,7 +47,6 @@
         </div>
     </div>
 </div>
-
 @endsection
 
 @section('plugins')
@@ -58,7 +57,7 @@
 @section('script')
 <script>
     $(function () {
-        $('#gyms-table').DataTable({
+        $('#city-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{!! route('get.city') !!}',
@@ -98,20 +97,23 @@
         $(document).on('click', '#delete_item', function () {
             var coach_id = $(this).attr('row_delete');
             $.ajax({
+                data:{
+                    _method:"delete",
+                },
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 url: '/coaches/' + coach_id,
-                type: 'DELETE',
+                type: 'POST',
                 success: function (data) {
-                    console.log('success');
-                    console.log(data);
+                    // console.log('success');
+                    // console.log(data);
                     var table = $('#coaches-table').DataTable();
                     table.ajax.reload();
                 },
                 error: function (response) {
                     alert(' error');
-                    console.log(response);
+                    // console.log(response);
                 }
             });
         });

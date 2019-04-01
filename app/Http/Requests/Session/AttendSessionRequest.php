@@ -30,8 +30,8 @@ class AttendSessionRequest extends FormRequest
         return [
             "session_date"  => "date_format:Y-m-d|date_equals:today",
             "remain_sessions" => "gt:0",
-            "starts_at" => "date_format:H:i:s|before_or_equal:".$today_time,
-            "ends_at" => "date_format:H:i:s|after_or_equal:".$today_time,
+            // "starts_at" => "date_format:H:i:s|before_or_equal:".$today_time,
+            // "ends_at" => "date_format:H:i:s|after_or_equal:".$today_time,
         ];
     }
 
@@ -40,8 +40,8 @@ class AttendSessionRequest extends FormRequest
         $this->merge([
             'session_date' => $this->route('session')->session_date,
             'remain_sessions' => Auth::user()->role->remain_sessions,
-            'starts_at' => $this->route('session')->starts_at,
-            'ends_at' => $this->route('session')->ends_at,
+            // 'starts_at' => $this->route('session')->starts_at,
+            // 'ends_at' => $this->route('session')->ends_at,
         ]);
     }
 

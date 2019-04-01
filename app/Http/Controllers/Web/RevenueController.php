@@ -37,12 +37,12 @@ class RevenueController extends Controller
 
     private function calculateCityRevene()
     {
-        $city_id =Auth::User()->role->city->id;
+        $city_id =Auth::User()->city->id;
         $filteredGyms = Gym::where('city_id', $city_id)->get('id');
         $revenue = Purchase::whereIn('gym_id', $filteredGyms)->sum('price');
         return  [
             'revenue' => $revenue,
-            'city' => Auth::User()->role->city,
+            'city' => Auth::User()->city,
         ];
     }
 

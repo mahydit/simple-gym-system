@@ -17,19 +17,23 @@
             <div class="form-group">
                 <label>City</label>
                 <select class="form-control dynamic" name="city_id" id="city_id" data-dependent="gym">
-                    <option value="">Select City</option>
+                    <option disabled  selected value="">Select City</option>
                     @foreach ($cities as $city)
                         <option value="{{$city->id}}">{{$city->name}}</option>
                     @endforeach
                 </select>
             </div>
-        </div>
-        <div class="box-body">
-            <div class="form-group">
+        
+            <div class="form-group{{ $errors->has('gym_id') ? 'has-error' : '' }}">
                 <label>Gym</label>
                 <select class="form-control" name="gym_id" id="gym">
-                   <option value="">Select Gym </option>
+                   <option disabled selected>Select Gym </option>
                 </select>
+                @if ($errors->has('gym_id'))
+                <span class="help-block" role="alert">
+                    <strong>{{ $errors->first('gym_id') }}</strong>
+                </span>
+                @endif
             </div>
         </div>
             @endrole
