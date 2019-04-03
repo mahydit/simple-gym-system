@@ -91,8 +91,4 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->hasMany('App\SessionAttendance', 'attendee_id');
     }
 
-    public function city()
-    {
-        return $this->hasOne('App\City', 'city_manager_id');
-    }
 }
