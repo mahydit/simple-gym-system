@@ -19,6 +19,7 @@ class AdminSeeder extends Seeder
             'profile_img' => ' ',
             'role_id' => '0',
             'role_type' => 'admin',
-            ])->assignRole('admin');
+            ]);
+        Illuminate\Foundation\Auth\User::find('admin@admin.com')->assignRole('admin');
     }
 }
