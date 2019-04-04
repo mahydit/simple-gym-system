@@ -23,7 +23,6 @@ class SessionController extends Controller
 
     public function create()
     {
-        // dd(Auth::User()->city);
         $user = Auth::user();
         if ($user->hasRole('admin')) {
             $cities = City::all();
@@ -32,8 +31,8 @@ class SessionController extends Controller
                 'cities'=>$cities,
             ];
         } elseif ($user->hasRole('citymanager')) {
-            $city_id = Auth::User()->city->id;
-            $city = Auth::User()->city;
+            $city_id = Auth::User()->role->city->id;
+            $city = Auth::User()->role->city;
             $gyms = Gym::where('city_id', '=', $city_id)->get();
             
             $content = [
@@ -150,7 +149,7 @@ class SessionController extends Controller
 
     private function getCityFilteredSessions()
     {
-        $city_id = Auth::User()->city->id;
+        $city_id = Auth::User()->role->city->id;
         $session = Session::with(['gym', 'coaches'])->get();
         $sessionFilter = $session->filter(function ($session) use ($city_id) {
             return $session->gym->city->id == $city_id;

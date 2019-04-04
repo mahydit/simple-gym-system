@@ -31,8 +31,8 @@ class PurchaseController extends Controller
             ];
         } elseif ($user->hasRole('citymanager')) {
             $content = [
-                'cities' => Auth::user()->city,
-                'gyms' => Gym::where('city_id', '=', Auth::user()->city->id)->get(),
+                'cities' => Auth::user()->role->city,
+                'gyms' => Gym::where('city_id', '=', Auth::user()->role->city->id)->get(),
             ];
         } else {
             $content = [
@@ -119,8 +119,7 @@ class PurchaseController extends Controller
     {
         $user = Auth::user();
         if ($user->hasRole('admin')) {
-            $purchases = Purchase::with(['gym', 'user'])->get();
-            return $purchases;
+            $purchases =getAdminFilteredPurchases(); 
         }
         elseif($user->hasRole('citymanager')){
             $purchases = Purchase::with(['gym', 'user'])->get();
@@ -141,4 +140,16 @@ class PurchaseController extends Controller
                 return date("F, l jS, Y", strtotime($purchases->purchase_date));
             })->toJson();
     }
+
+    private function getAdminFilteredPurchases()
+    {
+        return Purchase::with(['gym', 'user'])->get();
+    }
+    private function getCityFilteredPurchases()
+    {
+        
+    }
+    private function getGymFilteredPurchases()
+    {}
+    
 }
