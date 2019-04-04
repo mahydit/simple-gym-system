@@ -11,8 +11,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
         $this->call('CountriesSeeder');
         $this->command->info('Seeded the countries!');
+
+        $this->call('RolesAndPermissionsSeeder');
+        $this->command->info('Seeded Roles and Permissions!');
     }
 }
