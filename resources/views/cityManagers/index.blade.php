@@ -23,9 +23,7 @@
                             <th class="text-center">#</th>
                             <th class="text-center">Email</th>
                             <th class="text-center">Name</th>
-                            <th class="text-center">Password</th>
                             <th class="text-center">National ID</th>
-                            <th class="text-center">Avatar Image</th>
                             <th class="text-center">Show</th>
                             <th class="text-center">Edit</th>
                             <th class="text-center">Delete</th>
@@ -96,17 +94,8 @@
                     name: 'user.name'
                 },
                 {
-                    data: 'user.password',
-                    name: 'user.password'
-                },
-                {
                     data: 'SID',
                     name: 'SID'
-                },
-                {
-                    data: 'profile_image',
-                    name: 'profile_image',
-
                 },
 
                 /* Show */
