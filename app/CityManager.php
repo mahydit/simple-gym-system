@@ -10,14 +10,15 @@ class CityManager extends Model
     use HasRoles;
     protected $guard_name = 'web';
     protected $fillable = [
-        'SID'
+        'SID',
+        'city_id'
     ];
     protected $table = 'city_managers';
     public $timestamps = false;
 
     public function city()
     {
-        return $this->hasOne('App\City', 'city_manager_id');
+        return $this->belongsTo('App\City', 'city_id');
     }
 
     public function user()

@@ -8,7 +8,6 @@ class City extends Model
 {
     protected $fillable = [
         'name',
-        'city_manager_id',
         'country_id'
     ];
     protected $table = 'cities';
@@ -21,7 +20,7 @@ class City extends Model
 
     public function cityManager()
     {
-        return $this->belongsTo('App\CityManager', 'city_manager_id');
+        return $this->hasOne('App\CityManager', 'city_id');
     }
 
     public function country()
